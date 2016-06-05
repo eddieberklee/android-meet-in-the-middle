@@ -1,8 +1,55 @@
-<fragment android:id="@+id/map"
-          android:name="com.google.android.gms.maps.SupportMapFragment"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:map="http://schemas.android.com/apk/res-auto"
-          xmlns:tools="http://schemas.android.com/tools"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          tools:context="com.compscieddy.meetinthemiddle.MapsActivity"/>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:hint="Group name.."/>
+        <!-- TODO: Refactor layouts so they're not so nested here if possible...the new ConstraintLayout may help? -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical|right">
+            <ImageView
+                android:layout_width="@dimen/menu_avatar_size"
+                android:layout_height="@dimen/menu_avatar_size"
+                android:background="@drawable/circle_fill_grey"
+                android:src="@drawable/ic_face_white_48dp"
+                style="@style/MenuAvatarStyle"/>
+            <ImageView
+                android:layout_width="@dimen/menu_avatar_size"
+                android:layout_height="@dimen/menu_avatar_size"
+                android:background="@drawable/circle_fill_grey"
+                android:src="@drawable/ic_face_white_48dp"
+                style="@style/MenuAvatarStyle"/>
+            <ImageView
+                android:layout_width="@dimen/menu_avatar_size"
+                android:layout_height="@dimen/menu_avatar_size"
+                android:background="@drawable/circle_fill_grey"
+                android:src="@drawable/ic_face_white_48dp"
+                style="@style/MenuAvatarStyle"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <fragment android:id="@+id/map"
+              android:name="com.google.android.gms.maps.SupportMapFragment"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context="com.compscieddy.meetinthemiddle.MapsActivity"/>
+
+</LinearLayout>
+
