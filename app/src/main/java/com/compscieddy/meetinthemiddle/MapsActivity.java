@@ -9,11 +9,16 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 
 import com.compscieddy.eddie_utils.Lawg;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,7 +26,8 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
   private static final Lawg lawg = Lawg.newInstance(MapsActivity.class.getSimpleName());
 
@@ -33,6 +39,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   private boolean mIsLocationPermissionEnabled = false;
 
   private final int ANIMATE_CAMERA_REPEAT = 2000;
+
+  private LocationManager mLocationManager;
+  private GoogleApiClient mGoogleApiClient;
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -46,7 +55,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
       float zoom = mMap.getCameraPosition().zoom; if (false) lawg.d(" zoom: " + zoom);
 
       LatLng latLng = mLastKnownCoord.getLatLng();
-      if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 12) {
+      if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 13) {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
       }
@@ -54,7 +63,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
       mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
     }
   };
-  private LocationManager mLocationManager;
+  private Location mLastLocation;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -68,13 +77,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     mHandler = new Handler(Looper.getMainLooper());
     mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
 
+    if (mGoogleApiClient == null) {
+      mGoogleApiClient = new GoogleApiClient.Builder(MapsActivity.this)
+          .addConnectionCallbacks(MapsActivity.this)
+          .addOnConnectionFailedListener(MapsActivity.this)
+          .addApi(LocationServices.API)
+          .build();
+    }
+
     mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     int locationPermissionCheck = ContextCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION);
     if (locationPermissionCheck == PackageManager.PERMISSION_GRANTED) {
-      mIsLocationPermissionEnabled = true;
-      mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 10, MapsActivity.this);
+      initLocationPermissionGranted();
     } else {
       requestLocationPermission();
+    }
+  }
+
+  @Override
+  protected void onStart() {
+    mGoogleApiClient.connect();
+    super.onStart();
+  }
+
+  @Override
+  protected void onStop() {
+    mGoogleApiClient.disconnect();
+    super.onStop();
+  }
+
+  private void initLocationPermissionGranted() {
+    try {
+      mIsLocationPermissionEnabled = true;
+      mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 10, MapsActivity.this);
+    } catch (SecurityException se) {
+      lawg.e("se: " + se);
     }
   }
 
@@ -82,6 +119,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ActivityCompat.requestPermissions(MapsActivity.this, new String[] {
         Manifest.permission.ACCESS_FINE_LOCATION
     }, LOCATION_REQUEST_CODE);
+  }
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    if (requestCode == LOCATION_REQUEST_CODE) {
+      if (permissions.length == 1 && permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION
+          && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        initLocationPermissionGranted();
+      }
+    }
   }
 
   @Override
@@ -123,6 +170,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   @Override
   public void onMapReady(GoogleMap googleMap) {
     mMap = googleMap;
+    try {
+      mMap.setMyLocationEnabled(true);
+    } catch (SecurityException se) {
+      lawg.e("se: " + se);
+    }
+  }
+
+  @Override
+  public void onConnected(@Nullable Bundle bundle) {
+    try {
+      mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+      if (mLastLocation != null) {
+        double latitude = mLastLocation.getLatitude();
+        double longitude = mLastLocation.getLongitude();
+        LatLng latLng = new LatLng(latitude, longitude);
+        mLastKnownCoord.set(latitude, longitude);
+        mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location"));
+      }
+    } catch (SecurityException se) {
+      lawg.e("se: " + se);
+    }
+  }
+
+  @Override
+  public void onConnectionSuspended(int i) {
+
+  }
+
+  @Override
+  public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
   }
 }
