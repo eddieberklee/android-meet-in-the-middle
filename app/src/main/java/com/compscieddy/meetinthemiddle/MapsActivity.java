@@ -7,10 +7,13 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 
+import com.compscieddy.eddie_utils.Lawg;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,8 +23,38 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
+  private static final Lawg lawg = Lawg.newInstance(MapsActivity.class.getSimpleName());
+
   private GoogleMap mMap;
   private final int LOCATION_REQUEST_CODE = 1;
+  private Handler mHandler;
+
+  private Coordinate mLastKnownCoord = new Coordinate();
+  private boolean mIsLocationPermissionEnabled = false;
+
+  private final int ANIMATE_CAMERA_REPEAT = 2000;
+
+  private Runnable mAnimateCameraRunnable = new Runnable() {
+    @Override
+    public void run() {
+      if (false) lawg.d("mAnimateCameraRunnable");
+
+      if (!mIsLocationPermissionEnabled) {
+        return;
+      }
+
+      float zoom = mMap.getCameraPosition().zoom; if (false) lawg.d(" zoom: " + zoom);
+
+      LatLng latLng = mLastKnownCoord.getLatLng();
+      if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 12) {
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.animateCamera(CameraUpdateFactory.zoomIn());
+      }
+
+      mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
+    }
+  };
+  private LocationManager mLocationManager;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -32,24 +65,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         .findFragmentById(R.id.map);
     mapFragment.getMapAsync(this);
 
-    LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    mHandler = new Handler(Looper.getMainLooper());
+    mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
+
+    mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     int locationPermissionCheck = ContextCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION);
     if (locationPermissionCheck == PackageManager.PERMISSION_GRANTED) {
-      locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 10, this);
+      mIsLocationPermissionEnabled = true;
+      mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 10, MapsActivity.this);
     } else {
-      ActivityCompat.requestPermissions(MapsActivity.this, new String[] {
-          Manifest.permission.ACCESS_FINE_LOCATION
-      }, LOCATION_REQUEST_CODE);
+      requestLocationPermission();
     }
+  }
+
+  private void requestLocationPermission() {
+    ActivityCompat.requestPermissions(MapsActivity.this, new String[] {
+        Manifest.permission.ACCESS_FINE_LOCATION
+    }, LOCATION_REQUEST_CODE);
   }
 
   @Override
   public void onLocationChanged(Location location) {
     double latitude = location.getLatitude();
     double longitude = location.getLongitude();
+    mLastKnownCoord.set(latitude, longitude);
     LatLng currentLatLng = new LatLng(latitude, longitude);
     mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Current Location"));
     mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng));
+    mMap.animateCamera(CameraUpdateFactory.zoomIn());
   }
 
   @Override
