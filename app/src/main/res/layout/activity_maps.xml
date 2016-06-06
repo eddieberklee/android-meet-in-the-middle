@@ -20,7 +20,7 @@
         android:padding="10dp"
         android:orientation="vertical">
 
-        <EditText
+        <com.compscieddy.meetinthemiddle.ForadayEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Group name.."/>
@@ -66,10 +66,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <TextView
+            <com.compscieddy.meetinthemiddle.ForadayTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Comments"/>
+                android:text="Discuss"
+                android:textAllCaps="true"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/pictures_section"

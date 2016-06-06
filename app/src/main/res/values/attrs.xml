@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="fontface">
+        <enum name="montserrat_hairline"   value="0"/>
+        <enum name="montserrat_ultralight" value="1"/>
+        <enum name="montserrat_light"      value="2"/>
+        <enum name="montserrat_regular"    value="3"/>
+        <enum name="montserrat_semibold"   value="4"/>
+        <enum name="montserrat_bold"       value="5"/>
+        <enum name="montserrat_extrabold"  value="6"/>
+        <enum name="montserrat_black"      value="7"/>
+    </attr>
+
+    <declare-styleable name="ForadayTextView">
+        <attr name="fontface"/>
+    </declare-styleable>
+
+    <declare-styleable name="ForadayEditText">
+        <attr name="fontface"/>
+        <attr name="color"/>
+    </declare-styleable>
+
+</resources>
