@@ -24,6 +24,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
@@ -42,6 +43,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
   private LocationManager mLocationManager;
   private GoogleApiClient mGoogleApiClient;
+  private Marker mCurrentMarker;
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -134,6 +136,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   @Override
   public void onLocationChanged(Location location) {
     lawg.e("onLocationChanged");
+    /*
     double latitude = location.getLatitude();
     double longitude = location.getLongitude();
     mLastKnownCoord.set(latitude, longitude);
@@ -141,6 +144,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Current Location"));
     mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng));
     mMap.animateCamera(CameraUpdateFactory.zoomIn());
+    */
   }
 
   @Override
@@ -171,7 +175,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   public void onMapReady(GoogleMap googleMap) {
     mMap = googleMap;
     try {
-      mMap.setMyLocationEnabled(true);
+      // "MyLocation" is the "blue dot" feature for showing the current location and jumping to the location
+//      mMap.setMyLocationEnabled(true);
     } catch (SecurityException se) {
       lawg.e("se: " + se);
     }
@@ -186,7 +191,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         double longitude = mLastLocation.getLongitude();
         LatLng latLng = new LatLng(latitude, longitude);
         mLastKnownCoord.set(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location"));
+        if (mCurrentMarker != null) mCurrentMarker.remove();
+        mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location"));
       }
     } catch (SecurityException se) {
       lawg.e("se: " + se);
