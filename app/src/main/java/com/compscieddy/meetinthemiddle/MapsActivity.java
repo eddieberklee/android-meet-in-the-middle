@@ -3,6 +3,13 @@ package com.compscieddy.meetinthemiddle;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -23,6 +30,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -192,7 +200,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng latLng = new LatLng(latitude, longitude);
         mLastKnownCoord.set(latitude, longitude);
         if (mCurrentMarker != null) mCurrentMarker.remove();
-        mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location"));
+
+        Bitmap icon = BitmapFactory.decodeResource(getResources(),
+                R.drawable.ic_darren);
+
+        Bitmap croppedIcon = getCroppedBitmap(icon);
+
+        mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
       }
     } catch (SecurityException se) {
       lawg.e("se: " + se);
@@ -208,4 +222,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
   }
+
+  public Bitmap getCroppedBitmap(Bitmap bitmap) {
+    Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+            bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+    Canvas canvas = new Canvas(output);
+
+    final int color = getResources().getColor(R.color.transparent);
+    final Paint paint = new Paint();
+    final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+    paint.setAntiAlias(true);
+    canvas.drawARGB(0, 0, 0, 0);
+    paint.setColor(color);
+
+    canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
+            bitmap.getWidth() / 2, paint);
+    paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+    canvas.drawBitmap(bitmap, rect, rect, paint);
+
+    return output;
+  }
+
 }
