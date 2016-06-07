@@ -204,10 +204,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Bitmap icon = BitmapFactory.decodeResource(getResources(),
                 R.drawable.ic_darren);
 
-        Bitmap icon1 = croppedIcon(icon);
+        Bitmap croppedIcon = getCroppedBitmap(icon);
 
-        mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(icon1)));
-        //mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_darren)));
+        mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
       }
     } catch (SecurityException se) {
       lawg.e("se: " + se);
@@ -224,12 +223,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
   }
 
-  public Bitmap croppedIcon(Bitmap bitmap) {
+  public Bitmap getCroppedBitmap(Bitmap bitmap) {
     Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
             bitmap.getHeight(), Bitmap.Config.ARGB_8888);
     Canvas canvas = new Canvas(output);
 
-    final int color = 0xff000000;
+    final int color = getResources().getColor(R.color.transparent);
     final Paint paint = new Paint();
     final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 
