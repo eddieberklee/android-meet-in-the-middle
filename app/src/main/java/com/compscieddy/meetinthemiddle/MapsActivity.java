@@ -204,7 +204,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Bitmap icon = BitmapFactory.decodeResource(getResources(),
                 R.drawable.ic_darren);
 
-        Bitmap icon1 = getCroppedBitmap(icon);
+        Bitmap icon1 = croppedIcon(icon);
 
         mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(icon1)));
         //mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_darren)));
@@ -224,26 +224,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
   }
 
-  public Bitmap getCroppedBitmap(Bitmap bitmap) {
+  public Bitmap croppedIcon(Bitmap bitmap) {
     Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
             bitmap.getHeight(), Bitmap.Config.ARGB_8888);
     Canvas canvas = new Canvas(output);
 
-    final int color = 0xff424242;
+    final int color = 0xff000000;
     final Paint paint = new Paint();
     final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 
     paint.setAntiAlias(true);
     canvas.drawARGB(0, 0, 0, 0);
     paint.setColor(color);
-    // canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+
     canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
             bitmap.getWidth() / 2, paint);
     paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
     canvas.drawBitmap(bitmap, rect, rect, paint);
-    //Bitmap _bmp = Bitmap.createScaledBitmap(output, 60, 60, false);
-    //return _bmp;
+
     return output;
   }
-  
+
 }
