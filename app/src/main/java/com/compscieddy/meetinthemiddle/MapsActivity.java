@@ -21,6 +21,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.compscieddy.eddie_utils.Lawg;
 import com.google.android.gms.common.ConnectionResult;
@@ -37,6 +41,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+  ForadayEditText editText;
 
   private static final Lawg lawg = Lawg.newInstance(MapsActivity.class.getSimpleName());
 
@@ -244,4 +250,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     return output;
   }
 
+  //imperfect version of switching between edittext and textview
+  public void TextViewClicked(View v) {
+    ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.my_switcher);
+    switcher.showNext(); //or switcher.showPrevious();
+  }
+
+  public void EditTextClicked(View v) {
+    ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.my_switcher);
+    switcher.showPrevious();
+    EditText myET = (EditText) switcher.findViewById(R.id.hidden_edit_view);
+    TextView myTV = (TextView) switcher.findViewById(R.id.clickable_text_view);
+    myTV.setText(myET.getText());
+  }
 }
