@@ -22,9 +22,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.ViewSwitcher;
+import android.widget.Button;
 
 import com.compscieddy.eddie_utils.Lawg;
 import com.google.android.gms.common.ConnectionResult;
@@ -40,9 +38,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
-    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-
-  ForadayEditText editText;
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
   private static final Lawg lawg = Lawg.newInstance(MapsActivity.class.getSimpleName());
 
@@ -81,6 +77,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   };
   private Location mLastLocation;
 
+  ForadayEditText groupEditText;
+  ForadayTextView groupTextView;
+  Button setButton;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -108,6 +108,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     } else {
       requestLocationPermission();
     }
+
+    groupEditText = (ForadayEditText) findViewById(R.id.group_edit_text);
+    groupTextView = (ForadayTextView) findViewById(R.id.group_text_view);
+    setButton = (Button) findViewById(R.id.group_set_button);
+
+    groupTextView.setVisibility(View.VISIBLE);
+    groupTextView.setOnClickListener(this);
+    groupEditText.setVisibility(View.INVISIBLE);
+    setButton.setVisibility(View.INVISIBLE);
+    setButton.setOnClickListener(this);
   }
 
   @Override
@@ -132,7 +142,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   }
 
   private void requestLocationPermission() {
-    ActivityCompat.requestPermissions(MapsActivity.this, new String[] {
+    ActivityCompat.requestPermissions(MapsActivity.this, new String[]{
         Manifest.permission.ACCESS_FINE_LOCATION
     }, LOCATION_REQUEST_CODE);
   }
@@ -243,24 +253,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     paint.setColor(color);
 
     canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
-            bitmap.getWidth() / 2, paint);
+        bitmap.getWidth() / 2, paint);
     paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
     canvas.drawBitmap(bitmap, rect, rect, paint);
 
     return output;
   }
 
-  //imperfect version of switching between edittext and textview
-  public void TextViewClicked(View v) {
-    ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.my_switcher);
-    switcher.showNext(); //or switcher.showPrevious();
-  }
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()) {
+      case R.id.group_text_view:
+        groupEditText.setVisibility(View.VISIBLE);
+        groupTextView.setVisibility(View.INVISIBLE);
+        setButton.setVisibility(View.VISIBLE);
+        groupEditText.requestFocus();
 
-  public void EditTextClicked(View v) {
-    ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.my_switcher);
-    switcher.showPrevious();
-    EditText myET = (EditText) switcher.findViewById(R.id.hidden_edit_view);
-    TextView myTV = (TextView) switcher.findViewById(R.id.clickable_text_view);
-    myTV.setText(myET.getText());
+        break;
+
+      case R.id.group_set_button:
+
+        groupEditText.setVisibility(View.INVISIBLE);
+        groupTextView.setVisibility(View.VISIBLE);
+        setButton.setVisibility(View.INVISIBLE);
+
+        //name will need to be saved as a shared preference or in database
+        groupTextView.setText(groupEditText.getText());
+
+    }
+
   }
 }

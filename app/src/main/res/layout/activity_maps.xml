@@ -20,29 +20,36 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <ViewSwitcher
-            android:id="@+id/my_switcher"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <com.compscieddy.meetinthemiddle.ForadayTextView
-                android:id="@+id/clickable_text_view"
+                android:id="@+id/group_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clickable="true"
-                android:hint="Group name.."
-                android:onClick="TextViewClicked" />
+                android:hint="@string/hint_group_name"
+                android:singleLine="true"
+                android:textSize="20sp"/>
 
 
             <com.compscieddy.meetinthemiddle.ForadayEditText
-                android:id="@+id/hidden_edit_view"
+                android:id="@+id/group_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:onClick="EditTextClicked"
-                android:hint="Group name.." />
+                android:singleLine="true"
+                 />
 
+            <Button
+                android:id="@+id/group_set_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="@string/set"
+                />
 
-        </ViewSwitcher>
+        </FrameLayout>
 
 
         <LinearLayout
