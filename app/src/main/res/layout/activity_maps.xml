@@ -1,55 +1,88 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <fragment android:id="@+id/map"
-              android:layout_above="@+id/bottom_section"
-              android:name="com.google.android.gms.maps.SupportMapFragment"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              tools:context="com.compscieddy.meetinthemiddle.MapsActivity"/>
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_section"
+        tools:context="com.compscieddy.meetinthemiddle.MapsActivity" />
 
     <LinearLayout
         android:id="@+id/top_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_transp_40"
-        android:padding="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <com.compscieddy.meetinthemiddle.ForadayEditText
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="Group name.."/>
+            android:layout_height="match_parent">
+
+            <com.compscieddy.meetinthemiddle.ForadayTextView
+                android:id="@+id/group_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:hint="@string/hint_group_name"
+                android:singleLine="true"
+                android:textSize="20sp"
+                android:visibility="visible"/>
+
+
+            <EditText
+                android:id="@+id/group_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:singleLine="true"
+                android:visibility="invisible"
+                 />
+
+            <Button
+                android:id="@+id/group_set_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="@string/set"
+                android:visibility="invisible"
+                />
+
+        </FrameLayout>
+
 
         <LinearLayout
             android:id="@+id/group_members"
-            android:layout_alignTop="@+id/map"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="right">
+            android:layout_alignTop="@+id/map"
+            android:gravity="right"
+            android:orientation="horizontal">
+
             <de.hdodenhof.circleimageview.CircleImageView
+                style="@style/MenuAvatarStyle"
                 android:layout_width="@dimen/menu_avatar_size"
                 android:layout_height="@dimen/menu_avatar_size"
                 android:background="@drawable/circle_fill_grey"
-                android:src="@drawable/ic_face_white_48dp"
-                style="@style/MenuAvatarStyle"/>
+                android:src="@drawable/ic_face_white_48dp" />
+
             <de.hdodenhof.circleimageview.CircleImageView
+                style="@style/MenuAvatarStyle"
                 android:layout_width="@dimen/menu_avatar_size"
                 android:layout_height="@dimen/menu_avatar_size"
                 android:background="@drawable/circle_fill_grey"
-                android:src="@drawable/ic_face_white_48dp"
-                style="@style/MenuAvatarStyle"/>
+                android:src="@drawable/ic_face_white_48dp" />
+
             <de.hdodenhof.circleimageview.CircleImageView
+                style="@style/MenuAvatarStyle"
                 android:layout_width="@dimen/menu_avatar_size"
                 android:layout_height="@dimen/menu_avatar_size"
                 android:background="@drawable/circle_fill_grey"
-                android:src="@drawable/ic_face_white_48dp"
-                style="@style/MenuAvatarStyle"/>
+                android:src="@drawable/ic_face_white_48dp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -58,26 +91,30 @@
         android:id="@+id/bottom_section"
         android:layout_width="match_parent"
         android:layout_height="170dp"
-        android:padding="6dp"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:padding="6dp">
+
         <LinearLayout
             android:id="@+id/comments_section"
-            android:layout_toLeftOf="@+id/pictures_section"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/pictures_section"
             android:orientation="vertical">
+
             <com.compscieddy.meetinthemiddle.ForadayTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Discuss"
-                android:textAllCaps="true"/>
+                android:textAllCaps="true" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/pictures_section"
-            android:layout_alignParentRight="true"
             android:layout_width="200dp"
             android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
             android:orientation="vertical">
+
         </LinearLayout>
     </RelativeLayout>
 

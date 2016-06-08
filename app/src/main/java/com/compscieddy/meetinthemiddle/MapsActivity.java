@@ -21,6 +21,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.compscieddy.eddie_utils.Lawg;
 import com.google.android.gms.common.ConnectionResult;
@@ -36,7 +39,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
-    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
   private static final Lawg lawg = Lawg.newInstance(MapsActivity.class.getSimpleName());
 
@@ -75,6 +78,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   };
   private Location mLastLocation;
 
+  EditText groupEditText;
+  ForadayTextView groupTextView;
+  Button setButton;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -102,6 +109,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     } else {
       requestLocationPermission();
     }
+
+    groupEditText = (EditText) findViewById(R.id.group_edit_text);
+    groupTextView = (ForadayTextView) findViewById(R.id.group_text_view);
+    setButton = (Button) findViewById(R.id.group_set_button);
+
+    groupTextView.setOnClickListener(this);
+    setButton.setOnClickListener(this);
   }
 
   @Override
@@ -126,7 +140,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   }
 
   private void requestLocationPermission() {
-    ActivityCompat.requestPermissions(MapsActivity.this, new String[] {
+    ActivityCompat.requestPermissions(MapsActivity.this, new String[]{
         Manifest.permission.ACCESS_FINE_LOCATION
     }, LOCATION_REQUEST_CODE);
   }
@@ -237,11 +251,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     paint.setColor(color);
 
     canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
-            bitmap.getWidth() / 2, paint);
+        bitmap.getWidth() / 2, paint);
     paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
     canvas.drawBitmap(bitmap, rect, rect, paint);
 
     return output;
   }
 
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()) {
+      case R.id.group_text_view:
+        groupEditText.setVisibility(View.VISIBLE);
+        groupTextView.setVisibility(View.INVISIBLE);
+        setButton.setVisibility(View.VISIBLE);
+        groupEditText.requestFocus();
+
+        break;
+
+      case R.id.group_set_button:
+
+        groupEditText.setVisibility(View.INVISIBLE);
+        groupTextView.setVisibility(View.VISIBLE);
+        setButton.setVisibility(View.INVISIBLE);
+
+        //name will need to be saved as a shared preference or in database
+        groupTextView.setText(groupEditText.getText());
+
+        break;
+
+    }
+
+  }
 }
