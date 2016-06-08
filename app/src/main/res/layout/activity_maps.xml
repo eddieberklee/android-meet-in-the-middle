@@ -40,8 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:singleLine="true"
-                android:visibility="invisible"
-                 />
+                android:visibility="invisible"/>
 
             <Button
                 android:id="@+id/group_set_button"

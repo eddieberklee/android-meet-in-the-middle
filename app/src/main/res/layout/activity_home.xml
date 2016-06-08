@@ -9,27 +9,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.compscieddy.meetinthemiddle.ForadayTextView
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="[Username]"
+            android:textSize="20sp"
+            android:layout_centerHorizontal="true"/>
+
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/bottom_section"
-            tools:context="com.compscieddy.meetinthemiddle.MapsActivity" />
-
-        <LinearLayout
-            android:id="@+id/top_section"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white_transp_40"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <com.compscieddy.meetinthemiddle.ForadayEditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="User name.." />
-        </LinearLayout>
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_below="@+id/username"
+            android:layout_centerHorizontal="true"
+            tools:context="com.compscieddy.meetinthemiddle.MapsActivity"/>
 
         <RelativeLayout
             android:id="@+id/bottom_section"
