@@ -23,6 +23,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.compscieddy.eddie_utils.Lawg;
 import com.google.android.gms.common.ConnectionResult;
@@ -77,7 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   };
   private Location mLastLocation;
 
-  ForadayEditText groupEditText;
+  EditText groupEditText;
   ForadayTextView groupTextView;
   Button setButton;
 
@@ -109,7 +110,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
       requestLocationPermission();
     }
 
-    groupEditText = (ForadayEditText) findViewById(R.id.group_edit_text);
+    groupEditText = (EditText) findViewById(R.id.group_edit_text);
     groupTextView = (ForadayTextView) findViewById(R.id.group_text_view);
     setButton = (Button) findViewById(R.id.group_set_button);
 

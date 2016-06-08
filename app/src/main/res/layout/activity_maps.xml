@@ -35,7 +35,7 @@
                 android:visibility="visible"/>
 
 
-            <com.compscieddy.meetinthemiddle.ForadayEditText
+            <EditText
                 android:id="@+id/group_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
