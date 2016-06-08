@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "717331398914",
+    "firebase_url": "https://project-6276882918492215981.firebaseio.com",
+    "project_id": "project-6276882918492215981",
+    "storage_bucket": "project-6276882918492215981.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:717331398914:android:b7454ce291fb312c",
+        "android_client_info": {
+          "package_name": "com.compscieddy.meetinthemiddle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "717331398914-j9i4nbmiroumgnj6m5i1velbp29io1qv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnavA0nTNQuKQiAcsBP4nhqcFA95DyAO0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

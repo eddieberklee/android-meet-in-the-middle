@@ -2,6 +2,7 @@ package com.compscieddy.meetinthemiddle;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,17 +28,30 @@ import android.widget.EditText;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
+import com.compscieddy.meetinthemiddle.model.UserMarker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 import com.google.android.gms.maps.model.VisibleRegion;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
@@ -57,6 +71,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   private LocationManager mLocationManager;
   private GoogleApiClient mGoogleApiClient;
   private Marker mCurrentMarker;
+  private Map<String, Marker> mMarkers = new HashMap<>();
+
+  private final String UUID_KEY = "UUID_KEY"; // Temporary way to identify different users or different installations
+  private Location mLastLocation;
+  private String mUUID;
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -78,7 +97,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
       mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
     }
   };
-  private Location mLastLocation;
 
   EditText groupEditText;
   ForadayTextView groupTextView;
@@ -93,8 +111,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         .findFragmentById(R.id.map);
     mapFragment.getMapAsync(this);
 
+    SharedPreferences sharedPreferences = MapsActivity.this.getSharedPreferences(
+        getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+    mUUID = sharedPreferences.getString(UUID_KEY, null);
+    if (mUUID == null) {
+      SharedPreferences.Editor editor = sharedPreferences.edit();
+      mUUID = UUID.randomUUID().toString();
+      editor.putString(UUID_KEY, mUUID);
+      editor.apply();
+    }
+
     mHandler = new Handler(Looper.getMainLooper());
-    mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
+    // TODO: let's turn off this zooming animation for now
+    // mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
 
     if (mGoogleApiClient == null) {
       mGoogleApiClient = new GoogleApiClient.Builder(MapsActivity.this)
@@ -204,26 +233,90 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     } catch (SecurityException se) {
       lawg.e("se: " + se);
     }
+
+    LatLng sydney = new LatLng(-34, 151);
+    Marker sydneyMarker = mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));;
+    mMarkers.put(UUID.randomUUID().toString(), sydneyMarker);
+    mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+    initMarkers();
+  }
+
+  private void initMarkers() {
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference markerReference = database.getReference("markers");
+    markerReference.addChildEventListener(new ChildEventListener() {
+      @Override
+      public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        UserMarker userMarker = dataSnapshot.getValue(UserMarker.class);
+        lawg.d("initMarkers() onChildAdded() " + " dataSnapshot: " + dataSnapshot + " userMarker: " + userMarker);
+        String userUUID = userMarker.userUUID;
+        LatLng latLng = userMarker.getLatLng();
+        if (mMarkers.containsKey(userUUID)) {
+          Marker existingMarker = mMarkers.get(userUUID);
+          existingMarker.setPosition(latLng);
+        } else {
+          Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(userUUID));
+          mMarkers.put(userUUID, marker);
+        }
+
+        // http://stackoverflow.com/a/14828739/4326052
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Marker m : mMarkers.values()) {
+          builder.include(m.getPosition());
+        }
+        LatLngBounds bounds = builder.build();
+        int padding = Etils.dpToPx(50);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        mMap.animateCamera(cameraUpdate);
+
+        // TODO: Google maps bounds need to be extended here
+      }
+
+      @Override
+      public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+        // Implement so that if marker location is changed, the appropriate marker gets updated
+      }
+
+      @Override
+      public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+      @Override
+      public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+        lawg.e("Firebase Error onCancelled() [" + databaseError.getCode() + "] " + databaseError.getMessage() + databaseError.getDetails());
+      }
+    });
+
     mMap.setOnMapClickListener(this);
+
   }
 
   @Override
   public void onConnected(@Nullable Bundle bundle) {
+    lawg.d("GoogleApiClient onConnected()");
     try {
       mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
       if (mLastLocation != null) {
         double latitude = mLastLocation.getLatitude();
         double longitude = mLastLocation.getLongitude();
-        LatLng latLng = new LatLng(latitude, longitude);
         mLastKnownCoord.set(latitude, longitude);
-        if (mCurrentMarker != null) mCurrentMarker.remove();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference markerReference = database.getReference("markers");
+        UserMarker userMarker = new UserMarker(mUUID, latitude, longitude);
+        markerReference.child(mUUID).setValue(userMarker);
+
+//        if (mCurrentMarker != null) mCurrentMarker.remove();
 
         Bitmap icon = BitmapFactory.decodeResource(getResources(),
                 R.drawable.ic_darren);
-
         Bitmap croppedIcon = getCroppedBitmap(icon);
 
-        mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
+        // TODO: Don't add current marker, just update Firebase to make it do it for you
+        // mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
       }
     } catch (SecurityException se) {
       lawg.e("se: " + se);
