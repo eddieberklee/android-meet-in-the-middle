@@ -34,7 +34,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 
-public class HomeActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
+public class GroupActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
   private static final Lawg lawg = Lawg.newInstance(MapsActivity.class.getSimpleName());
@@ -92,15 +92,15 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
 
     if (mGoogleApiClient == null) {
-      mGoogleApiClient = new GoogleApiClient.Builder(HomeActivity.this)
-          .addConnectionCallbacks(HomeActivity.this)
-          .addOnConnectionFailedListener(HomeActivity.this)
+      mGoogleApiClient = new GoogleApiClient.Builder(GroupActivity.this)
+          .addConnectionCallbacks(GroupActivity.this)
+          .addOnConnectionFailedListener(GroupActivity.this)
           .addApi(LocationServices.API)
           .build();
     }
 
     mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-    int locationPermissionCheck = ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.ACCESS_FINE_LOCATION);
+    int locationPermissionCheck = ContextCompat.checkSelfPermission(GroupActivity.this, Manifest.permission.ACCESS_FINE_LOCATION);
     if (locationPermissionCheck == PackageManager.PERMISSION_GRANTED) {
       initLocationPermissionGranted();
     } else {
@@ -126,14 +126,14 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   private void initLocationPermissionGranted() {
     try {
       mIsLocationPermissionEnabled = true;
-      mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 10, HomeActivity.this);
+      mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 10, GroupActivity.this);
     } catch (SecurityException se) {
       lawg.e("se: " + se);
     }
   }
 
   private void requestLocationPermission() {
-    ActivityCompat.requestPermissions(HomeActivity.this, new String[]{
+    ActivityCompat.requestPermissions(GroupActivity.this, new String[]{
         Manifest.permission.ACCESS_FINE_LOCATION
     }, LOCATION_REQUEST_CODE);
   }
@@ -229,7 +229,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     mGroupAdapter.setClickListener(new GroupAdapter.ClickListener() {
       @Override
       public void OnItemClick(View v) {
-        Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
+        Intent intent = new Intent(GroupActivity.this, MapsActivity.class);
         startActivity(intent);
       }
     });
