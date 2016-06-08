@@ -22,6 +22,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
@@ -38,6 +41,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,8 +52,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.google.android.gms.maps.model.VisibleRegion;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
-    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, GoogleMap.OnMapClickListener {
 
   private static final Lawg lawg = Lawg.newInstance(MapsActivity.class.getSimpleName());
 
@@ -92,6 +98,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
   };
 
+  EditText groupEditText;
+  ForadayTextView groupTextView;
+  Button setButton;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -130,6 +140,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     } else {
       requestLocationPermission();
     }
+
+    groupEditText = (EditText) findViewById(R.id.group_edit_text);
+    groupTextView = (ForadayTextView) findViewById(R.id.group_text_view);
+    setButton = (Button) findViewById(R.id.group_set_button);
+
+    groupTextView.setOnClickListener(this);
+    setButton.setOnClickListener(this);
   }
 
   @Override
@@ -154,7 +171,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   }
 
   private void requestLocationPermission() {
-    ActivityCompat.requestPermissions(MapsActivity.this, new String[] {
+    ActivityCompat.requestPermissions(MapsActivity.this, new String[]{
         Manifest.permission.ACCESS_FINE_LOCATION
     }, LOCATION_REQUEST_CODE);
   }
@@ -272,6 +289,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         lawg.e("Firebase Error onCancelled() [" + databaseError.getCode() + "] " + databaseError.getMessage() + databaseError.getDetails());
       }
     });
+
+    mMap.setOnMapClickListener(this);
+
   }
 
   @Override
@@ -318,7 +338,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             bitmap.getHeight(), Bitmap.Config.ARGB_8888);
     Canvas canvas = new Canvas(output);
 
-    final int color = getResources().getColor(R.color.transparent);
+    final int color = getResources().getColor(R.color.white);
     final Paint paint = new Paint();
     final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 
@@ -327,11 +347,49 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     paint.setColor(color);
 
     canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
-            bitmap.getWidth() / 2, paint);
+        bitmap.getWidth() / 2, paint);
     paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
     canvas.drawBitmap(bitmap, rect, rect, paint);
 
     return output;
   }
 
+  //Toasts the tapped points coords
+  @Override
+  public void onMapClick(LatLng point) {
+    Etils.showToast(this, "Tapped point is: " + point);
+
+    VisibleRegion vRegion = mMap.getProjection().getVisibleRegion();
+    LatLng upperLeft = vRegion.farLeft;
+    LatLng lowerRight = vRegion.nearRight;
+    //Logs the visible area of the map
+    lawg.d("Top left = " + upperLeft + " and Bottom right = " + lowerRight);
+
+  }
+
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()) {
+      case R.id.group_text_view:
+        groupEditText.setVisibility(View.VISIBLE);
+        groupTextView.setVisibility(View.INVISIBLE);
+        setButton.setVisibility(View.VISIBLE);
+        groupEditText.requestFocus();
+
+        break;
+
+      case R.id.group_set_button:
+
+        groupEditText.setVisibility(View.INVISIBLE);
+        groupTextView.setVisibility(View.VISIBLE);
+        setButton.setVisibility(View.INVISIBLE);
+
+        //name will need to be saved as a shared preference or in database
+        groupTextView.setText(groupEditText.getText());
+
+        break;
+
+    }
+
+  }
 }
