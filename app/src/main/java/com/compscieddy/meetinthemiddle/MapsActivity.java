@@ -113,10 +113,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     groupTextView = (ForadayTextView) findViewById(R.id.group_text_view);
     setButton = (Button) findViewById(R.id.group_set_button);
 
-    groupTextView.setVisibility(View.VISIBLE);
     groupTextView.setOnClickListener(this);
-    groupEditText.setVisibility(View.INVISIBLE);
-    setButton.setVisibility(View.INVISIBLE);
     setButton.setOnClickListener(this);
   }
 
@@ -279,6 +276,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         //name will need to be saved as a shared preference or in database
         groupTextView.setText(groupEditText.getText());
+
+        break;
 
     }
 

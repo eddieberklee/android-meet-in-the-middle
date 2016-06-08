@@ -31,7 +31,8 @@
                 android:clickable="true"
                 android:hint="@string/hint_group_name"
                 android:singleLine="true"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:visibility="visible"/>
 
 
             <com.compscieddy.meetinthemiddle.ForadayEditText
@@ -39,6 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:singleLine="true"
+                android:visibility="invisible"
                  />
 
             <Button
@@ -47,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:text="@string/set"
+                android:visibility="invisible"
                 />
 
         </FrameLayout>
