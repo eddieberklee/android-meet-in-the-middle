@@ -67,7 +67,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return;
       }
 
-      float zoom = mMap.getCameraPosition().zoom; if (false) lawg.d(" zoom: " + zoom);
+      float zoom = mMap.getCameraPosition().zoom;
+      if (false) lawg.d(" zoom: " + zoom);
 
       LatLng latLng = mLastKnownCoord.getLatLng();
       if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 13) {
@@ -82,7 +83,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
   EditText groupEditText;
   ForadayTextView groupTextView;
-  Button setButton;
+  Button setButton, inviteButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -115,9 +116,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     groupEditText = (EditText) findViewById(R.id.group_edit_text);
     groupTextView = (ForadayTextView) findViewById(R.id.group_text_view);
     setButton = (Button) findViewById(R.id.group_set_button);
+    inviteButton = (Button) findViewById(R.id.invite_button);
+
 
     groupTextView.setOnClickListener(this);
     setButton.setOnClickListener(this);
+    inviteButton.setOnClickListener(this);
   }
 
   @Override
@@ -219,7 +223,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (mCurrentMarker != null) mCurrentMarker.remove();
 
         Bitmap icon = BitmapFactory.decodeResource(getResources(),
-                R.drawable.ic_darren);
+            R.drawable.ic_darren);
 
         Bitmap croppedIcon = getCroppedBitmap(icon);
 
@@ -242,7 +246,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
   public Bitmap getCroppedBitmap(Bitmap bitmap) {
     Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-            bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        bitmap.getHeight(), Bitmap.Config.ARGB_8888);
     Canvas canvas = new Canvas(output);
 
     final int color = getResources().getColor(R.color.white);
@@ -296,7 +300,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         break;
 
+      case R.id.invite_button:
+
+
+        break;
     }
+
 
   }
 }
