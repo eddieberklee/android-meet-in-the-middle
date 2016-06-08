@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -37,9 +38,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.VisibleRegion;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
-    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, GoogleMap.OnMapClickListener {
 
   private static final Lawg lawg = Lawg.newInstance(MapsActivity.class.getSimpleName());
 
@@ -202,6 +204,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     } catch (SecurityException se) {
       lawg.e("se: " + se);
     }
+    mMap.setOnMapClickListener(this);
   }
 
   @Override
@@ -242,7 +245,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             bitmap.getHeight(), Bitmap.Config.ARGB_8888);
     Canvas canvas = new Canvas(output);
 
-    final int color = getResources().getColor(R.color.transparent);
+    final int color = getResources().getColor(R.color.white);
     final Paint paint = new Paint();
     final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 
@@ -256,6 +259,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     canvas.drawBitmap(bitmap, rect, rect, paint);
 
     return output;
+  }
+
+  //Toasts the tapped points coords
+  @Override
+  public void onMapClick(LatLng point) {
+    Etils.showToast(this, "Tapped point is: " + point);
+
+    VisibleRegion vRegion = mMap.getProjection().getVisibleRegion();
+    LatLng upperLeft = vRegion.farLeft;
+    LatLng lowerRight = vRegion.nearRight;
+    //Logs the visible area of the map
+    lawg.d("Top left = " + upperLeft + " and Bottom right = " + lowerRight);
+
   }
 
   @Override
