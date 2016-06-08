@@ -21,6 +21,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
@@ -38,7 +41,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
-    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMapClickListener {
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, GoogleMap.OnMapClickListener {
 
   private static final Lawg lawg = Lawg.newInstance(MapsActivity.class.getSimpleName());
 
@@ -64,8 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return;
       }
 
-      float zoom = mMap.getCameraPosition().zoom;
-      if (false) lawg.d(" zoom: " + zoom);
+      float zoom = mMap.getCameraPosition().zoom; if (false) lawg.d(" zoom: " + zoom);
 
       LatLng latLng = mLastKnownCoord.getLatLng();
       if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 13) {
@@ -77,6 +79,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
   };
   private Location mLastLocation;
+
+  EditText groupEditText;
+  ForadayTextView groupTextView;
+  Button setButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +112,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
       requestLocationPermission();
     }
 
+    groupEditText = (EditText) findViewById(R.id.group_edit_text);
+    groupTextView = (ForadayTextView) findViewById(R.id.group_text_view);
+    setButton = (Button) findViewById(R.id.group_set_button);
 
+    groupTextView.setOnClickListener(this);
+    setButton.setOnClickListener(this);
   }
 
   @Override
@@ -190,11 +201,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     try {
       // "MyLocation" is the "blue dot" feature for showing the current location and jumping to the location
 //      mMap.setMyLocationEnabled(true);
-
     } catch (SecurityException se) {
       lawg.e("se: " + se);
     }
-
     mMap.setOnMapClickListener(this);
   }
 
@@ -210,12 +219,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (mCurrentMarker != null) mCurrentMarker.remove();
 
         Bitmap icon = BitmapFactory.decodeResource(getResources(),
-            R.drawable.ic_darren);
+                R.drawable.ic_darren);
 
-        Bitmap croppedBitmap = getCroppedBitmap(icon);
+        Bitmap croppedIcon = getCroppedBitmap(icon);
 
-        mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedBitmap)));
-
+        mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
       }
     } catch (SecurityException se) {
       lawg.e("se: " + se);
@@ -234,12 +242,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
   public Bitmap getCroppedBitmap(Bitmap bitmap) {
     Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-        bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+            bitmap.getHeight(), Bitmap.Config.ARGB_8888);
     Canvas canvas = new Canvas(output);
 
-    final int color = getResources().getColor(R.color.white); //Changing this to R.color.transparent removes icon
-
-
+    final int color = getResources().getColor(R.color.white);
     final Paint paint = new Paint();
     final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 
@@ -255,7 +261,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     return output;
   }
 
-
   //Toasts the tapped points coords
   @Override
   public void onMapClick(LatLng point) {
@@ -269,4 +274,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
   }
 
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()) {
+      case R.id.group_text_view:
+        groupEditText.setVisibility(View.VISIBLE);
+        groupTextView.setVisibility(View.INVISIBLE);
+        setButton.setVisibility(View.VISIBLE);
+        groupEditText.requestFocus();
+
+        break;
+
+      case R.id.group_set_button:
+
+        groupEditText.setVisibility(View.INVISIBLE);
+        groupTextView.setVisibility(View.VISIBLE);
+        setButton.setVisibility(View.INVISIBLE);
+
+        //name will need to be saved as a shared preference or in database
+        groupTextView.setText(groupEditText.getText());
+
+        break;
+
+    }
+
+  }
 }
