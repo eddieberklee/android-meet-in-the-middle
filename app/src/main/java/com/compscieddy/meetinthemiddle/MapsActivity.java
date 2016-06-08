@@ -38,7 +38,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
-    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMapClickListener {
 
   private static final Lawg lawg = Lawg.newInstance(MapsActivity.class.getSimpleName());
 
@@ -196,7 +196,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     mMap.setOnMapClickListener(this);
-    mMap.setOnMapLongClickListener(this);
   }
 
   @Override
@@ -213,9 +212,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Bitmap icon = BitmapFactory.decodeResource(getResources(),
             R.drawable.ic_darren);
 
-        Bitmap croppedIcon = croppedBitmap(icon);
+        Bitmap croppedBitmap = getCroppedBitmap(icon);
 
-        mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
+        mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedBitmap)));
 
       }
     } catch (SecurityException se) {
@@ -233,7 +232,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
   }
 
-  public Bitmap croppedBitmap(Bitmap bitmap) {
+  public Bitmap getCroppedBitmap(Bitmap bitmap) {
     Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
         bitmap.getHeight(), Bitmap.Config.ARGB_8888);
     Canvas canvas = new Canvas(output);
@@ -268,10 +267,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     //Logs the visible area of the map
     lawg.d("Top left = " + upperLeft + " and Bottom right = " + lowerRight);
 
-  }
-
-  @Override
-  public void onMapLongClick(LatLng point) {
   }
 
 }
