@@ -52,7 +52,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   private Coordinate mLastKnownCoord = new Coordinate();
   private boolean mIsLocationPermissionEnabled = false;
 
-  private final int ANIMATE_CAMERA_REPEAT = 2000;
+  private final int ANIMATE_CAMERA_REPEAT = 1500;
 
   private LocationManager mLocationManager;
   private GoogleApiClient mGoogleApiClient;
@@ -75,7 +75,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
       if (false) lawg.d(" zoom: " + zoom);
 
       LatLng latLng = mLastKnownCoord.getLatLng();
-      if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 9) {
+      if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 16) {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
       }
