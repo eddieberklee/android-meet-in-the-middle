@@ -27,10 +27,26 @@
             android:layout_centerHorizontal="true"
             tools:context="com.compscieddy.meetinthemiddle.MapsActivity"/>
 
+        <com.compscieddy.meetinthemiddle.FontTextView
+            android:id="@+id/new_group_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/map"
+            android:background="@drawable/rounded_outline_accent"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            android:padding="7dp"
+            android:textSize="11sp"
+            android:textColor="@color/colorAccent"
+            android:textAllCaps="true"
+            android:text="@string/new_group"
+            app:fontface="montserrat_semibold"/>
+
         <RelativeLayout
             android:id="@+id/bottom_section"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/new_group_button"
             android:layout_alignParentBottom="true"
             android:padding="6dp">
 
