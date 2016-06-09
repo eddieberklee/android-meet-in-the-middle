@@ -85,7 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
       float zoom = mMap.getCameraPosition().zoom; if (false) lawg.d(" zoom: " + zoom);
 
       LatLng latLng = mLastKnownCoord.getLatLng();
-      if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 11) {
+      if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 13) {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
       }
