@@ -42,7 +42,7 @@ import butterknife.ButterKnife;
 public class HomeActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-  private static final Lawg lawg = Lawg.newInstance(MapsActivity.class.getSimpleName());
+  private static final Lawg lawg = Lawg.newInstance(GroupActivity.class.getSimpleName());
 
   private GoogleMap mMap;
   private final int LOCATION_REQUEST_CODE = 1;
@@ -236,7 +236,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     mGroupAdapter.setClickListener(new GroupAdapter.ClickListener() {
       @Override
       public void OnItemClick(View v) {
-        Intent intent = new Intent(HomeActivity.this, MapsActivity.class);
+        Intent intent = new Intent(HomeActivity.this, GroupActivity.class);
         startActivity(intent);
       }
     });

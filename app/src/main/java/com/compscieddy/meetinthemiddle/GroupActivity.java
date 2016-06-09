@@ -50,10 +50,10 @@ import java.util.UUID;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
+public class GroupActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, GoogleMap.OnMapClickListener {
 
-  private static final Lawg lawg = Lawg.newInstance(MapsActivity.class.getSimpleName());
+  private static final Lawg lawg = Lawg.newInstance(GroupActivity.class.getSimpleName());
 
   private GoogleMap mMap;
   private final int LOCATION_REQUEST_CODE = 1;
@@ -101,15 +101,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_maps);
-    ButterKnife.bind(MapsActivity.this);
+    setContentView(R.layout.activity_group);
+    ButterKnife.bind(GroupActivity.this);
 
     // Obtain the SupportMapFragment and get notified when the map is ready to be used.
     SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
         .findFragmentById(R.id.map);
     mapFragment.getMapAsync(this);
 
-    SharedPreferences sharedPreferences = MapsActivity.this.getSharedPreferences(
+    SharedPreferences sharedPreferences = GroupActivity.this.getSharedPreferences(
         getString(R.string.preference_file_key), Context.MODE_PRIVATE);
     mUUID = sharedPreferences.getString(UUID_KEY, null);
     if (mUUID == null) {
@@ -124,15 +124,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
 
     if (mGoogleApiClient == null) {
-      mGoogleApiClient = new GoogleApiClient.Builder(MapsActivity.this)
-          .addConnectionCallbacks(MapsActivity.this)
-          .addOnConnectionFailedListener(MapsActivity.this)
+      mGoogleApiClient = new GoogleApiClient.Builder(GroupActivity.this)
+          .addConnectionCallbacks(GroupActivity.this)
+          .addOnConnectionFailedListener(GroupActivity.this)
           .addApi(LocationServices.API)
           .build();
     }
 
     mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-    int locationPermissionCheck = ContextCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION);
+    int locationPermissionCheck = ContextCompat.checkSelfPermission(GroupActivity.this, Manifest.permission.ACCESS_FINE_LOCATION);
     if (locationPermissionCheck == PackageManager.PERMISSION_GRANTED) {
       initLocationPermissionGranted();
     } else {
@@ -158,14 +158,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   private void initLocationPermissionGranted() {
     try {
       mIsLocationPermissionEnabled = true;
-      mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 10, MapsActivity.this);
+      mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 10, GroupActivity.this);
     } catch (SecurityException se) {
       lawg.e("se: " + se);
     }
   }
 
   private void requestLocationPermission() {
-    ActivityCompat.requestPermissions(MapsActivity.this, new String[]{
+    ActivityCompat.requestPermissions(GroupActivity.this, new String[]{
         Manifest.permission.ACCESS_FINE_LOCATION
     }, LOCATION_REQUEST_CODE);
   }
@@ -307,7 +307,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Bitmap icon = BitmapFactory.decodeResource(getResources(),
                 R.drawable.ic_darren);
-        Bitmap croppedIcon = Util.getCroppedBitmap(MapsActivity.this, icon);
+        Bitmap croppedIcon = Util.getCroppedBitmap(GroupActivity.this, icon);
 
         // TODO: Don't add current marker, just update Firebase to make it do it for you
         // mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));

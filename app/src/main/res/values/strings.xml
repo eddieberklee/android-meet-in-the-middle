@@ -3,7 +3,7 @@
     <string name="title_activity_maps">Map</string>
 
     <string name="preference_file_key">com.compscieddy.meetinthemiddle.PREFERENCE_FILE_KEY</string>
-    <string name="hint_group_name">Group name..</string>
+    <string name="hint_set_group_name">Set Group Name..</string>
     <string name="set">Set</string>
 
     <string name="new_group">New Group +</string>

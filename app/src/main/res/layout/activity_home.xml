@@ -25,7 +25,7 @@
             android:layout_height="@dimen/map_size"
             android:layout_below="@+id/username"
             android:layout_centerHorizontal="true"
-            tools:context="com.compscieddy.meetinthemiddle.MapsActivity"/>
+            tools:context=".GroupActivity"/>
 
         <com.compscieddy.meetinthemiddle.FontTextView
             android:id="@+id/new_group_button"
