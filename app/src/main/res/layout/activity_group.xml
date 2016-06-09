@@ -35,7 +35,6 @@
                 android:visibility="visible"
                 android:gravity="center_vertical"/>
 
-
             <EditText
                 android:id="@+id/group_edit_text"
                 android:layout_width="match_parent"
