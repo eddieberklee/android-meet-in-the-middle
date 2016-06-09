@@ -32,8 +32,7 @@
                 android:hint="@string/hint_group_name"
                 android:singleLine="true"
                 android:textSize="20sp"
-                android:visibility="visible"
-                android:layout_gravity="center_vertical"/>
+                android:visibility="visible"/>
 
 
             <EditText
@@ -41,11 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:singleLine="true"
-                android:visibility="invisible"
-                android:textSize="20sp"
-                android:layout_gravity="center_vertical"
-
-                 />
+                android:visibility="invisible"/>
 
             <Button
                 android:id="@+id/group_set_button"
@@ -87,15 +82,6 @@
                 android:layout_height="@dimen/menu_avatar_size"
                 android:background="@drawable/circle_fill_grey"
                 android:src="@drawable/ic_face_white_48dp" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/invite_button"
-                style="@style/MenuAvatarStyle"
-                android:layout_width="@dimen/menu_avatar_size"
-                android:layout_height="@dimen/menu_avatar_size"
-                android:background="@drawable/circle_fill_grey"
-                android:src="@drawable/ic_add_circle_white_24dp"
-                />
         </LinearLayout>
 
     </LinearLayout>
