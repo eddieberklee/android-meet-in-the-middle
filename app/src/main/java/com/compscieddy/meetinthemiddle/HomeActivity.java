@@ -33,6 +33,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 
 public class HomeActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -52,6 +55,10 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   private LocationManager mLocationManager;
   private GoogleApiClient mGoogleApiClient;
   private Marker mCurrentMarker;
+
+  private Location mLastLocation;
+  @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
+  private GroupAdapter mGroupAdapter;
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -74,15 +81,12 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
       mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
     }
   };
-  private Location mLastLocation;
-
-  private RecyclerView mGroupRecyclerView;
-  private GroupAdapter mGroupAdapter;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home);
+    ButterKnife.bind(HomeActivity.this);
     // Obtain the SupportMapFragment and get notified when the map is ready to be used.
     SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
         .findFragmentById(R.id.map);
@@ -107,7 +111,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
       requestLocationPermission();
     }
 
-    mGroupRecyclerView = (RecyclerView) findViewById(R.id.group_recycler_view);
     setupGroupRecyclerView();
   }
 

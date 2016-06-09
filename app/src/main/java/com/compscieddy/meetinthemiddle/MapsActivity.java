@@ -52,6 +52,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, GoogleMap.OnMapClickListener {
 
@@ -96,14 +99,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
   };
 
-  EditText groupEditText;
-  FontTextView groupTextView;
-  Button setButton;
+  @Bind(R.id.group_edit_text) EditText mGroupEditText;
+  @Bind(R.id.group_text_view) FontTextView mGroupTextView;
+  @Bind(R.id.group_set_button) Button mSetButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_maps);
+    ButterKnife.bind(MapsActivity.this);
+
     // Obtain the SupportMapFragment and get notified when the map is ready to be used.
     SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
         .findFragmentById(R.id.map);
@@ -139,12 +144,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
       requestLocationPermission();
     }
 
-    groupEditText = (EditText) findViewById(R.id.group_edit_text);
-    groupTextView = (FontTextView) findViewById(R.id.group_text_view);
-    setButton = (Button) findViewById(R.id.group_set_button);
-
-    groupTextView.setOnClickListener(this);
-    setButton.setOnClickListener(this);
+    mGroupTextView.setOnClickListener(this);
+    mSetButton.setOnClickListener(this);
   }
 
   @Override
@@ -369,21 +370,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.group_text_view:
-        groupEditText.setVisibility(View.VISIBLE);
-        groupTextView.setVisibility(View.INVISIBLE);
-        setButton.setVisibility(View.VISIBLE);
-        groupEditText.requestFocus();
+        mGroupEditText.setVisibility(View.VISIBLE);
+        mGroupTextView.setVisibility(View.INVISIBLE);
+        mSetButton.setVisibility(View.VISIBLE);
+        mGroupEditText.requestFocus();
 
         break;
 
       case R.id.group_set_button:
 
-        groupEditText.setVisibility(View.INVISIBLE);
-        groupTextView.setVisibility(View.VISIBLE);
-        setButton.setVisibility(View.INVISIBLE);
+        mGroupEditText.setVisibility(View.INVISIBLE);
+        mGroupTextView.setVisibility(View.VISIBLE);
+        mSetButton.setVisibility(View.INVISIBLE);
 
         //name will need to be saved as a shared preference or in database
-        groupTextView.setText(groupEditText.getText());
+        mGroupTextView.setText(mGroupEditText.getText());
 
         break;
 
