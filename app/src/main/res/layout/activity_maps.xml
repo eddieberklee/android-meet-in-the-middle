@@ -22,8 +22,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <com.compscieddy.meetinthemiddle.ForadayTextView
                 android:id="@+id/group_text_view"
@@ -34,8 +33,7 @@
                 android:singleLine="true"
                 android:textSize="20sp"
                 android:visibility="visible"
-                android:gravity="center_vertical"
-                />
+                android:gravity="center_vertical"/>
 
 
             <EditText
@@ -53,8 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:text="@string/set"
-                android:visibility="invisible"
-                />
+                android:visibility="invisible"/>
 
         </FrameLayout>
 
