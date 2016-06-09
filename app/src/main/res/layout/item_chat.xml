@@ -18,7 +18,7 @@
         android:id="@+id/chat_message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/circle_fill_chat_sendee"
+        android:background="@drawable/rounded_fill_chat_sendee"
         android:textColor="@color/greyscale_11"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"

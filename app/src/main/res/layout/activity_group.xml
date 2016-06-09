@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white_transp_40"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="6dp">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                 android:clickable="true"
                 android:hint="@string/hint_set_group_name"
                 android:singleLine="true"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:visibility="visible"
                 android:gravity="center_vertical"/>
 
@@ -40,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:singleLine="true"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:visibility="invisible"
                 android:layout_gravity="center_vertical"/>
 
@@ -59,7 +59,6 @@
             android:id="@+id/group_members"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/map"
             android:gravity="right"
             android:orientation="horizontal">
 
@@ -90,7 +89,7 @@
     <RelativeLayout
         android:id="@+id/bottom_section"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="220dp"
         android:layout_alignParentBottom="true"
         android:padding="6dp">
 
@@ -105,12 +104,41 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Discuss"
+                android:textSize="11sp"
+                android:layout_marginBottom="3dp"
+                app:fontface="montserrat_semibold"
                 android:textAllCaps="true" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/chats_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+                <com.compscieddy.meetinthemiddle.FontEditText
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingTop="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:paddingBottom="10dp"
+                    android:hint=" Say what..?"/>
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/circle_fill_send_button"
+                    android:paddingTop="3dp"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="3dp"
+                    android:paddingBottom="3dp"
+                    android:src="@drawable/ic_send_white_48dp"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
