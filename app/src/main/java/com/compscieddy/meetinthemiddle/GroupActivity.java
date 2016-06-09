@@ -19,9 +19,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
@@ -77,8 +79,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private String mUUID;
 
   @Bind(R.id.group_edit_text) EditText mGroupEditText;
-  @Bind(R.id.group_text_view) FontTextView mGroupTextView;
-  @Bind(R.id.group_set_button) Button mSetButton;
+  @Bind(R.id.group_text_view) TextView mGroupTextView;
+  @Bind(R.id.group_set_button) TextView mSetButton;
   @Bind(R.id.chats_recycler_view) RecyclerView mChatsRecyclerView;
 
   private ChatsAdapter mChatsAdapter;
@@ -145,7 +147,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       requestLocationPermission();
     }
 
-    initListeners();
+    setListeners();
     setupRecyclerView();
   }
 
@@ -294,7 +296,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
   }
 
-  private void initListeners() {
+  private void setListeners() {
     mGroupTextView.setOnClickListener(this);
     mSetButton.setOnClickListener(this);
   }

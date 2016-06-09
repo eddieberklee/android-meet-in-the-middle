@@ -44,12 +44,22 @@
                 android:visibility="invisible"
                 android:layout_gravity="center_vertical"/>
 
-            <Button
+            <com.compscieddy.meetinthemiddle.FontTextView
                 android:id="@+id/group_set_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="@string/set"
+                android:layout_gravity="right|center_vertical"
+                android:text="@string/set_group_title"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:textAllCaps="true"
+                app:fontface="montserrat_semibold"
+                android:paddingTop="7dp"
+                android:paddingBottom="7dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/rounded_fill_set_group_title"
                 android:visibility="invisible"/>
 
         </FrameLayout>
