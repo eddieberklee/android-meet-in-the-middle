@@ -115,7 +115,7 @@
 
         <LinearLayout
             android:id="@+id/pictures_section"
-            android:layout_width="200dp"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:orientation="vertical">

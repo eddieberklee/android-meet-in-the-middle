@@ -12,7 +12,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * Created by ambar on 6/7/16.
  */
-public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupHolder> {
+public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolder> {
 
   private Context mContext;
   private static ClickListener mClickListener;
@@ -26,15 +26,15 @@ public class GroupAdapter extends RecyclerView.Adapter<GroupAdapter.GroupHolder>
   }
 
   @Override
-  public GroupAdapter.GroupHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  public GroupsAdapter.GroupHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     mContext = parent.getContext();
     LayoutInflater layoutInflater = LayoutInflater.from(mContext);
-    View view = layoutInflater.inflate(R.layout.list_group_item, parent, false);
-    return new GroupHolder(view);
+    View itemView = layoutInflater.inflate(R.layout.item_group, parent, false);
+    return new GroupHolder(itemView);
   }
 
   @Override
-  public void onBindViewHolder(GroupAdapter.GroupHolder holder, int position) {
+  public void onBindViewHolder(GroupsAdapter.GroupHolder holder, int position) {
     //Placeholder text for now
     holder.mAvatarImageView.setImageResource(R.drawable.ic_account_circle_grey600_48dp);
     holder.mTitleTextView.setText("Group " + position);

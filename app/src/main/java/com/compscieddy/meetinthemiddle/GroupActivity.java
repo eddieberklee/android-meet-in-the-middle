@@ -17,13 +17,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
+import com.compscieddy.meetinthemiddle.adapter.ChatsAdapter;
 import com.compscieddy.meetinthemiddle.model.UserMarker;
+import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -66,12 +70,18 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
   private LocationManager mLocationManager;
   private GoogleApiClient mGoogleApiClient;
-  private Marker mCurrentMarker;
   private Map<String, Marker> mMarkers = new HashMap<>();
 
   private final String UUID_KEY = "UUID_KEY"; // Temporary way to identify different users or different installations
   private Location mLastLocation;
   private String mUUID;
+
+  @Bind(R.id.group_edit_text) EditText mGroupEditText;
+  @Bind(R.id.group_text_view) FontTextView mGroupTextView;
+  @Bind(R.id.group_set_button) Button mSetButton;
+  @Bind(R.id.chats_recycler_view) RecyclerView mChatsRecyclerView;
+
+  private ChatsAdapter mChatsAdapter;
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -93,10 +103,6 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
     }
   };
-
-  @Bind(R.id.group_edit_text) EditText mGroupEditText;
-  @Bind(R.id.group_text_view) FontTextView mGroupTextView;
-  @Bind(R.id.group_set_button) Button mSetButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -139,8 +145,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       requestLocationPermission();
     }
 
-    mGroupTextView.setOnClickListener(this);
-    mSetButton.setOnClickListener(this);
+    initListeners();
+    setupRecyclerView();
   }
 
   @Override
@@ -286,6 +292,19 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
     mMap.setOnMapClickListener(this);
 
+  }
+
+  private void initListeners() {
+    mGroupTextView.setOnClickListener(this);
+    mSetButton.setOnClickListener(this);
+  }
+
+  private void setupRecyclerView() {
+    mChatsAdapter = new ChatsAdapter();
+    lawg.e("_______________" + mChatsAdapter);
+    mChatsRecyclerView.setAdapter(mChatsAdapter);
+    mChatsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    RecyclerViewDivider.with(this).addTo(mChatsRecyclerView).marginSize(Etils.dpToPx(5)).build();
   }
 
   @Override

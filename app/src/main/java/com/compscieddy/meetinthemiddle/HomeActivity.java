@@ -21,6 +21,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
 import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
 import com.google.android.gms.common.ConnectionResult;
@@ -60,7 +61,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
   private Location mLastLocation;
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
-  private GroupAdapter mGroupAdapter;
+  private GroupsAdapter mGroupsAdapter;
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -113,7 +114,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
       requestLocationPermission();
     }
 
-    setupGroupRecyclerView();
+    setupRecyclerView();
   }
 
   @Override
@@ -231,9 +232,9 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
   }
 
-  private void setupGroupRecyclerView() {
-    mGroupAdapter = new GroupAdapter();
-    mGroupAdapter.setClickListener(new GroupAdapter.ClickListener() {
+  private void setupRecyclerView() {
+    mGroupsAdapter = new GroupsAdapter();
+    mGroupsAdapter.setClickListener(new GroupsAdapter.ClickListener() {
       @Override
       public void OnItemClick(View v) {
         Intent intent = new Intent(HomeActivity.this, GroupActivity.class);
@@ -241,8 +242,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
       }
     });
 
-    mGroupRecyclerView.setAdapter(mGroupAdapter);
+    mGroupRecyclerView.setAdapter(mGroupsAdapter);
     mGroupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(8).build().attach();
+    RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
   }
 }
