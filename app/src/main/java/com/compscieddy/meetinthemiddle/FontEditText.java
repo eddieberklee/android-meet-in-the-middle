@@ -12,9 +12,9 @@ import com.compscieddy.eddie_utils.Etils;
 /**
  * Created by elee on 1/7/16.
  */
-public class ForadayEditText extends EditText {
+public class FontEditText extends EditText {
 
-  public ForadayEditText(Context context, AttributeSet attrs) {
+  public FontEditText(Context context, AttributeSet attrs) {
     super(context, attrs);
     init(context, attrs);
   }
@@ -22,9 +22,9 @@ public class ForadayEditText extends EditText {
   private void init(Context context, AttributeSet attrs) {
     if (isInEditMode()) return;
 
-    TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ForadayEditText);
-    int typefaceId = ta.getInt(R.styleable.ForadayEditText_fontface, FontCache.MONTSERRAT_REGULAR);
-    int color = ta.getInt(R.styleable.ForadayEditText_color, -1);
+    TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.FontEditText);
+    int typefaceId = ta.getInt(R.styleable.FontEditText_fontface, FontCache.MONTSERRAT_REGULAR);
+    int color = ta.getInt(R.styleable.FontEditText_color, -1);
     ta.recycle();
 
     if (color != -1) {

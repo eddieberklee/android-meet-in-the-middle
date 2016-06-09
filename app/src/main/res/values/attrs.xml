@@ -12,11 +12,11 @@
         <enum name="montserrat_black"      value="7"/>
     </attr>
 
-    <declare-styleable name="ForadayTextView">
+    <declare-styleable name="FontTextView">
         <attr name="fontface"/>
     </declare-styleable>
 
-    <declare-styleable name="ForadayEditText">
+    <declare-styleable name="FontEditText">
         <attr name="fontface"/>
         <attr name="color"/>
     </declare-styleable>

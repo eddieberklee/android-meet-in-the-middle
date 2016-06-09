@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.compscieddy.meetinthemiddle.ForadayTextView
+            <com.compscieddy.meetinthemiddle.FontTextView
                 android:id="@+id/group_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -102,7 +102,7 @@
             android:layout_toLeftOf="@+id/pictures_section"
             android:orientation="vertical">
 
-            <com.compscieddy.meetinthemiddle.ForadayTextView
+            <com.compscieddy.meetinthemiddle.FontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Discuss"

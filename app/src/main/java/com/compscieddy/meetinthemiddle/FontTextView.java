@@ -8,11 +8,11 @@ import android.widget.TextView;
 /**
  * Created by elee on 1/6/16.
  */
-public class ForadayTextView extends TextView {
+public class FontTextView extends TextView {
 
   private final Context mContext;
 
-  public ForadayTextView(Context context, AttributeSet attrs) {
+  public FontTextView(Context context, AttributeSet attrs) {
     super(context, attrs);
     mContext = context;
     init(attrs);
@@ -21,8 +21,8 @@ public class ForadayTextView extends TextView {
   private void init(AttributeSet attrs) {
     if (isInEditMode()) return;
 
-    TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.ForadayTextView);
-    int typefaceId = ta.getInt(R.styleable.ForadayTextView_fontface, FontCache.MONTSERRAT_REGULAR);
+    TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.FontTextView);
+    int typefaceId = ta.getInt(R.styleable.FontTextView_fontface, FontCache.MONTSERRAT_REGULAR);
     setCustomTypeFace(typefaceId);
     ta.recycle();
 
