@@ -6,11 +6,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -90,7 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
       float zoom = mMap.getCameraPosition().zoom; if (false) lawg.d(" zoom: " + zoom);
 
       LatLng latLng = mLastKnownCoord.getLatLng();
-      if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 13) {
+      if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 11) {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
       }
@@ -312,7 +307,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         Bitmap icon = BitmapFactory.decodeResource(getResources(),
                 R.drawable.ic_darren);
-        Bitmap croppedIcon = getCroppedBitmap(icon);
+        Bitmap croppedIcon = Util.getCroppedBitmap(MapsActivity.this, icon);
 
         // TODO: Don't add current marker, just update Firebase to make it do it for you
         // mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
@@ -330,27 +325,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
   @Override
   public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
-  }
-
-  public Bitmap getCroppedBitmap(Bitmap bitmap) {
-    Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
-            bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-    Canvas canvas = new Canvas(output);
-
-    final int color = getResources().getColor(R.color.white);
-    final Paint paint = new Paint();
-    final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-
-    paint.setAntiAlias(true);
-    canvas.drawARGB(0, 0, 0, 0);
-    paint.setColor(color);
-
-    canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
-        bitmap.getWidth() / 2, paint);
-    paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-    canvas.drawBitmap(bitmap, rect, rect, paint);
-
-    return output;
   }
 
   //Toasts the tapped points coords
