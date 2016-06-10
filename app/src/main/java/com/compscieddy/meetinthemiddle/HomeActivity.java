@@ -96,10 +96,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     mMapView.getMapAsync(this);
     MapsInitializer.initialize(this);
     mMapView.onCreate(savedInstanceState);
-    // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-    /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-        .findFragmentById(R.id.map);
-    mapFragment.getMapAsync(this);*/
 
     mHandler = new Handler(Looper.getMainLooper());
     mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
