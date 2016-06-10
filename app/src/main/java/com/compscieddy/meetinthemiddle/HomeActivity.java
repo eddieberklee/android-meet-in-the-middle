@@ -259,8 +259,11 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng latLng = new LatLng(latitude, longitude);
         mLastKnownCoord.set(latitude, longitude);
         if (mCurrentMarker != null) mCurrentMarker.remove();
+
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_darren);
-        Bitmap croppedIcon = Util.getCroppedBitmap(HomeActivity.this, icon);
+        Bitmap resizedIcon = Bitmap.createScaledBitmap(icon, icon.getWidth()*2, icon.getHeight()*2, true);
+        Bitmap croppedIcon = Util.getCroppedBitmap(HomeActivity.this, resizedIcon);
+
         mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
       }
     } catch (SecurityException se) {
@@ -292,4 +295,5 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     mGroupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
   }
+
 }
