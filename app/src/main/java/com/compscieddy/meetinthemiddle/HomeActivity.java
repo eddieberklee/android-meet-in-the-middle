@@ -17,13 +17,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
-import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -36,6 +34,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -65,6 +66,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   private Location mLastLocation;
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
   private GroupsAdapter mGroupsAdapter;
+  private List<MapView> mMapViewList = new ArrayList<>();
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -124,14 +126,20 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     if (mMapView != null) {
       mMapView.onResume();
     }
+    for (MapView view : mMapViewList) {
+      if (view != null) view.onResume();
+    }
   }
 
   @Override
   public void onPause() {
+    super.onPause();
     if (mMapView != null) {
       mMapView.onPause();
     }
-    super.onPause();
+    for (MapView view : mMapViewList) {
+      if (view != null) view.onPause();
+    }
   }
 
   @Override
@@ -143,6 +151,9 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         lawg.e("NPE:" + e);
       }
     }
+    for (MapView view : mMapViewList) {
+      if (view != null) view.onDestroy();
+    }
     super.onDestroy();
   }
 
@@ -152,6 +163,9 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     if (mMapView != null) {
       mMapView.onLowMemory();
     }
+    for (MapView view : mMapViewList) {
+      if (view != null) view.onLowMemory();
+    }
   }
 
   @Override
@@ -159,6 +173,9 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     super.onSaveInstanceState(outState);
     if (mMapView != null) {
       mMapView.onSaveInstanceState(outState);
+    }
+    for (MapView view : mMapViewList) {
+      if (view != null) view.onSaveInstanceState(outState);
     }
   }
 
@@ -281,7 +298,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   }
 
   private void setupRecyclerView() {
-    mGroupsAdapter = new GroupsAdapter();
+    mGroupsAdapter = new GroupsAdapter(mMapViewList);
     mGroupsAdapter.setClickListener(new GroupsAdapter.ClickListener() {
       @Override
       public void OnItemClick(View v) {
@@ -291,8 +308,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     });
 
     mGroupRecyclerView.setAdapter(mGroupsAdapter);
-    mGroupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
+    mGroupRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
   }
 
   @Override
