@@ -34,19 +34,15 @@
         </android.support.v7.widget.CardView>
 
         <com.compscieddy.meetinthemiddle.FontTextView
+            style="@style/ButtonOutlineAccent"
             android:id="@+id/new_group_button"
             android:layout_width="@dimen/map_size"
             android:layout_height="wrap_content"
             android:layout_below="@+id/map_cardView"
             android:layout_centerHorizontal="true"
             android:layout_margin="10dp"
-            android:background="@drawable/rounded_outline_accent"
             android:padding="10dp"
             android:text="@string/new_group"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@color/colorAccent"
-            android:textSize="12sp"
             app:fontface="montserrat_semibold"/>
 
         <RelativeLayout
