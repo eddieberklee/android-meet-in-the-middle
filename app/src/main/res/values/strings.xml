@@ -7,7 +7,10 @@
     <string name="set_group_title">Set</string>
 
     <string name="new_group">New Group +</string>
+    <string name="invite">Invite</string>
 
     <string name="sample_chat_message">Sample text message talking about what\'s going on in the group and where to meet and when people are coming.</string>
+    <string name="chat">Chat</string>
+
 
 </resources>
