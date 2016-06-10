@@ -302,8 +302,14 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
 
 
+    String[] mDataset = {"test1", "test2", "test3", "test4"};
+    int CASINO = 0;
+    int FITNESS = 1;
+    int MOVIES = 2;
+    int SLEEPING = 3;
 
-    mStatusAdapter = new StatusAdapter();
+    int mDatasetTypes[] = {CASINO, FITNESS, MOVIES, SLEEPING};
+    mStatusAdapter = new StatusAdapter(mDataset, mDatasetTypes);
     mStatusAdapter.setClickListener(new StatusAdapter.ClickListener() {
       @Override
       public void OnItemClick(View v) {
