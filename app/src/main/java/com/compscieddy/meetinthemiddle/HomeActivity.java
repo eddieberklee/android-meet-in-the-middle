@@ -89,7 +89,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     }
   };
 
-  @Bind(R.id.invite_button) Button mInviteButton;
+  Button mInviteButton;
 
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -120,6 +120,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
     setupRecyclerView();
 
+    mInviteButton = (Button) findViewById(R.id.invite_button);
     mInviteButton.setOnClickListener(this);
 
   }
