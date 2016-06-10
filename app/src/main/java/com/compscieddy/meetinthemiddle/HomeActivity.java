@@ -20,7 +20,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
@@ -66,8 +65,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   private Location mLastLocation;
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
   private GroupsAdapter mGroupsAdapter;
-
-  Butt
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -119,10 +116,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     setupRecyclerView();
-
-    //mInviteButton = (Button) findViewById(R.id.invite_button);
-    mInviteButton.setOnClickListener(this);
-
   }
 
   @Override
