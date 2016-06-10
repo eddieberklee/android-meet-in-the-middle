@@ -12,6 +12,9 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by ambar on 6/7/16.
  */
@@ -50,16 +53,14 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
   }
 
   public static final class GroupHolder extends RecyclerView.ViewHolder implements View.OnClickListener, OnMapReadyCallback {
-    TextView titleTextView;
-    TextView lastMessageTextView;
-    MapView groupMapView;
+    @Bind(R.id.group_title_text_view) TextView titleTextView;
+    @Bind(R.id.group_last_message_text_view) TextView lastMessageTextView;
+    @Bind(R.id.group_map_view) MapView groupMapView;
     GoogleMap groupMap;
 
     public GroupHolder(View itemView) {
       super(itemView);
-      titleTextView = (TextView) itemView.findViewById(R.id.group_title_text_view);
-      lastMessageTextView = (TextView) itemView.findViewById(R.id.group_last_message_text_view);
-      groupMapView = (MapView) itemView.findViewById(R.id.group_map_view);
+      ButterKnife.bind(this, itemView);
 
       groupMapView.onCreate(null);
       groupMapView.getMapAsync(this);
