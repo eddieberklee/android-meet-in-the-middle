@@ -80,7 +80,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Bind(R.id.group_text_view) TextView mGroupTextView;
   @Bind(R.id.group_set_button) TextView mSetButton;
   @Bind(R.id.chats_recycler_view) RecyclerView mChatsRecyclerView;
-  @Bind(R.id.invite_button) FontTextView mInviteButton;
+  @Bind(R.id.invite_button) TextView mInviteButton;
 
   private ChatsAdapter mChatsAdapter;
 

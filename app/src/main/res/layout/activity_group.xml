@@ -93,16 +93,14 @@
                 android:background="@drawable/circle_fill_grey"
                 android:src="@drawable/ic_face_white_48dp"/>
 
-            <com.compscieddy.meetinthemiddle.FontTextView
-                style="@style/ButtonOutlineAccent"
+            <TextView
                 android:id="@+id/invite_button"
+                style="@style/ButtonOutlineAccent"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
-                android:gravity="center_vertical"
                 android:padding="6dp"
-                android:text="@string/invite"
-                app:fontface="montserrat_semibold"/>
+                android:text="@string/invite"/>
         </LinearLayout>
 
     </LinearLayout>
