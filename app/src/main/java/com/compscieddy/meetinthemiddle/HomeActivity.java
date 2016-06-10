@@ -29,8 +29,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -58,6 +59,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   private LocationManager mLocationManager;
   private GoogleApiClient mGoogleApiClient;
   private Marker mCurrentMarker;
+
+  @Bind(R.id.map) MapView mMapView;
 
   private Location mLastLocation;
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
@@ -90,10 +93,13 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home);
     ButterKnife.bind(HomeActivity.this);
+    mMapView.getMapAsync(this);
+    MapsInitializer.initialize(this);
+    mMapView.onCreate(savedInstanceState);
     // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+    /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
         .findFragmentById(R.id.map);
-    mapFragment.getMapAsync(this);
+    mapFragment.getMapAsync(this);*/
 
     mHandler = new Handler(Looper.getMainLooper());
     mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
@@ -115,6 +121,50 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     setupRecyclerView();
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    if (mMapView != null) {
+      mMapView.onResume();
+    }
+  }
+
+  @Override
+  public void onPause() {
+    if (mMapView != null) {
+      mMapView.onPause();
+    }
+    super.onPause();
+  }
+
+  @Override
+  public void onDestroy() {
+    if (mMapView != null) {
+      try {
+        mMapView.onDestroy();
+      } catch (NullPointerException e) {
+        lawg.e("NPE:" + e);
+      }
+    }
+    super.onDestroy();
+  }
+
+  @Override
+  public void onLowMemory() {
+    super.onLowMemory();
+    if (mMapView != null) {
+      mMapView.onLowMemory();
+    }
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    if (mMapView != null) {
+      mMapView.onSaveInstanceState(outState);
+    }
   }
 
   @Override
