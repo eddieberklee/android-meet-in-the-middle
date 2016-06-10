@@ -35,9 +35,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -66,7 +63,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   private Location mLastLocation;
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
   private GroupsAdapter mGroupsAdapter;
-  private List<MapView> mMapViewList = new ArrayList<>();
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -126,9 +122,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     if (mMapView != null) {
       mMapView.onResume();
     }
-    for (MapView view : mMapViewList) {
-      if (view != null) view.onResume();
-    }
   }
 
   @Override
@@ -136,9 +129,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     super.onPause();
     if (mMapView != null) {
       mMapView.onPause();
-    }
-    for (MapView view : mMapViewList) {
-      if (view != null) view.onPause();
     }
   }
 
@@ -151,9 +141,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         lawg.e("NPE:" + e);
       }
     }
-    for (MapView view : mMapViewList) {
-      if (view != null) view.onDestroy();
-    }
     super.onDestroy();
   }
 
@@ -163,9 +150,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     if (mMapView != null) {
       mMapView.onLowMemory();
     }
-    for (MapView view : mMapViewList) {
-      if (view != null) view.onLowMemory();
-    }
   }
 
   @Override
@@ -173,9 +157,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     super.onSaveInstanceState(outState);
     if (mMapView != null) {
       mMapView.onSaveInstanceState(outState);
-    }
-    for (MapView view : mMapViewList) {
-      if (view != null) view.onSaveInstanceState(outState);
     }
   }
 
@@ -298,7 +279,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   }
 
   private void setupRecyclerView() {
-    mGroupsAdapter = new GroupsAdapter(mMapViewList);
+    mGroupsAdapter = new GroupsAdapter();
     mGroupsAdapter.setClickListener(new GroupsAdapter.ClickListener() {
       @Override
       public void OnItemClick(View v) {

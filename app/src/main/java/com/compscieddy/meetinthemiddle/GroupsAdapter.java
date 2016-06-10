@@ -7,28 +7,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-
-import java.util.List;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
 
 /**
  * Created by ambar on 6/7/16.
  */
 public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolder> {
 
-  private Context mContext;
+  private static Context mContext;
   private static ClickListener mClickListener;
-  private List<MapView> mMapViewList;
 
-  public GroupsAdapter(List<MapView> mapViewList){
-    mMapViewList = mapViewList;
-  }
-
-  public interface ClickListener{
+  public interface ClickListener {
     void OnItemClick(View v);
   }
 
-  public void setClickListener(ClickListener clickListener){
+  public void setClickListener(ClickListener clickListener) {
     mClickListener = clickListener;
   }
 
@@ -37,10 +33,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
     mContext = parent.getContext();
     LayoutInflater layoutInflater = LayoutInflater.from(mContext);
     View itemView = layoutInflater.inflate(R.layout.item_group, parent, false);
-    GroupHolder groupHolder = new GroupHolder(itemView);
-    groupHolder.groupMapView.onCreate(null);
-    mMapViewList.add(groupHolder.groupMapView);
-    return groupHolder;
+    return new GroupHolder(itemView);
   }
 
   @Override
@@ -48,7 +41,6 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
     //Placeholder text for now
     holder.titleTextView.setText("Group " + position);
     holder.lastMessageTextView.setText("Last message of group " + position);
-    holder.groupMapView.onResume();
   }
 
   @Override
@@ -57,22 +49,33 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
     return 10;
   }
 
-  public static final class GroupHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+  public static final class GroupHolder extends RecyclerView.ViewHolder implements View.OnClickListener, OnMapReadyCallback {
     TextView titleTextView;
     TextView lastMessageTextView;
     MapView groupMapView;
+    GoogleMap groupMap;
 
     public GroupHolder(View itemView) {
       super(itemView);
       titleTextView = (TextView) itemView.findViewById(R.id.group_title_text_view);
       lastMessageTextView = (TextView) itemView.findViewById(R.id.group_last_message_text_view);
       groupMapView = (MapView) itemView.findViewById(R.id.group_map_view);
+
+      groupMapView.onCreate(null);
+      groupMapView.getMapAsync(this);
+
       itemView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
       mClickListener.OnItemClick(v);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+      MapsInitializer.initialize(mContext);
+      groupMap = googleMap;
     }
   }
 }
