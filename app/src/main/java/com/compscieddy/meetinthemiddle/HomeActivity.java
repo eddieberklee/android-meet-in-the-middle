@@ -66,6 +66,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
   private GroupsAdapter mGroupsAdapter;
 
+  @Bind(R.id.status_recycler_view) RecyclerView mStatusRecyclerView;
+
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
     public void run() {
