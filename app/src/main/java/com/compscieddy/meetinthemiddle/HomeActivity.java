@@ -29,8 +29,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -58,6 +59,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   private LocationManager mLocationManager;
   private GoogleApiClient mGoogleApiClient;
   private Marker mCurrentMarker;
+
+  @Bind(R.id.map) MapView mMapView;
 
   private Location mLastLocation;
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
@@ -90,10 +93,9 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home);
     ButterKnife.bind(HomeActivity.this);
-    // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-    SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-        .findFragmentById(R.id.map);
-    mapFragment.getMapAsync(this);
+    mMapView.getMapAsync(this);
+    MapsInitializer.initialize(this);
+    mMapView.onCreate(savedInstanceState);
 
     mHandler = new Handler(Looper.getMainLooper());
     mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
@@ -115,6 +117,50 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     setupRecyclerView();
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    if (mMapView != null) {
+      mMapView.onResume();
+    }
+  }
+
+  @Override
+  public void onPause() {
+    if (mMapView != null) {
+      mMapView.onPause();
+    }
+    super.onPause();
+  }
+
+  @Override
+  public void onDestroy() {
+    if (mMapView != null) {
+      try {
+        mMapView.onDestroy();
+      } catch (NullPointerException e) {
+        lawg.e("NPE:" + e);
+      }
+    }
+    super.onDestroy();
+  }
+
+  @Override
+  public void onLowMemory() {
+    super.onLowMemory();
+    if (mMapView != null) {
+      mMapView.onLowMemory();
+    }
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    if (mMapView != null) {
+      mMapView.onSaveInstanceState(outState);
+    }
   }
 
   @Override
@@ -213,8 +259,11 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng latLng = new LatLng(latitude, longitude);
         mLastKnownCoord.set(latitude, longitude);
         if (mCurrentMarker != null) mCurrentMarker.remove();
+
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_darren);
-        Bitmap croppedIcon = Util.getCroppedBitmap(HomeActivity.this, icon);
+        Bitmap resizedIcon = Bitmap.createScaledBitmap(icon, icon.getWidth()*2, icon.getHeight()*2, true);
+        Bitmap croppedIcon = Util.getCroppedBitmap(HomeActivity.this, resizedIcon);
+
         mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
       }
     } catch (SecurityException se) {
@@ -246,4 +295,5 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     mGroupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
   }
+
 }

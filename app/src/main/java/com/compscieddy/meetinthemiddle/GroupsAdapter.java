@@ -36,9 +36,9 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
   @Override
   public void onBindViewHolder(GroupsAdapter.GroupHolder holder, int position) {
     //Placeholder text for now
-    holder.mAvatarImageView.setImageResource(R.drawable.ic_account_circle_grey600_48dp);
-    holder.mTitleTextView.setText("Group " + position);
-    holder.mLastMessageTextView.setText("Last message of group " + position);
+    holder.avatarImageView.setImageResource(R.drawable.ic_account_circle_grey600_48dp);
+    holder.titleTextView.setText("Group " + position);
+    holder.lastMessageTextView.setText("Last message of group " + position);
   }
 
   @Override
@@ -48,15 +48,15 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
   }
 
   public static final class GroupHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    CircleImageView mAvatarImageView;
-    TextView mTitleTextView;
-    TextView mLastMessageTextView;
+    CircleImageView avatarImageView;
+    TextView titleTextView;
+    TextView lastMessageTextView;
 
     public GroupHolder(View itemView) {
       super(itemView);
-      mAvatarImageView = (CircleImageView) itemView.findViewById(R.id.group_avatar_image_view);
-      mTitleTextView = (TextView) itemView.findViewById(R.id.group_title_text_view);
-      mLastMessageTextView = (TextView) itemView.findViewById(R.id.group_last_message_text_view);
+      avatarImageView = (CircleImageView) itemView.findViewById(R.id.group_avatar_image_view);
+      titleTextView = (TextView) itemView.findViewById(R.id.group_title_text_view);
+      lastMessageTextView = (TextView) itemView.findViewById(R.id.group_last_message_text_view);
       itemView.setOnClickListener(this);
     }
 

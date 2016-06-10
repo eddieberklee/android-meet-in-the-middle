@@ -48,18 +48,16 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatHolder> 
   public static final class ChatHolder extends RecyclerView.ViewHolder {
 
     @Bind(R.id.chat_icon) ImageView chatIcon;
-    @Bind(R.id.chat_message) TextView chatMessage;
+    TextView chatMessage;
 
     public ChatHolder(View itemView) {
       super(itemView);
-      ButterKnife.bind(itemView);
+      chatMessage = ButterKnife.findById(itemView, R.id.chat_message);
     }
-
   }
 
   @Override
   public void onBindViewHolder(ChatHolder holder, int position, List<Object> payloads) {
-
+    super.onBindViewHolder(holder, position, payloads);
   }
-
 }
