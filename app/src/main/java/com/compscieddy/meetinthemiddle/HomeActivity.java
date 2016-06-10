@@ -42,7 +42,7 @@ import butterknife.ButterKnife;
 
 
 public class HomeActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
-    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
   private static final Lawg lawg = Lawg.newInstance(GroupActivity.class.getSimpleName());
 
@@ -88,7 +88,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     }
   };
 
-  @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home);
@@ -296,4 +295,16 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
   }
 
+  @Override
+  public void onClick(View v) {
+    switch (v.getId()) {
+      case  R.id.invite_button:
+
+        //do something
+
+        break;
+
+    }
+
+  }
 }
