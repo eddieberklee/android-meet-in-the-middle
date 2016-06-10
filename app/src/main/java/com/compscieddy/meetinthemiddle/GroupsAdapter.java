@@ -46,7 +46,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
   @Override
   public int getItemCount() {
     //Arbitrary for now
-    return 10;
+    return 12;
   }
 
   public static final class GroupHolder extends RecyclerView.ViewHolder implements View.OnClickListener, OnMapReadyCallback {
