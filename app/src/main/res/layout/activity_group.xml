@@ -121,7 +121,7 @@
             <com.compscieddy.meetinthemiddle.FontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Discuss"
+                android:text="Chat"
                 android:textSize="11sp"
                 android:layout_marginBottom="3dp"
                 app:fontface="montserrat_semibold"
@@ -146,7 +146,7 @@
                     android:paddingLeft="2dp"
                     android:paddingRight="2dp"
                     android:paddingBottom="10dp"
-                    android:hint=" Say what..?"/>
+                    android:hint="Message.."/>
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
