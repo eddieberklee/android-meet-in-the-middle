@@ -121,7 +121,7 @@
             <com.compscieddy.meetinthemiddle.FontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chat"
+                android:text="Messages:"
                 android:textSize="11sp"
                 android:layout_marginBottom="3dp"
                 app:fontface="montserrat_semibold"
