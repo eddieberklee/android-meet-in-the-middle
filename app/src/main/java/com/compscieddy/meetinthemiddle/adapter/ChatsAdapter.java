@@ -11,8 +11,6 @@ import android.widget.TextView;
 import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.R;
 
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -48,16 +46,12 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatHolder> 
   public static final class ChatHolder extends RecyclerView.ViewHolder {
 
     @Bind(R.id.chat_icon) ImageView chatIcon;
-    TextView chatMessage;
+    @Bind(R.id.chat_message) TextView chatMessage;
 
     public ChatHolder(View itemView) {
       super(itemView);
-      chatMessage = ButterKnife.findById(itemView, R.id.chat_message);
+      ButterKnife.bind(this, itemView);
     }
   }
 
-  @Override
-  public void onBindViewHolder(ChatHolder holder, int position, List<Object> payloads) {
-    super.onBindViewHolder(holder, position, payloads);
-  }
 }
