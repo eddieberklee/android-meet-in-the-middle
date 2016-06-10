@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -252,9 +250,4 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
   }
 
-  private Drawable resize(Drawable image) {
-    Bitmap b = ((BitmapDrawable)image).getBitmap();
-    Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 200, 200, false);
-    return new BitmapDrawable(getResources(), bitmapResized);
-  }
 }
