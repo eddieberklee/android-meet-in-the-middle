@@ -92,6 +92,14 @@
                 android:layout_height="@dimen/menu_avatar_size"
                 android:background="@drawable/circle_fill_grey"
                 android:src="@drawable/ic_face_white_48dp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/invite_button"
+                style="@style/MenuAvatarStyle"
+                android:layout_width="@dimen/menu_avatar_size"
+                android:layout_height="@dimen/menu_avatar_size"
+                android:background="@drawable/circle_fill_grey"
+                android:src="@drawable/ic_plus_white_48dp" />
         </LinearLayout>
 
     </LinearLayout>
