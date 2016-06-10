@@ -27,7 +27,4 @@
         android:layout_weight="1"
         app:fontface="montserrat_light"
         tools:text="@string/sample_chat_message"/>
-    <Space
-        android:layout_width="@dimen/chat_avatar_size"
-        android:layout_height="match_parent"/>
 </LinearLayout>
