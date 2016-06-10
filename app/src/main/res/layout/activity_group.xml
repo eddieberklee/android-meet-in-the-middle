@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
     <fragment
         android:id="@+id/map"
@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_section"
-        tools:context=".GroupActivity" />
+        tools:context=".GroupActivity"/>
 
     <LinearLayout
         android:id="@+id/top_section"
@@ -29,38 +29,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clickable="true"
+                android:gravity="center_vertical"
                 android:hint="@string/hint_set_group_name"
                 android:singleLine="true"
                 android:textSize="18sp"
-                android:visibility="visible"
-                android:gravity="center_vertical"/>
+                android:visibility="visible"/>
 
             <EditText
                 android:id="@+id/group_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
                 android:singleLine="true"
                 android:textSize="18sp"
-                android:visibility="invisible"
-                android:layout_gravity="center_vertical"/>
+                android:visibility="invisible"/>
 
             <com.compscieddy.meetinthemiddle.FontTextView
                 android:id="@+id/group_set_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
-                android:text="@string/set_group_title"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                android:textAllCaps="true"
-                app:fontface="montserrat_semibold"
-                android:paddingTop="7dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/rounded_fill_set_group_title"
                 android:paddingBottom="7dp"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
-                android:layout_marginBottom="2dp"
-                android:background="@drawable/rounded_fill_set_group_title"
-                android:visibility="invisible"/>
+                android:paddingTop="7dp"
+                android:text="@string/set_group_title"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:visibility="invisible"
+                app:fontface="montserrat_semibold"/>
 
         </FrameLayout>
 
@@ -77,29 +77,30 @@
                 android:layout_width="@dimen/menu_avatar_size"
                 android:layout_height="@dimen/menu_avatar_size"
                 android:background="@drawable/circle_fill_grey"
-                android:src="@drawable/ic_face_white_48dp" />
+                android:src="@drawable/ic_face_white_48dp"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
                 style="@style/MenuAvatarStyle"
                 android:layout_width="@dimen/menu_avatar_size"
                 android:layout_height="@dimen/menu_avatar_size"
                 android:background="@drawable/circle_fill_grey"
-                android:src="@drawable/ic_face_white_48dp" />
+                android:src="@drawable/ic_face_white_48dp"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
                 style="@style/MenuAvatarStyle"
                 android:layout_width="@dimen/menu_avatar_size"
                 android:layout_height="@dimen/menu_avatar_size"
                 android:background="@drawable/circle_fill_grey"
-                android:src="@drawable/ic_face_white_48dp" />
+                android:src="@drawable/ic_face_white_48dp"/>
 
-            <de.hdodenhof.circleimageview.CircleImageView
+            <TextView
                 android:id="@+id/invite_button"
-                style="@style/MenuAvatarStyle"
-                android:layout_width="@dimen/menu_avatar_size"
-                android:layout_height="@dimen/menu_avatar_size"
-                android:background="@drawable/circle_fill_grey"
-                android:src="@drawable/ic_plus_white_48dp" />
+                style="@style/ButtonOutlineAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:padding="6dp"
+                android:text="@string/invite"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -121,11 +122,11 @@
             <com.compscieddy.meetinthemiddle.FontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Messages:"
-                android:textSize="11sp"
                 android:layout_marginBottom="3dp"
-                app:fontface="montserrat_semibold"
-                android:textAllCaps="true" />
+                android:text="@string/chat"
+                android:textAllCaps="true"
+                android:textSize="11sp"
+                app:fontface="montserrat_semibold"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/chats_recycler_view"
@@ -138,23 +139,25 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:orientation="horizontal">
+
                 <com.compscieddy.meetinthemiddle.FontEditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingTop="2dp"
+                    android:hint="Message.."
+                    android:paddingBottom="10dp"
                     android:paddingLeft="2dp"
                     android:paddingRight="2dp"
-                    android:paddingBottom="10dp"
-                    android:hint="Message.."/>
+                    android:paddingTop="2dp"/>
+
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:background="@drawable/circle_fill_send_button"
-                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
                     android:paddingLeft="6dp"
                     android:paddingRight="3dp"
-                    android:paddingBottom="3dp"
+                    android:paddingTop="3dp"
                     android:src="@drawable/ic_send_white_48dp"/>
             </LinearLayout>
         </LinearLayout>
