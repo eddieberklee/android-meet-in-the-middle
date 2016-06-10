@@ -86,8 +86,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHold
 
   }
 
-  public StatusAdapter(String[] dataSet, int[] dataSetTypes) {
-    mDataSet = dataSet;
+  public StatusAdapter(int[] dataSetTypes) {
     mDataSetTypes = dataSetTypes;
   }
 
@@ -142,7 +141,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHold
 
   @Override
   public int getItemCount() {
-    return mDataSet.length;
+    return mDataSetTypes.length;
   }
 
   @Override
