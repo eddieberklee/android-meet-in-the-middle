@@ -35,13 +35,7 @@
 
         </android.support.v7.widget.CardView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Set Status"
-            android:layout_toRightOf="@id/username"
-            android:layout_above="@id/status_recycler_view"
-            android:layout_alignLeft="@id/status_recycler_view"/>
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/status_recycler_view"
@@ -51,7 +45,8 @@
             android:layout_alignBottom="@id/map_cardView"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/map_cardView"/>
+            android:layout_toRightOf="@id/map_cardView"
+            android:background="@color/greyscale_6"/>
 
         <com.compscieddy.meetinthemiddle.FontTextView
             android:id="@+id/new_group_button"
