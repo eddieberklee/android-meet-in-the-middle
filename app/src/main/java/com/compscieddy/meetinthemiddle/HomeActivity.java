@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -213,8 +215,11 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng latLng = new LatLng(latitude, longitude);
         mLastKnownCoord.set(latitude, longitude);
         if (mCurrentMarker != null) mCurrentMarker.remove();
+
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_darren);
-        Bitmap croppedIcon = Util.getCroppedBitmap(HomeActivity.this, icon);
+        Bitmap resizedIcon = Bitmap.createScaledBitmap(icon, icon.getWidth()*2, icon.getHeight()*2, true);
+        Bitmap croppedIcon = Util.getCroppedBitmap(HomeActivity.this, resizedIcon);
+
         mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
       }
     } catch (SecurityException se) {
@@ -245,5 +250,11 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     mGroupRecyclerView.setAdapter(mGroupsAdapter);
     mGroupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
+  }
+
+  private Drawable resize(Drawable image) {
+    Bitmap b = ((BitmapDrawable)image).getBitmap();
+    Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 200, 200, false);
+    return new BitmapDrawable(getResources(), bitmapResized);
   }
 }
