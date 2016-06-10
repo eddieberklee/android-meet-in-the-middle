@@ -67,6 +67,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
   private GroupsAdapter mGroupsAdapter;
 
+  Butt
+
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
     public void run() {
@@ -88,8 +90,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
       mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
     }
   };
-
-  Button mInviteButton;
 
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -120,7 +120,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
     setupRecyclerView();
 
-    mInviteButton = (Button) findViewById(R.id.invite_button);
+    //mInviteButton = (Button) findViewById(R.id.invite_button);
     mInviteButton.setOnClickListener(this);
 
   }
