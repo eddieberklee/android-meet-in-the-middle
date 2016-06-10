@@ -20,6 +20,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -80,6 +81,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Bind(R.id.group_text_view) TextView mGroupTextView;
   @Bind(R.id.group_set_button) TextView mSetButton;
   @Bind(R.id.chats_recycler_view) RecyclerView mChatsRecyclerView;
+  @Bind(R.id.invite_button) Button mInviteButton;
 
   private ChatsAdapter mChatsAdapter;
 
@@ -297,6 +299,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private void setListeners() {
     mGroupTextView.setOnClickListener(this);
     mSetButton.setOnClickListener(this);
+    mInviteButton.setOnClickListener(this);
   }
 
   private void setupRecyclerView() {
@@ -367,18 +370,19 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         mGroupTextView.setVisibility(View.INVISIBLE);
         mSetButton.setVisibility(View.VISIBLE);
         mGroupEditText.requestFocus();
-
         break;
 
       case R.id.group_set_button:
-
         mGroupEditText.setVisibility(View.INVISIBLE);
         mGroupTextView.setVisibility(View.VISIBLE);
         mSetButton.setVisibility(View.INVISIBLE);
 
         //name will need to be saved as a shared preference or in database
         mGroupTextView.setText(mGroupEditText.getText());
-
+        break;
+      case R.id.invite_button:
+        //do something
+        Etils.showToast(GroupActivity.this, "Invite Button Clicked");
         break;
 
     }

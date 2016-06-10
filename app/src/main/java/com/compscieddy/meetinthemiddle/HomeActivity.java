@@ -297,14 +297,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
   @Override
   public void onClick(View v) {
-    switch (v.getId()) {
-      case  R.id.invite_button:
 
-        //do something
-
-        break;
-
-    }
 
   }
 }
