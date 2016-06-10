@@ -96,7 +96,7 @@
             <com.compscieddy.meetinthemiddle.FontTextView
                 android:id="@+id/invite_button"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/rounded_outline_accent"
                 android:gravity="center_vertical"
