@@ -14,6 +14,7 @@ import com.compscieddy.meetinthemiddle.R;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by elee on 6/9/16.
@@ -51,7 +52,7 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatHolder> 
 
     public ChatHolder(View itemView) {
       super(itemView);
-      chatMessage = (TextView)itemView.findViewById(R.id.chat_message);
+      chatMessage = ButterKnife.findById(itemView, R.id.chat_message);
     }
   }
 
