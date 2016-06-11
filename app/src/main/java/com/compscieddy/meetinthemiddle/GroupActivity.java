@@ -4,8 +4,10 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -14,6 +16,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -21,6 +24,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Etils;
@@ -76,11 +80,23 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private Location mLastLocation;
   private String mUUID;
 
-  @Bind(R.id.group_edit_text) EditText mGroupEditText;
-  @Bind(R.id.group_text_view) TextView mGroupTextView;
-  @Bind(R.id.group_set_button) TextView mSetButton;
-  @Bind(R.id.chats_recycler_view) RecyclerView mChatsRecyclerView;
-  @Bind(R.id.invite_button) TextView mInviteButton;
+  @Bind(R.id.group_edit_text)
+  EditText mGroupEditText;
+  @Bind(R.id.group_text_view)
+  TextView mGroupTextView;
+  @Bind(R.id.group_set_button)
+  TextView mSetButton;
+  @Bind(R.id.chats_recycler_view)
+  RecyclerView mChatsRecyclerView;
+  @Bind(R.id.invite_button)
+  TextView mInviteButton;
+
+  @Bind(R.id.expand_chat_fab)
+  FloatingActionButton mExpandButton;
+  @Bind(R.id.bottom_section)
+  RelativeLayout mBottomSection;
+
+  Boolean expanded = false;
 
   private ChatsAdapter mChatsAdapter;
 
@@ -93,7 +109,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         return;
       }
 
-      float zoom = mMap.getCameraPosition().zoom; if (false) lawg.d(" zoom: " + zoom);
+      float zoom = mMap.getCameraPosition().zoom;
+      if (false) lawg.d(" zoom: " + zoom);
 
       LatLng latLng = mLastKnownCoord.getLatLng();
       if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 13) {
@@ -148,6 +165,11 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
     setListeners();
     setupRecyclerView();
+
+    mExpandButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_expand_less_black_24dp);
+    Bitmap resizedIcon = Bitmap.createScaledBitmap(icon, icon.getWidth() * 2, icon.getHeight(), true);
+    mExpandButton.setImageBitmap(resizedIcon);
   }
 
   @Override
@@ -236,7 +258,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     }
 
     LatLng sydney = new LatLng(-34, 151);
-    Marker sydneyMarker = mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));;
+    Marker sydneyMarker = mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+    ;
     mMarkers.put(UUID.randomUUID().toString(), sydneyMarker);
     mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
@@ -280,10 +303,12 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       }
 
       @Override
-      public void onChildRemoved(DataSnapshot dataSnapshot) {}
+      public void onChildRemoved(DataSnapshot dataSnapshot) {
+      }
 
       @Override
-      public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+      public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+      }
 
       @Override
       public void onCancelled(DatabaseError databaseError) {
@@ -299,6 +324,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     mGroupTextView.setOnClickListener(this);
     mSetButton.setOnClickListener(this);
     mInviteButton.setOnClickListener(this);
+    mExpandButton.setOnClickListener(this);
   }
 
   private void setupRecyclerView() {
@@ -327,7 +353,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 //        if (mCurrentMarker != null) mCurrentMarker.remove();
 
         Bitmap icon = BitmapFactory.decodeResource(getResources(),
-                R.drawable.ic_darren);
+            R.drawable.ic_darren);
         Bitmap croppedIcon = Util.getCroppedBitmap(GroupActivity.this, icon);
 
         // TODO: Don't add current marker, just update Firebase to make it do it for you
@@ -382,6 +408,33 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       case R.id.invite_button:
         //do something
         Etils.showToast(GroupActivity.this, "Invite Button Clicked");
+        break;
+
+      case R.id.expand_chat_fab:
+
+
+        if (!expanded) {
+          Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_expand_more_black_24dp);
+          Bitmap resizedIcon = Bitmap.createScaledBitmap(icon, icon.getWidth() * 2, icon.getHeight(), true);
+          mExpandButton.setImageBitmap(resizedIcon);
+
+          /*        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.MATCH_PARENT,
+            1000);
+        params.addRule(RelativeLayout.ALIGN_BOTTOM);
+
+        mBottomSection.setLayoutParams(params);*/
+          Etils.showToast(GroupActivity.this, "Expand chat");
+
+        } else {
+
+          Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_expand_less_black_24dp);
+          Bitmap resizedIcon = Bitmap.createScaledBitmap(icon, icon.getWidth() * 2, icon.getHeight(), true);
+          mExpandButton.setImageBitmap(resizedIcon);
+          Etils.showToast(GroupActivity.this, "Minimize chat");
+
+          expanded = false;
+        }
         break;
 
     }

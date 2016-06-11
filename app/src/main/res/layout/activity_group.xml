@@ -134,8 +134,6 @@
                 android:textSize="11sp"
                 app:fontface="montserrat_semibold"/>
 
-
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/chats_recycler_view"
                 android:layout_width="match_parent"
@@ -148,6 +146,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:orientation="horizontal">
+
                 <com.compscieddy.meetinthemiddle.FontEditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -180,6 +179,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:src="@drawable/ic_expand_less_white_24dp"
+        android:scaleType="center"
         app:layout_anchor="@id/map"
         app:layout_anchorGravity="bottom|right|end"/>
 
