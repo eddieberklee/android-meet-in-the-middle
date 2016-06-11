@@ -60,7 +60,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
   @Bind(R.id.map) MapView mMapView;
-
+ 
   private Location mLastLocation;
   private GroupsAdapter mGroupsAdapter;
 
@@ -258,7 +258,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         if (mCurrentMarker != null) mCurrentMarker.remove();
 
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_darren);
-        Bitmap resizedIcon = Bitmap.createScaledBitmap(icon, icon.getWidth()*2, icon.getHeight()*2, true);
+        Bitmap resizedIcon = Bitmap.createScaledBitmap(icon, icon.getWidth() * 2, icon.getHeight() * 2, true);
         Bitmap croppedIcon = Util.getCroppedBitmap(HomeActivity.this, resizedIcon);
 
         mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
@@ -294,7 +294,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
   @Override
   public void onClick(View v) {
-
 
   }
 }
