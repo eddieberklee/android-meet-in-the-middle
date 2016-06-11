@@ -39,8 +39,8 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/status_recycler_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_alignTop="@id/map_cardView"
             android:layout_alignBottom="@id/map_cardView"
             android:layout_toRightOf="@id/map_cardView"
