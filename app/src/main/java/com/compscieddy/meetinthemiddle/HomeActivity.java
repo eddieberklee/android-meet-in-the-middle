@@ -23,7 +23,6 @@ import android.view.View;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
-import com.compscieddy.meetinthemiddle.ui.StatusAdapter;
 import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;

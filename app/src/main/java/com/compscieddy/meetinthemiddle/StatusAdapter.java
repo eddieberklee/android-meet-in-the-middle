@@ -1,12 +1,10 @@
-package com.compscieddy.meetinthemiddle.ui;
+package com.compscieddy.meetinthemiddle;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.compscieddy.meetinthemiddle.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
