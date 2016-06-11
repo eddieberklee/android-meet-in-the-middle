@@ -425,6 +425,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
         mBottomSection.setLayoutParams(params);*/
           Etils.showToast(GroupActivity.this, "Expand chat");
+          expanded = true;
 
         } else {
 
