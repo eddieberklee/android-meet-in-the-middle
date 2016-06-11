@@ -13,4 +13,13 @@
         <item name="android:layout_marginLeft">5dp</item>
     </style>
 
+    <style name="ButtonOutlineAccent">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:background">@drawable/rounded_outline_accent</item>
+
+    </style>
+
 </resources>

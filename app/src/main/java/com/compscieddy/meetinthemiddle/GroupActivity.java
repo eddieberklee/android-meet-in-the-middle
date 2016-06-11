@@ -20,9 +20,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Etils;
@@ -82,7 +80,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Bind(R.id.group_text_view) TextView mGroupTextView;
   @Bind(R.id.group_set_button) TextView mSetButton;
   @Bind(R.id.chats_recycler_view) RecyclerView mChatsRecyclerView;
-  @Bind(R.id.invite_button) ImageView mInviteButton;
+  @Bind(R.id.invite_button) TextView mInviteButton;
 
   private ChatsAdapter mChatsAdapter;
 
