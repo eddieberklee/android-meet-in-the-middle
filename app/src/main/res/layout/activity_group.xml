@@ -108,7 +108,7 @@
     <RelativeLayout
         android:id="@+id/bottom_section"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
+        android:layout_height="250dp"
         android:layout_alignParentBottom="true"
         android:padding="6dp">
 
@@ -116,7 +116,6 @@
             android:id="@+id/comments_section"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/pictures_section"
             android:orientation="vertical">
 
             <com.compscieddy.meetinthemiddle.FontTextView
@@ -132,14 +131,14 @@
                 android:id="@+id/chats_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:scrollbars="vertical"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="6dp"
                 android:orientation="horizontal">
-
                 <com.compscieddy.meetinthemiddle.FontEditText
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -149,7 +148,6 @@
                     android:paddingLeft="2dp"
                     android:paddingRight="2dp"
                     android:paddingTop="2dp"/>
-
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
@@ -160,16 +158,9 @@
                     android:paddingTop="3dp"
                     android:src="@drawable/ic_send_white_48dp"/>
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/pictures_section"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:orientation="vertical">
 
         </LinearLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>
