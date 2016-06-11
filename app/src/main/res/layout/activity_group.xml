@@ -1,8 +1,15 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
 
     <fragment
         android:id="@+id/map"
@@ -127,6 +134,8 @@
                 android:textSize="11sp"
                 app:fontface="montserrat_semibold"/>
 
+
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/chats_recycler_view"
                 android:layout_width="match_parent"
@@ -163,5 +172,16 @@
 
     </RelativeLayout>
 
-</RelativeLayout>
+    </RelativeLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/expand_chat_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_expand_less_white_24dp"
+        app:layout_anchor="@id/map"
+        app:layout_anchorGravity="bottom|right|end"/>
+
+</android.support.design.widget.CoordinatorLayout>
 

@@ -22,4 +22,9 @@
 
     </style>
 
+    <style name="ExpandButton">
+        <item name="colorAccent">@color/white</item>
+
+    </style>
+
 </resources>
