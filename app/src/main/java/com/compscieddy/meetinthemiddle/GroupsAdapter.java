@@ -7,21 +7,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * Created by ambar on 6/7/16.
  */
 public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolder> {
 
-  private Context mContext;
+  private static Context mContext;
   private static ClickListener mClickListener;
 
-  public interface ClickListener{
+  public interface ClickListener {
     void OnItemClick(View v);
   }
 
-  public void setClickListener(ClickListener clickListener){
+  public void setClickListener(ClickListener clickListener) {
     mClickListener = clickListener;
   }
 
@@ -36,7 +42,6 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
   @Override
   public void onBindViewHolder(GroupsAdapter.GroupHolder holder, int position) {
     //Placeholder text for now
-    holder.avatarImageView.setImageResource(R.drawable.ic_account_circle_grey600_48dp);
     holder.titleTextView.setText("Group " + position);
     holder.lastMessageTextView.setText("Last message of group " + position);
   }
@@ -47,22 +52,31 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
     return 10;
   }
 
-  public static final class GroupHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    CircleImageView avatarImageView;
-    TextView titleTextView;
-    TextView lastMessageTextView;
+  public static final class GroupHolder extends RecyclerView.ViewHolder implements View.OnClickListener, OnMapReadyCallback {
+    @Bind(R.id.group_title_text_view) TextView titleTextView;
+    @Bind(R.id.group_last_message_text_view) TextView lastMessageTextView;
+    @Bind(R.id.group_map_view) MapView groupMapView;
+    GoogleMap groupMap;
 
     public GroupHolder(View itemView) {
       super(itemView);
-      avatarImageView = (CircleImageView) itemView.findViewById(R.id.group_avatar_image_view);
-      titleTextView = (TextView) itemView.findViewById(R.id.group_title_text_view);
-      lastMessageTextView = (TextView) itemView.findViewById(R.id.group_last_message_text_view);
+      ButterKnife.bind(this, itemView);
+
+      groupMapView.onCreate(null);
+      groupMapView.getMapAsync(this);
+
       itemView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
       mClickListener.OnItemClick(v);
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+      MapsInitializer.initialize(mContext);
+      groupMap = googleMap;
     }
   }
 }

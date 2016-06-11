@@ -17,13 +17,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
-import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -128,10 +126,10 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
   @Override
   public void onPause() {
+    super.onPause();
     if (mMapView != null) {
       mMapView.onPause();
     }
-    super.onPause();
   }
 
   @Override
@@ -291,8 +289,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     });
 
     mGroupRecyclerView.setAdapter(mGroupsAdapter);
-    mGroupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
+    mGroupRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
   }
 
   @Override
