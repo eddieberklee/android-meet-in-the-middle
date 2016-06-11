@@ -18,6 +18,12 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHold
   private Context mContext;
   private static ClickListener mClickListener;
 
+  public static final int CASINO = 0;
+  public static final int FITNESS = 1;
+  public static final int MOVIES = 2;
+  public static final int SLEEPING = 3;
+
+
   public interface ClickListener {
     void OnItemClick(View v);
   }
@@ -37,32 +43,30 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHold
   @Override
   public void onBindViewHolder(StatusAdapter.StatusHolder holder, int position) {
     //Placeholder text for now
-    holder.casinoImageView.setImageResource(R.drawable.ic_casino_white_24dp);
-    holder.fitnessImageView.setImageResource(R.drawable.ic_fitness_center_white_24dp);
-    holder.moviesImageView.setImageResource(R.drawable.ic_local_movies_white_24dp);
-    holder.sleepingImageView.setImageResource(R.drawable.ic_local_hotel_white_24dp);
+
+    if (position == CASINO) {
+      holder.statusImageView.setImageResource(R.drawable.ic_casino_white_24dp);
+    } else if (position == FITNESS) {
+      holder.statusImageView.setImageResource(R.drawable.ic_fitness_center_white_24dp);
+    } else if (position == MOVIES) {
+      holder.statusImageView.setImageResource(R.drawable.ic_local_movies_white_24dp);
+    } else {
+      holder.statusImageView.setImageResource(R.drawable.ic_local_hotel_white_24dp);
+    }
 
   }
 
   @Override
   public int getItemCount() {
-    return 1;
+    return 4;
   }
 
   public static final class StatusHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    CircleImageView casinoImageView;
-    CircleImageView fitnessImageView;
-    CircleImageView moviesImageView;
-    CircleImageView sleepingImageView;
-
+    CircleImageView statusImageView;
 
     public StatusHolder(View itemView) {
       super(itemView);
-      casinoImageView = (CircleImageView) itemView.findViewById(R.id.status_casino_image_view);
-      fitnessImageView = (CircleImageView) itemView.findViewById(R.id.status_fitness_image_view);
-      moviesImageView = (CircleImageView) itemView.findViewById(R.id.status_movies_image_view);
-      sleepingImageView = (CircleImageView) itemView.findViewById(R.id.status_sleeping_image_view);
-
+      statusImageView = (CircleImageView) itemView.findViewById(R.id.status_image_view);
       itemView.setOnClickListener(this);
     }
 
@@ -72,6 +76,4 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHold
     }
   }
 
-
-  }
 }

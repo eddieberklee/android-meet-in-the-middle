@@ -15,50 +15,13 @@
         android:layout_weight="1">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/status_casino_image_view"
+            android:id="@+id/status_image_view"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginTop="8dp"/>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/status_fitness_image_view"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/status_movies_image_view"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/status_sleeping_image_view"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="8dp"/>
-
-    </LinearLayout>
 
 </LinearLayout>
