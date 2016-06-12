@@ -60,16 +60,13 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   private GoogleApiClient mGoogleApiClient;
   private Marker mCurrentMarker;
 
-  @Bind(R.id.map)
-  MapView mMapView;
+  @Bind(R.id.map) MapView mMapView;
 
   private Location mLastLocation;
-  @Bind(R.id.group_recycler_view)
-  RecyclerView mGroupRecyclerView;
+  @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
   private GroupsAdapter mGroupsAdapter;
 
-  @Bind(R.id.status_recycler_view)
-  RecyclerView mStatusRecyclerView;
+  @Bind(R.id.status_recycler_view) RecyclerView mStatusRecyclerView;
   private StatusAdapter mStatusAdapter;
 
   private Runnable mAnimateCameraRunnable = new Runnable() {

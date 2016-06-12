@@ -5,8 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import android.widget.ImageView;
 
 /**
  * Created by Darren on 11-Jun-16.
@@ -16,10 +15,14 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHold
   private Context mContext;
   private static ClickListener mClickListener;
 
+  public static final int ITEM_COUNT = 4;
+
   public static final int CASINO = 0;
   public static final int FITNESS = 1;
   public static final int MOVIES = 2;
   public static final int SLEEPING = 3;
+
+  int imageResourceId;
 
 
   public interface ClickListener {
@@ -42,29 +45,36 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHold
   public void onBindViewHolder(StatusAdapter.StatusHolder holder, int position) {
     //Placeholder text for now
 
-    if (position == CASINO) {
-      holder.statusImageView.setImageResource(R.drawable.ic_casino_white_24dp);
-    } else if (position == FITNESS) {
-      holder.statusImageView.setImageResource(R.drawable.ic_fitness_center_white_24dp);
-    } else if (position == MOVIES) {
-      holder.statusImageView.setImageResource(R.drawable.ic_local_movies_white_24dp);
-    } else {
-      holder.statusImageView.setImageResource(R.drawable.ic_local_hotel_white_24dp);
+    switch (position) {
+      case CASINO:
+        imageResourceId = R.drawable.ic_casino_white_24dp;
+        break;
+      case FITNESS:
+        imageResourceId = R.drawable.ic_fitness_center_white_24dp;
+        break;
+      case MOVIES:
+        imageResourceId = R.drawable.ic_local_movies_white_24dp;
+        break;
+      case SLEEPING:
+        imageResourceId = R.drawable.ic_local_hotel_white_24dp;
+        break;
     }
+
+    holder.statusImageView.setImageResource(imageResourceId);
 
   }
 
   @Override
   public int getItemCount() {
-    return 4;
+    return ITEM_COUNT;
   }
 
   public static final class StatusHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    CircleImageView statusImageView;
+    ImageView statusImageView;
 
     public StatusHolder(View itemView) {
       super(itemView);
-      statusImageView = (CircleImageView) itemView.findViewById(R.id.status_image_view);
+      statusImageView = (ImageView) itemView.findViewById(R.id.status_image_view);
       itemView.setOnClickListener(this);
     }
 

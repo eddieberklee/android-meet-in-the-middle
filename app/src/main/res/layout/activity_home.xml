@@ -41,8 +41,8 @@
             android:id="@+id/status_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignTop="@id/map_cardView"
-            android:layout_alignBottom="@id/map_cardView"
+            android:layout_alignTop="@+id/map_cardView"
+            android:layout_alignBottom="@+id/map_cardView"
             android:layout_toRightOf="@id/map_cardView"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"/>
