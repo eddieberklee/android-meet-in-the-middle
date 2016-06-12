@@ -84,21 +84,13 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private Location mLastLocation;
   private String mUUID;
 
-  @Bind(R.id.group_edit_text)
-  EditText mGroupEditText;
-  @Bind(R.id.group_text_view)
-  TextView mGroupTextView;
-  @Bind(R.id.group_set_button)
-  TextView mSetButton;
-  @Bind(R.id.chats_recycler_view)
-  RecyclerView mChatsRecyclerView;
-  @Bind(R.id.invite_button)
-  TextView mInviteButton;
-
-  @Bind(R.id.expand_chat_fab)
-  FloatingActionButton mExpandButton;
-  @Bind(R.id.bottom_section)
-  RelativeLayout mBottomSection;
+  @Bind(R.id.group_edit_text) EditText mGroupEditText;
+  @Bind(R.id.group_text_view) TextView mGroupTextView;
+  @Bind(R.id.group_set_button) TextView mSetButton;
+  @Bind(R.id.chats_recycler_view) RecyclerView mChatsRecyclerView;
+  @Bind(R.id.invite_button) TextView mInviteButton;
+  @Bind(R.id.expand_chat_fab) FloatingActionButton mExpandButton;
+  @Bind(R.id.bottom_section) RelativeLayout mBottomSection;
 
   Boolean expanded = false;
 
@@ -424,13 +416,13 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
           RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
               RelativeLayout.LayoutParams.MATCH_PARENT,
-              (int)(display.getHeight()*0.75));
+              (int) (display.getHeight() * 0.75));
           params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
           mBottomSection.setLayoutParams(params);
 
           Etils.showToast(GroupActivity.this, "Expand chat");
-          expanded = true;
 
+          expanded = true;
         } else {
           mExpandButton.setImageResource(R.drawable.ic_expand_less_black_48dp);
           Resources r = getResources();
@@ -438,7 +430,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
           RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
               RelativeLayout.LayoutParams.MATCH_PARENT,
-              (int)px);
+              (int) px);
           params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
           mBottomSection.setLayoutParams(params);
 
