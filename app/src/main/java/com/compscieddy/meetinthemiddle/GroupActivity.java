@@ -91,9 +91,9 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Bind(R.id.invite_button) TextView mInviteButton;
   @Bind(R.id.expand_chat_fab) FloatingActionButton mExpandButton;
   @Bind(R.id.bottom_section) RelativeLayout mBottomSection;
-  @Bind(R.id.marker_icon) ImageView mMarkerIcon;
-
+  @Bind(R.id.location_arrow) ImageView mLocationArrow;
   boolean expanded = false;
+  boolean voteLocationActive = false;
 
   private ChatsAdapter mChatsAdapter;
 
@@ -325,6 +325,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     mSetButton.setOnClickListener(this);
     mInviteButton.setOnClickListener(this);
     mExpandButton.setOnClickListener(this);
+    mLocationArrow.setOnClickListener(this);
   }
 
   private void setupRecyclerView() {
@@ -423,12 +424,11 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         //name will need to be saved as a shared preference or in database
         mGroupTextView.setText(mGroupEditText.getText());
         break;
+
       case R.id.invite_button:
         //do something
         Etils.showToast(GroupActivity.this, "Invite Button Clicked");
         break;
-
-
 
       case R.id.expand_chat_fab:
 
@@ -443,16 +443,10 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
         if (!expanded) {
           Util.rotateFabForward(mExpandButton);
-
           resizeAnimation = new ResizeAnimation(
               mBottomSection,
               (int) (height * 0.75),
-              Etils.dpToPx(250)
-          );
-
-          Etils.showToast(GroupActivity.this, "Expand chat");
-
-          expanded = !expanded;
+              Etils.dpToPx(250));
         } else {
           Util.rotateFabBackward(mExpandButton);
 
@@ -461,15 +455,19 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
               Etils.dpToPx(250),
               (int) (height * 0.75)
           );
-
-          Etils.showToast(GroupActivity.this, "Minimize chat");
-
-          expanded = !expanded;
         }
-
+        expanded = !expanded;
         resizeAnimation.setDuration(400L);
         mBottomSection.startAnimation(resizeAnimation);
+        break;
 
+      case R.id.location_arrow:
+        if (!voteLocationActive) {
+          Util.rotateLocationActive(mLocationArrow);
+        } else {
+          Util.rotateLocationInactive(mLocationArrow);
+        }
+        voteLocationActive = !voteLocationActive;
         break;
     }
   }
