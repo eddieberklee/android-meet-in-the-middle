@@ -30,7 +30,6 @@ import android.support.v4.view.ViewPager;
 import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -85,14 +84,22 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private Location mLastLocation;
   private String mUUID;
 
-  @Bind(R.id.group_edit_text) EditText mGroupEditText;
-  @Bind(R.id.group_text_view) TextView mGroupTextView;
-  @Bind(R.id.group_set_button) TextView mSetButton;
-  @Bind(R.id.invite_button) TextView mInviteButton;
-  @Bind(R.id.expand_chat_fab) FloatingActionButton mExpandButton;
-  @Bind(R.id.bottom_section) LinearLayout mBottomSection;
-  @Bind(R.id.viewpager) ViewPager mViewPager;
-  @Bind(R.id.sliding_tabs) TabLayout mTabLayout;
+  @Bind(R.id.group_edit_text)
+  EditText mGroupEditText;
+  @Bind(R.id.group_text_view)
+  TextView mGroupTextView;
+  @Bind(R.id.group_set_button)
+  TextView mSetButton;
+  @Bind(R.id.invite_button)
+  TextView mInviteButton;
+  @Bind(R.id.expand_chat_fab)
+  FloatingActionButton mExpandButton;
+  @Bind(R.id.bottom_section)
+  RelativeLayout mBottomSection;
+  @Bind(R.id.viewpager)
+  ViewPager mViewPager;
+  @Bind(R.id.sliding_tabs)
+  TabLayout mTabLayout;
 
   boolean expanded = false;
 
@@ -163,9 +170,19 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     mExpandButton.setImageResource(R.drawable.ic_expand_less_black_48dp);
 
     mViewPager.setAdapter(new GroupFragmentPagerAdapter(getSupportFragmentManager(), GroupActivity.this));
-    mTabLayout.setupWithViewPager(mViewPager);
-    mTabLayout.getTabAt(0).setIcon(R.drawable.ic_message_text_grey600_48dp);
-    mTabLayout.getTabAt(1).setIcon(R.drawable.ic_magnify_grey600_48dp);
+    setupTabLayout();
+
+    /**Set default height of the chat box **/
+    Display display = getWindowManager().getDefaultDisplay();
+    Point size = new Point();
+    display.getSize(size);
+
+    RelativeLayout.LayoutParams params;
+    params = new RelativeLayout.LayoutParams(
+        RelativeLayout.LayoutParams.MATCH_PARENT,
+        Etils.dpToPx(250));
+    mBottomSection.setLayoutParams(params);
+    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
     setListeners();
   }
@@ -288,9 +305,13 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         }
         LatLngBounds bounds = builder.build();
         int padding = Etils.dpToPx(50);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        //mMap.animateCamera(cameraUpdate);
-        //TODO Gives error, fixme
+        final CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+          @Override
+          public void onMapLoaded() {
+            mMap.animateCamera(cameraUpdate);
+          }
+        });
 
         // TODO: Google maps bounds need to be extended here
       }
@@ -323,6 +344,12 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     mSetButton.setOnClickListener(this);
     mInviteButton.setOnClickListener(this);
     mExpandButton.setOnClickListener(this);
+  }
+
+  private void setupTabLayout(){
+    mTabLayout.setupWithViewPager(mViewPager);
+    mTabLayout.getTabAt(0).setIcon(R.drawable.ic_message_text_grey600_48dp);
+    mTabLayout.getTabAt(1).setIcon(R.drawable.ic_magnify_grey600_48dp);
   }
 
   @Override
@@ -453,7 +480,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
     @Override
     public Fragment getItem(int position) {
-      switch (position){
+      switch (position) {
         case 0:
           return ChatFragment.newInstance();
         case 1:
