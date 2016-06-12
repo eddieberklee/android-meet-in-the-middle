@@ -19,22 +19,24 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPager;
 import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
-import com.compscieddy.meetinthemiddle.adapter.ChatsAdapter;
 import com.compscieddy.meetinthemiddle.model.UserMarker;
-import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -86,14 +88,13 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Bind(R.id.group_edit_text) EditText mGroupEditText;
   @Bind(R.id.group_text_view) TextView mGroupTextView;
   @Bind(R.id.group_set_button) TextView mSetButton;
-  @Bind(R.id.chats_recycler_view) RecyclerView mChatsRecyclerView;
   @Bind(R.id.invite_button) TextView mInviteButton;
   @Bind(R.id.expand_chat_fab) FloatingActionButton mExpandButton;
-  @Bind(R.id.bottom_section) RelativeLayout mBottomSection;
+  @Bind(R.id.bottom_section) LinearLayout mBottomSection;
+  @Bind(R.id.viewpager) ViewPager mViewPager;
+  @Bind(R.id.sliding_tabs) TabLayout mTabLayout;
 
   boolean expanded = false;
-
-  private ChatsAdapter mChatsAdapter;
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -158,11 +159,13 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       requestLocationPermission();
     }
 
-    setListeners();
-    setupRecyclerView();
-
     mExpandButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
     mExpandButton.setImageResource(R.drawable.ic_expand_less_black_48dp);
+
+    mViewPager.setAdapter(new GroupFragmentPagerAdapter(getSupportFragmentManager(), GroupActivity.this));
+    mTabLayout.setupWithViewPager(mViewPager);
+
+    setListeners();
   }
 
   @Override
@@ -319,14 +322,6 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     mExpandButton.setOnClickListener(this);
   }
 
-  private void setupRecyclerView() {
-    mChatsAdapter = new ChatsAdapter();
-    lawg.e("_______________" + mChatsAdapter);
-    mChatsRecyclerView.setAdapter(mChatsAdapter);
-    mChatsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    RecyclerViewDivider.with(this).addTo(mChatsRecyclerView).marginSize(Etils.dpToPx(5)).build();
-  }
-
   @Override
   public void onConnected(@Nullable Bundle bundle) {
     lawg.d("GoogleApiClient onConnected()");
@@ -401,7 +396,6 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         //do something
         Etils.showToast(GroupActivity.this, "Invite Button Clicked");
         break;
-
       case R.id.expand_chat_fab:
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -437,6 +431,37 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         mBottomSection.setLayoutParams(params);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         break;
+    }
+  }
+
+  public class GroupFragmentPagerAdapter extends FragmentPagerAdapter {
+    final int PAGE_COUNT = 1;
+    private String tabTitles[] = new String[] { "Tab1", "Tab2", "Tab3" };
+    private Context context;
+
+    public GroupFragmentPagerAdapter(FragmentManager fm, Context context) {
+      super(fm);
+      this.context = context;
+    }
+
+    @Override
+    public int getCount() {
+      return PAGE_COUNT;
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+      switch (position){
+        case 0:
+          return ChatFragment.newInstance();
+      }
+      return null;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+      // Generate title based on item position
+      return tabTitles[position];
     }
   }
 }
