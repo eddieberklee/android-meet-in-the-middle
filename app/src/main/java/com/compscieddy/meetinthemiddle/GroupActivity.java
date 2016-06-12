@@ -47,6 +47,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.VisibleRegion;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -255,6 +256,11 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     mMarkers.put(UUID.randomUUID().toString(), sydneyMarker);
     mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
+    LatLng queenstown = new LatLng(-45, 168);
+    Marker queenstownMarker = mMap.addMarker(new MarkerOptions().position(queenstown).title("Marker in Queenstown"));
+    mMarkers.put(UUID.randomUUID().toString(), queenstownMarker);
+    mMap.moveCamera(CameraUpdateFactory.newLatLng(queenstown));
+
     initMarkers();
   }
 
@@ -350,6 +356,24 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
         // TODO: Don't add current marker, just update Firebase to make it do it for you
         // mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
+
+/*        //This adds the outer lines only
+        mMap.addPolyline(new PolylineOptions()
+            .add(new LatLng(-34, 151), new LatLng(-45, 168), new LatLng(mLastKnownCoord.lat, mLastKnownCoord.lon), new LatLng(-34, 151))
+            .width(5)
+            .color(Color.RED));*/
+
+        PolygonOptions rectOptions = new PolygonOptions()
+            .add(new LatLng(-34, 151),
+                new LatLng(-45, 168),
+                new LatLng(mLastKnownCoord.lat, mLastKnownCoord.lon),
+                new LatLng(-34, 151))
+            .strokeColor(Color.RED)
+            .strokeWidth(4)
+            .fillColor(getResources().getColor(R.color.flatui_red_1_transp_50));
+
+      // Get back the mutable Polygon
+        mMap.addPolygon(rectOptions);
       }
     } catch (SecurityException se) {
       lawg.e("se: " + se);
