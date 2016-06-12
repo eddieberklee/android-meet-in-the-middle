@@ -14,12 +14,18 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
+import android.widget.LinearLayout;
 
 import com.compscieddy.eddie_utils.Lawg;
 import com.google.android.gms.common.ConnectionResult;
@@ -43,7 +49,9 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
   private static final Lawg lawg = Lawg.newInstance(GroupActivity.class.getSimpleName());
-
+  int count = 0;
+  int initialVerticalOffset = 0;
+  int finalVerticalOffset;
   private GoogleMap mMap;
   private final int LOCATION_REQUEST_CODE = 1;
   private Handler mHandler;
@@ -60,7 +68,13 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
   @Bind(R.id.map) MapView mMapView;
- 
+  @Bind(R.id.app_bar_layout) AppBarLayout mAppBarLayout;
+  @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
+  @Bind(R.id.map_cardView)
+  CardView mMapCardView;
+  @Bind(R.id.toolbar_linear_layout)
+  LinearLayout mLinearLayout;
+
   private Location mLastLocation;
   private GroupsAdapter mGroupsAdapter;
 
@@ -96,6 +110,35 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
     mHandler = new Handler(Looper.getMainLooper());
     mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
+
+    mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+      @Override
+      public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        finalVerticalOffset = verticalOffset;
+        if (finalVerticalOffset < initialVerticalOffset){
+          // we are scrolling down
+          count++;
+          if (count == 1) {
+            Animation animation = new ScaleAnimation(1.0f, 0.5f, 1.0f, 0.5f, 0.5f, 0.5f);
+            animation.setDuration(500);
+            animation.setFillAfter(true);
+            mLinearLayout.startAnimation(animation);
+          }
+
+        } else if (finalVerticalOffset > initialVerticalOffset){
+          // we are scrolling up
+          count++;
+          if (count == 1) {
+            Animation animation = new ScaleAnimation(0.5f, 1.0f, 0.5f, 1.0f, 0.5f, 0.5f);
+            animation.setDuration(500);
+            animation.setFillAfter(true);
+            mLinearLayout.startAnimation(animation);
+          }
+        }
+        initialVerticalOffset = finalVerticalOffset;
+        count = 0;
+      }
+    });
 
     if (mGoogleApiClient == null) {
       mGoogleApiClient = new GoogleApiClient.Builder(HomeActivity.this)
