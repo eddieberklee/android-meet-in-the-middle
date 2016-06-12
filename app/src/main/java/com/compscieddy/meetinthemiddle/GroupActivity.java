@@ -26,6 +26,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -90,8 +91,9 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Bind(R.id.invite_button) TextView mInviteButton;
   @Bind(R.id.expand_chat_fab) FloatingActionButton mExpandButton;
   @Bind(R.id.bottom_section) RelativeLayout mBottomSection;
-
+  @Bind(R.id.location_marker) ImageView mLocationArrow;
   boolean expanded = false;
+  boolean voteLocationActive = false;
 
   private ChatsAdapter mChatsAdapter;
 
@@ -163,6 +165,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
     mExpandButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
     mExpandButton.setImageResource(R.drawable.ic_expand_less_black_48dp);
+
   }
 
   @Override
@@ -322,6 +325,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     mSetButton.setOnClickListener(this);
     mInviteButton.setOnClickListener(this);
     mExpandButton.setOnClickListener(this);
+    mLocationArrow.setOnClickListener(this);
   }
 
   private void setupRecyclerView() {
@@ -420,12 +424,11 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         //name will need to be saved as a shared preference or in database
         mGroupTextView.setText(mGroupEditText.getText());
         break;
+
       case R.id.invite_button:
         //do something
         Etils.showToast(GroupActivity.this, "Invite Button Clicked");
         break;
-
-
 
       case R.id.expand_chat_fab:
 
@@ -440,16 +443,11 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
         if (!expanded) {
           Util.rotateFabForward(mExpandButton);
-
           resizeAnimation = new ResizeAnimation(
               mBottomSection,
               (int) (height * 0.75),
               getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
           );
-
-          Etils.showToast(GroupActivity.this, "Expand chat");
-
-          expanded = !expanded;
         } else {
           Util.rotateFabBackward(mExpandButton);
 
@@ -458,15 +456,19 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
               getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
               (int) (height * 0.75)
           );
-
-          Etils.showToast(GroupActivity.this, "Minimize chat");
-
-          expanded = !expanded;
         }
-
+        expanded = !expanded;
         resizeAnimation.setDuration(400);
         mBottomSection.startAnimation(resizeAnimation);
+        break;
 
+      case R.id.location_arrow:
+        if (!voteLocationActive) {
+          Util.rotateLocationActive(mLocationArrow);
+        } else {
+          Util.rotateLocationInactive(mLocationArrow);
+        }
+        voteLocationActive = !voteLocationActive;
         break;
     }
   }
