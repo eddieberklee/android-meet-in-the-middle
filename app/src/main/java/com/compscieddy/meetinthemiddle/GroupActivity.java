@@ -409,16 +409,16 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         display.getSize(size);
         int height = size.y;
 
+        RelativeLayout.LayoutParams params;
+
         // todo: use Etils.getScreenHeight() instead
 
         if (!expanded) {
           mExpandButton.setImageResource(R.drawable.ic_expand_more_black_48dp);
 
-          RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+          params = new RelativeLayout.LayoutParams(
               RelativeLayout.LayoutParams.MATCH_PARENT,
               (int) (height * 0.75));
-          params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-          mBottomSection.setLayoutParams(params);
 
           Etils.showToast(GroupActivity.this, "Expand chat");
 
@@ -426,16 +426,16 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         } else {
           mExpandButton.setImageResource(R.drawable.ic_expand_less_black_48dp);
           Resources r = getResources();
-          RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+          params = new RelativeLayout.LayoutParams(
               RelativeLayout.LayoutParams.MATCH_PARENT,
               Etils.dpToPx(250));
-          params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-          mBottomSection.setLayoutParams(params);
 
           Etils.showToast(GroupActivity.this, "Minimize chat");
 
           expanded = !expanded;
         }
+        mBottomSection.setLayoutParams(params);
+        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         break;
     }
   }
