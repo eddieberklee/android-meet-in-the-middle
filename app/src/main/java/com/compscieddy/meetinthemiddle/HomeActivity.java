@@ -21,13 +21,16 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
-import android.widget.LinearLayout;
 
+import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
+import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -70,13 +73,14 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   @Bind(R.id.map) MapView mMapView;
   @Bind(R.id.app_bar_layout) AppBarLayout mAppBarLayout;
   @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
-  @Bind(R.id.map_cardView)
-  CardView mMapCardView;
-  @Bind(R.id.toolbar_linear_layout)
-  LinearLayout mLinearLayout;
+  @Bind(R.id.map_card_view) CardView mMapCardView;
+  @Bind(R.id.toolbar_viewgroup) ViewGroup mToolbarLayout;
 
   private Location mLastLocation;
   private GroupsAdapter mGroupsAdapter;
+
+  @Bind(R.id.status_recycler_view) RecyclerView mStatusRecyclerView;
+  private StatusAdapter mStatusAdapter;
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -122,7 +126,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
             Animation animation = new ScaleAnimation(1.0f, 0.5f, 1.0f, 0.5f, 0.5f, 0.5f);
             animation.setDuration(500);
             animation.setFillAfter(true);
-            mLinearLayout.startAnimation(animation);
+            mToolbarLayout.startAnimation(animation);
           }
 
         } else if (finalVerticalOffset > initialVerticalOffset){
@@ -132,7 +136,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
             Animation animation = new ScaleAnimation(0.5f, 1.0f, 0.5f, 1.0f, 0.5f, 0.5f);
             animation.setDuration(500);
             animation.setFillAfter(true);
-            mLinearLayout.startAnimation(animation);
+            mToolbarLayout.startAnimation(animation);
           }
         }
         initialVerticalOffset = finalVerticalOffset;
@@ -332,6 +336,22 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     });
 
     mGroupRecyclerView.setAdapter(mGroupsAdapter);
+    mGroupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
+
+
+
+    mStatusAdapter = new StatusAdapter();
+    mStatusAdapter.setClickListener(new StatusAdapter.ClickListener() {
+      @Override
+      public void OnItemClick(View v) {
+        //set status
+      }
+    });
+
+    mStatusRecyclerView.setAdapter(mStatusAdapter);
+    mStatusRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    RecyclerViewDivider.with(this).addTo(mStatusRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
     mGroupRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
   }
 

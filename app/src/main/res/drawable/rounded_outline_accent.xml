@@ -4,5 +4,5 @@
     <corners android:radius="@dimen/edit_text_outline_rounded_corners"/>
     <stroke android:color="@color/colorAccent"
             android:width="1dp"/>
-    <solid android:color="@color/white_transp_60"/>
+    <solid android:color="@color/white"/>
 </shape>
