@@ -91,7 +91,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Bind(R.id.invite_button) TextView mInviteButton;
   @Bind(R.id.expand_chat_fab) FloatingActionButton mExpandButton;
   @Bind(R.id.bottom_section) RelativeLayout mBottomSection;
-  @Bind(R.id.location_arrow) ImageView mLocationArrow;
+  @Bind(R.id.location_marker) ImageView mLocationArrow;
   boolean expanded = false;
   boolean voteLocationActive = false;
 
