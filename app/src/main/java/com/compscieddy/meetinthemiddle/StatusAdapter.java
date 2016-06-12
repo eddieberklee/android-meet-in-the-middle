@@ -41,7 +41,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHold
   @Override
   public void onBindViewHolder(StatusAdapter.StatusHolder holder, int position) {
     //Placeholder text for now
-    int imageResourceId;
+    int imageResourceId = -1;
 
     switch (position) {
 
@@ -58,9 +58,9 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHold
         imageResourceId = R.drawable.ic_local_hotel_white_24dp;
         break;
     }
-
-    holder.statusImageView.setImageResource(imageResourceId);
-
+    if (imageResourceId != -1) {
+      holder.statusImageView.setImageResource(imageResourceId);
+    }
   }
 
   @Override
