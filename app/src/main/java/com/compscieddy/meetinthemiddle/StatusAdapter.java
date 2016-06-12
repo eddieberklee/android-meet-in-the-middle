@@ -7,11 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.compscieddy.eddie_utils.Lawg;
+
 /**
  * Created by Darren on 11-Jun-16.
  */
 public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHolder> {
 
+  private final static Lawg lawg = Lawg.newInstance(StatusAdapter.class.getSimpleName());
   private Context mContext;
   private static ClickListener mClickListener;
 
