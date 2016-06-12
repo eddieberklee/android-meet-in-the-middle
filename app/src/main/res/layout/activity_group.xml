@@ -111,17 +111,25 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="40dp"
                         android:layout_height="wrap_content"
-                        android:text="Meet At"
+                        android:text="@string/meet_at"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
                         android:textStyle="bold"
+                        android:gravity="center"/>
 
-                        />
+                    <ImageView
+                        android:id="@+id/marker_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/ic_place_black_48dp"
+                        android:tint="@color/flatui_red_1"
+                        android:scaleType="centerCrop"/>
 
 
                 </LinearLayout>

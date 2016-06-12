@@ -26,6 +26,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -90,6 +91,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Bind(R.id.invite_button) TextView mInviteButton;
   @Bind(R.id.expand_chat_fab) FloatingActionButton mExpandButton;
   @Bind(R.id.bottom_section) RelativeLayout mBottomSection;
+  @Bind(R.id.marker_icon) ImageView mMarkerIcon;
 
   boolean expanded = false;
 
@@ -163,6 +165,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
     mExpandButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
     mExpandButton.setImageResource(R.drawable.ic_expand_less_black_48dp);
+
   }
 
   @Override
