@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -22,6 +24,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -167,9 +171,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     setupRecyclerView();
 
     mExpandButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
-    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_expand_less_black_24dp);
-    Bitmap resizedIcon = Bitmap.createScaledBitmap(icon, icon.getWidth() * 2, icon.getHeight(), true);
-    mExpandButton.setImageBitmap(resizedIcon);
+    mExpandButton.setImageResource(R.drawable.ic_expand_less_black_48dp);
   }
 
   @Override
@@ -412,33 +414,39 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
       case R.id.expand_chat_fab:
 
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int height = size.y;
 
         if (!expanded) {
-          Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_expand_more_black_24dp);
-          Bitmap resizedIcon = Bitmap.createScaledBitmap(icon, icon.getWidth() * 2, icon.getHeight(), true);
-          mExpandButton.setImageBitmap(resizedIcon);
+          mExpandButton.setImageResource(R.drawable.ic_expand_more_black_48dp);
 
-          /*        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-            RelativeLayout.LayoutParams.MATCH_PARENT,
-            1000);
-        params.addRule(RelativeLayout.ALIGN_BOTTOM);
+          RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+              RelativeLayout.LayoutParams.MATCH_PARENT,
+              (int)(display.getHeight()*0.75));
+          params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+          mBottomSection.setLayoutParams(params);
 
-        mBottomSection.setLayoutParams(params);*/
           Etils.showToast(GroupActivity.this, "Expand chat");
           expanded = true;
 
         } else {
+          mExpandButton.setImageResource(R.drawable.ic_expand_less_black_48dp);
+          Resources r = getResources();
+          float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 250, r.getDisplayMetrics());
 
-          Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_expand_less_black_24dp);
-          Bitmap resizedIcon = Bitmap.createScaledBitmap(icon, icon.getWidth() * 2, icon.getHeight(), true);
-          mExpandButton.setImageBitmap(resizedIcon);
+          RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+              RelativeLayout.LayoutParams.MATCH_PARENT,
+              (int)px);
+          params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+          mBottomSection.setLayoutParams(params);
+
           Etils.showToast(GroupActivity.this, "Minimize chat");
 
           expanded = false;
         }
         break;
-
     }
-
   }
 }
