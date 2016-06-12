@@ -446,18 +446,19 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
           resizeAnimation = new ResizeAnimation(
               mBottomSection,
               (int) (height * 0.75),
-              Etils.dpToPx(250));
+              getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
+          );
         } else {
           Util.rotateFabBackward(mExpandButton);
 
           resizeAnimation = new ResizeAnimation(
               mBottomSection,
-              Etils.dpToPx(250),
+              getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
               (int) (height * 0.75)
           );
         }
         expanded = !expanded;
-        resizeAnimation.setDuration(400L);
+        resizeAnimation.setDuration(400);
         mBottomSection.startAnimation(resizeAnimation);
         break;
 
