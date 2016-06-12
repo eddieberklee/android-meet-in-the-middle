@@ -15,11 +15,9 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -69,11 +67,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
   @Bind(R.id.map) MapView mMapView;
   @Bind(R.id.app_bar_layout) AppBarLayout mAppBarLayout;
-  @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
-  @Bind(R.id.map_cardView)
-  CardView mMapCardView;
-  @Bind(R.id.toolbar_linear_layout)
-  LinearLayout mLinearLayout;
+  @Bind(R.id.toolbar_linear_layout) LinearLayout mLinearLayout;
 
   private Location mLastLocation;
   private GroupsAdapter mGroupsAdapter;
