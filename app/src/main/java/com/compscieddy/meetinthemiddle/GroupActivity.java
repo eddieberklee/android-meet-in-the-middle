@@ -24,7 +24,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
@@ -92,7 +91,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Bind(R.id.expand_chat_fab) FloatingActionButton mExpandButton;
   @Bind(R.id.bottom_section) RelativeLayout mBottomSection;
 
-  Boolean expanded = false;
+  boolean expanded = false;
 
   private ChatsAdapter mChatsAdapter;
 
@@ -253,7 +252,6 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
     LatLng sydney = new LatLng(-34, 151);
     Marker sydneyMarker = mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-    ;
     mMarkers.put(UUID.randomUUID().toString(), sydneyMarker);
     mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
@@ -411,32 +409,32 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         display.getSize(size);
         int height = size.y;
 
+        // todo: use Etils.getScreenHeight() instead
+
         if (!expanded) {
           mExpandButton.setImageResource(R.drawable.ic_expand_more_black_48dp);
 
           RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
               RelativeLayout.LayoutParams.MATCH_PARENT,
-              (int) (display.getHeight() * 0.75));
+              (int) (height * 0.75));
           params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
           mBottomSection.setLayoutParams(params);
 
           Etils.showToast(GroupActivity.this, "Expand chat");
 
-          expanded = true;
+          expanded = !expanded;
         } else {
           mExpandButton.setImageResource(R.drawable.ic_expand_less_black_48dp);
           Resources r = getResources();
-          float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 250, r.getDisplayMetrics());
-
           RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
               RelativeLayout.LayoutParams.MATCH_PARENT,
-              (int) px);
+              Etils.dpToPx(250));
           params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
           mBottomSection.setLayoutParams(params);
 
           Etils.showToast(GroupActivity.this, "Minimize chat");
 
-          expanded = false;
+          expanded = !expanded;
         }
         break;
     }
