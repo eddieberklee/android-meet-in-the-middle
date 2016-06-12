@@ -18,10 +18,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
+import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -63,6 +66,9 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
   private Location mLastLocation;
   private GroupsAdapter mGroupsAdapter;
+
+  @Bind(R.id.status_recycler_view) RecyclerView mStatusRecyclerView;
+  private StatusAdapter mStatusAdapter;
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -258,7 +264,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         if (mCurrentMarker != null) mCurrentMarker.remove();
 
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_darren);
-        Bitmap resizedIcon = Bitmap.createScaledBitmap(icon, icon.getWidth()*2, icon.getHeight()*2, true);
+        Bitmap resizedIcon = Bitmap.createScaledBitmap(icon, icon.getWidth() * 2, icon.getHeight() * 2, true);
         Bitmap croppedIcon = Util.getCroppedBitmap(HomeActivity.this, resizedIcon);
 
         mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
@@ -289,6 +295,22 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     });
 
     mGroupRecyclerView.setAdapter(mGroupsAdapter);
+    mGroupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
+
+
+
+    mStatusAdapter = new StatusAdapter();
+    mStatusAdapter.setClickListener(new StatusAdapter.ClickListener() {
+      @Override
+      public void OnItemClick(View v) {
+        //set status
+      }
+    });
+
+    mStatusRecyclerView.setAdapter(mStatusAdapter);
+    mStatusRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    RecyclerViewDivider.with(this).addTo(mStatusRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
     mGroupRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
   }
 
