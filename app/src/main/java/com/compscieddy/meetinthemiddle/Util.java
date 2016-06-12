@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.support.v4.view.ViewCompat;
+import android.view.View;
 
 /**
  * Created by elee on 6/9/16.
@@ -32,6 +34,22 @@ public class Util {
     canvas.drawBitmap(bitmap, rect, rect, paint);
 
     return output;
+  }
+
+  public static void rotateFabForward(View view) {
+    ViewCompat.animate(view)
+        .rotation(-180.0f)
+        .withLayer()
+        .setDuration(400)
+        .start();
+  }
+
+  public static void rotateFabBackward(View view) {
+    ViewCompat.animate(view)
+        .rotation(0.0f)
+        .withLayer()
+        .setDuration(400)
+        .start();
   }
 
 }
