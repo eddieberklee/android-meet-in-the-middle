@@ -164,6 +164,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
     mViewPager.setAdapter(new GroupFragmentPagerAdapter(getSupportFragmentManager(), GroupActivity.this));
     mTabLayout.setupWithViewPager(mViewPager);
+    mTabLayout.getTabAt(0).setIcon(R.drawable.ic_message_text_grey600_48dp);
+    mTabLayout.getTabAt(1).setIcon(R.drawable.ic_magnify_grey600_48dp);
 
     setListeners();
   }
@@ -287,7 +289,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         LatLngBounds bounds = builder.build();
         int padding = Etils.dpToPx(50);
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        mMap.animateCamera(cameraUpdate);
+        //mMap.animateCamera(cameraUpdate);
+        //TODO Gives error, fixme
 
         // TODO: Google maps bounds need to be extended here
       }
@@ -435,8 +438,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   }
 
   public class GroupFragmentPagerAdapter extends FragmentPagerAdapter {
-    final int PAGE_COUNT = 1;
-    private String tabTitles[] = new String[] { "Tab1", "Tab2", "Tab3" };
+    final int PAGE_COUNT = 2;
     private Context context;
 
     public GroupFragmentPagerAdapter(FragmentManager fm, Context context) {
@@ -454,14 +456,10 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       switch (position){
         case 0:
           return ChatFragment.newInstance();
+        case 1:
+          return SearchFragment.newInstance();
       }
       return null;
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-      // Generate title based on item position
-      return tabTitles[position];
     }
   }
 }

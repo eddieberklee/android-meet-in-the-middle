@@ -19,13 +19,12 @@ import butterknife.ButterKnife;
 /**
  * Created by ambar on 6/12/16.
  */
-public class ChatFragment extends Fragment implements View.OnClickListener {
+public class ChatFragment extends Fragment {
 
 
   @Bind(R.id.chats_recycler_view) RecyclerView mChatsRecyclerView;
 
   private ChatsAdapter mChatsAdapter;
-
 
   public static ChatFragment newInstance() {
     
@@ -42,21 +41,9 @@ public class ChatFragment extends Fragment implements View.OnClickListener {
     View view = inflater.inflate(R.layout.fragment_chat, container, false);
     ButterKnife.bind(this, view);
 
-    setListeners();
     setupRecyclerView();
 
     return view;
-  }
-
-  @Override
-  public void onClick(View v) {
-    switch (v.getId()){
-
-    }
-  }
-
-  public void setListeners(){
-
   }
 
   private void setupRecyclerView() {
