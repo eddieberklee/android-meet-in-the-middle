@@ -64,6 +64,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
 
       groupMapView.onCreate(null);
       groupMapView.getMapAsync(this);
+      groupMapView.setClickable(false);
 
       itemView.setOnClickListener(this);
     }
