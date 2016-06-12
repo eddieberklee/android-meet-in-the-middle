@@ -22,7 +22,7 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHold
   public static final int MOVIES = 2;
   public static final int SLEEPING = 3;
 
-  int imageResourceId;
+  int mImageResourceId;
 
 
   public interface ClickListener {
@@ -47,20 +47,20 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHold
 
     switch (position) {
       case CASINO:
-        imageResourceId = R.drawable.ic_casino_white_24dp;
+        mImageResourceId = R.drawable.ic_casino_white_24dp;
         break;
       case FITNESS:
-        imageResourceId = R.drawable.ic_fitness_center_white_24dp;
+        mImageResourceId = R.drawable.ic_fitness_center_white_24dp;
         break;
       case MOVIES:
-        imageResourceId = R.drawable.ic_local_movies_white_24dp;
+        mImageResourceId = R.drawable.ic_local_movies_white_24dp;
         break;
       case SLEEPING:
-        imageResourceId = R.drawable.ic_local_hotel_white_24dp;
+        mImageResourceId = R.drawable.ic_local_hotel_white_24dp;
         break;
     }
 
-    holder.statusImageView.setImageResource(imageResourceId);
+    holder.statusImageView.setImageResource(mImageResourceId);
 
   }
 

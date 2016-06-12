@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,6 +19,7 @@
             android:padding="10dp"
             android:text="\@username"
             android:textSize="20sp"/>
+
 
         <android.support.v7.widget.CardView
             android:id="@+id/map_cardView"
@@ -43,7 +46,7 @@
             android:layout_height="match_parent"
             android:layout_alignTop="@+id/map_cardView"
             android:layout_alignBottom="@+id/map_cardView"
-            android:layout_toRightOf="@id/map_cardView"
+            android:layout_toRightOf="@+id/map_cardView"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"/>
 
@@ -69,7 +72,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/group_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"/>
 
         </RelativeLayout>
 
