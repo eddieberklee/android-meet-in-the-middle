@@ -9,7 +9,6 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
-import android.view.animation.OvershootInterpolator;
 
 /**
  * Created by elee on 6/9/16.
@@ -39,19 +38,17 @@ public class Util {
 
   public static void rotateFabForward(View view) {
     ViewCompat.animate(view)
-        .rotation(180.0F)
+        .rotation(180.0f)
         .withLayer()
-        .setDuration(400L)
-        .setInterpolator(new OvershootInterpolator(10.0F))
+        .setDuration(400)
         .start();
   }
 
   public static void rotateFabBackward(View view) {
     ViewCompat.animate(view)
-        .rotation(0.0F)
+        .rotation(0.0f)
         .withLayer()
-        .setDuration(400L)
-        .setInterpolator(new OvershootInterpolator(10.0F))
+        .setDuration(400)
         .start();
   }
 
