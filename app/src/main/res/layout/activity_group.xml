@@ -116,7 +116,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_alignParentBottom="true"
-                android:padding="6dp">
+                android:padding="6dp"
+                android:animateLayoutChanges="true">
 
                 <LinearLayout
                     android:id="@+id/comments_section"

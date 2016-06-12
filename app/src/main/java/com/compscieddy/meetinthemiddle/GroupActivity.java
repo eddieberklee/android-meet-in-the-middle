@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -426,6 +425,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         Etils.showToast(GroupActivity.this, "Invite Button Clicked");
         break;
 
+
+
       case R.id.expand_chat_fab:
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -433,34 +434,42 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         display.getSize(size);
         int height = size.y;
 
-        RelativeLayout.LayoutParams params;
+        ResizeAnimation resizeAnimation;
 
         // todo: use Etils.getScreenHeight() instead
 
         if (!expanded) {
-          mExpandButton.setImageResource(R.drawable.ic_expand_more_black_48dp);
+          Util.rotateFabForward(mExpandButton);
 
-          params = new RelativeLayout.LayoutParams(
-              RelativeLayout.LayoutParams.MATCH_PARENT,
-              (int) (height * 0.75));
+          resizeAnimation = new ResizeAnimation(
+              mBottomSection,
+              (int) (height * 0.75),
+              Etils.dpToPx(250)
+          );
 
           Etils.showToast(GroupActivity.this, "Expand chat");
 
           expanded = !expanded;
         } else {
-          mExpandButton.setImageResource(R.drawable.ic_expand_less_black_48dp);
-          Resources r = getResources();
-          params = new RelativeLayout.LayoutParams(
-              RelativeLayout.LayoutParams.MATCH_PARENT,
-              Etils.dpToPx(250));
+          Util.rotateFabBackward(mExpandButton);
+
+          resizeAnimation = new ResizeAnimation(
+              mBottomSection,
+              Etils.dpToPx(250),
+              (int) (height * 0.75)
+          );
 
           Etils.showToast(GroupActivity.this, "Minimize chat");
 
           expanded = !expanded;
         }
-        mBottomSection.setLayoutParams(params);
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+
+        resizeAnimation.setDuration(400L);
+        mBottomSection.startAnimation(resizeAnimation);
+
         break;
     }
   }
+
+
 }
