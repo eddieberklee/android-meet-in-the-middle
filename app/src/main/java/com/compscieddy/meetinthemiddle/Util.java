@@ -38,7 +38,7 @@ public class Util {
 
   public static void rotateFabForward(View view) {
     ViewCompat.animate(view)
-        .rotation(180.0f)
+        .rotation(-180.0f)
         .withLayer()
         .setDuration(400)
         .start();
