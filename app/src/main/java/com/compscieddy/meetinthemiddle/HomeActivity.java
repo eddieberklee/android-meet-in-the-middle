@@ -49,7 +49,7 @@ import butterknife.ButterKnife;
 
 
 public class HomeActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
-    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, AppBarLayout.OnOffsetChangedListener {
 
   private static final Lawg lawg = Lawg.newInstance(GroupActivity.class.getSimpleName());
   int count = 0;
@@ -115,35 +115,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     mHandler = new Handler(Looper.getMainLooper());
     mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
 
-    mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-      @Override
-      public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        finalVerticalOffset = verticalOffset;
-        if (finalVerticalOffset < initialVerticalOffset){
-          // we are scrolling down
-          count++;
-          if (count == 1) {
-            Animation animation = new ScaleAnimation(1.0f, 0.5f, 1.0f, 0.5f, 0.5f, 0.5f);
-            animation.setDuration(500);
-            animation.setFillAfter(true);
-            mToolbarLayout.startAnimation(animation);
-          }
-
-        } else if (finalVerticalOffset > initialVerticalOffset){
-          // we are scrolling up
-          count++;
-          if (count == 1) {
-            Animation animation = new ScaleAnimation(0.5f, 1.0f, 0.5f, 1.0f, 0.5f, 0.5f);
-            animation.setDuration(500);
-            animation.setFillAfter(true);
-            mToolbarLayout.startAnimation(animation);
-          }
-        }
-        initialVerticalOffset = finalVerticalOffset;
-        count = 0;
-      }
-    });
-
     if (mGoogleApiClient == null) {
       mGoogleApiClient = new GoogleApiClient.Builder(HomeActivity.this)
           .addConnectionCallbacks(HomeActivity.this)
@@ -160,7 +131,39 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
       requestLocationPermission();
     }
 
+    setListeners();
     setupRecyclerView();
+  }
+
+  private void setListeners() {
+//    mAppBarLayout.addOnOffsetChangedListener(this);
+  }
+
+  @Override
+  public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+    finalVerticalOffset = verticalOffset;
+    if (finalVerticalOffset < initialVerticalOffset){
+      // we are scrolling down
+      count++;
+      if (count == 1) {
+        Animation animation = new ScaleAnimation(1.0f, 0.5f, 1.0f, 0.5f, 0.5f, 0.5f);
+        animation.setDuration(500);
+        animation.setFillAfter(true);
+        mToolbarLayout.startAnimation(animation);
+      }
+
+    } else if (finalVerticalOffset > initialVerticalOffset){
+      // we are scrolling up
+      count++;
+      if (count == 1) {
+        Animation animation = new ScaleAnimation(0.5f, 1.0f, 0.5f, 1.0f, 0.5f, 0.5f);
+        animation.setDuration(500);
+        animation.setFillAfter(true);
+        mToolbarLayout.startAnimation(animation);
+      }
+    }
+    initialVerticalOffset = finalVerticalOffset;
+    count = 0;
   }
 
   @Override
