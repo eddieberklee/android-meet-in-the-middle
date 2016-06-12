@@ -136,7 +136,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   }
 
   private void setListeners() {
-//    mAppBarLayout.addOnOffsetChangedListener(this);
+    mAppBarLayout.addOnOffsetChangedListener(this);
   }
 
   @Override
