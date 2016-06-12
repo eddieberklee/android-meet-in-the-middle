@@ -22,9 +22,6 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHold
   public static final int MOVIES = 2;
   public static final int SLEEPING = 3;
 
-  int mImageResourceId;
-
-
   public interface ClickListener {
     void OnItemClick(View v);
   }
@@ -44,23 +41,25 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHold
   @Override
   public void onBindViewHolder(StatusAdapter.StatusHolder holder, int position) {
     //Placeholder text for now
+    int imageResourceId;
 
     switch (position) {
+
       case CASINO:
-        mImageResourceId = R.drawable.ic_casino_white_24dp;
+        imageResourceId = R.drawable.ic_casino_white_24dp;
         break;
       case FITNESS:
-        mImageResourceId = R.drawable.ic_fitness_center_white_24dp;
+        imageResourceId = R.drawable.ic_fitness_center_white_24dp;
         break;
       case MOVIES:
-        mImageResourceId = R.drawable.ic_local_movies_white_24dp;
+        imageResourceId = R.drawable.ic_local_movies_white_24dp;
         break;
       case SLEEPING:
-        mImageResourceId = R.drawable.ic_local_hotel_white_24dp;
+        imageResourceId = R.drawable.ic_local_hotel_white_24dp;
         break;
     }
 
-    holder.statusImageView.setImageResource(mImageResourceId);
+    holder.statusImageView.setImageResource(imageResourceId);
 
   }
 
