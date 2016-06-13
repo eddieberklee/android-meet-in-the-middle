@@ -6,10 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- todo: Should we be using CoordinatorLayout or LinearLayout here, let's not use both -->
+
     <LinearLayout
         android:id="@+id/comments_section"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:padding="6dp"
         android:orientation="vertical">
 
         <com.compscieddy.meetinthemiddle.FontTextView

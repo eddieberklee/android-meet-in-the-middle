@@ -59,7 +59,7 @@
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/status_recycler_view"
-                    android:layout_width="60dp"
+                    android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="5dp"/>
