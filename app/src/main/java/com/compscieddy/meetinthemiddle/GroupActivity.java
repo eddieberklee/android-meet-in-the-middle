@@ -170,20 +170,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     mExpandButton.setImageResource(R.drawable.ic_expand_less_black_48dp);
 
     mViewPager.setAdapter(new GroupFragmentPagerAdapter(getSupportFragmentManager(), GroupActivity.this));
+
     setupTabLayout();
-
-    /**Set default height of the chat box **/
-    Display display = getWindowManager().getDefaultDisplay();
-    Point size = new Point();
-    display.getSize(size);
-
-    RelativeLayout.LayoutParams params;
-    params = new RelativeLayout.LayoutParams(
-        RelativeLayout.LayoutParams.MATCH_PARENT,
-        Etils.dpToPx(250));
-    mBottomSection.setLayoutParams(params);
-    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-
     setListeners();
   }
 
@@ -351,7 +339,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     mExpandButton.setOnClickListener(this);
   }
 
-  private void setupTabLayout(){
+  private void setupTabLayout() {
     mTabLayout.setupWithViewPager(mViewPager);
     mTabLayout.getTabAt(0).setIcon(R.drawable.ic_message_text_grey600_48dp);
     mTabLayout.getTabAt(1).setIcon(R.drawable.ic_magnify_grey600_48dp);
@@ -396,7 +384,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
             .strokeWidth(4)
             .fillColor(getResources().getColor(R.color.flatui_red_1_transp_50));
 
-      // Get back the mutable Polygon
+        // Get back the mutable Polygon
         mMap.addPolygon(rectOptions);
       }
     } catch (SecurityException se) {
@@ -495,6 +483,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
   public class GroupFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
+    final int CHAT_FRAGMENT = 0;
+    final int SEARCH_FRAGMENT = 1;
     private Context context;
 
     public GroupFragmentPagerAdapter(FragmentManager fm, Context context) {
@@ -510,9 +500,9 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     @Override
     public Fragment getItem(int position) {
       switch (position) {
-        case 0:
+        case CHAT_FRAGMENT:
           return ChatFragment.newInstance();
-        case 1:
+        case SEARCH_FRAGMENT:
           return SearchFragment.newInstance();
       }
       return null;
