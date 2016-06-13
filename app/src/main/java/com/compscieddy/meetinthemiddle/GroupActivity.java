@@ -26,9 +26,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -84,24 +86,18 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private Location mLastLocation;
   private String mUUID;
 
-  @Bind(R.id.group_edit_text)
-  EditText mGroupEditText;
-  @Bind(R.id.group_text_view)
-  TextView mGroupTextView;
-  @Bind(R.id.group_set_button)
-  TextView mSetButton;
-  @Bind(R.id.invite_button)
-  TextView mInviteButton;
-  @Bind(R.id.expand_chat_fab)
-  FloatingActionButton mExpandButton;
-  @Bind(R.id.bottom_section)
-  RelativeLayout mBottomSection;
-  @Bind(R.id.viewpager)
-  ViewPager mViewPager;
-  @Bind(R.id.sliding_tabs)
-  TabLayout mTabLayout;
+  @Bind(R.id.group_edit_text) EditText mGroupEditText;
+  @Bind(R.id.group_text_view) TextView mGroupTextView;
+  @Bind(R.id.group_set_button) TextView mSetButton;
+  @Bind(R.id.invite_button) TextView mInviteButton;
+  @Bind(R.id.expand_chat_fab) FloatingActionButton mExpandButton;
+  @Bind(R.id.bottom_section) RelativeLayout mBottomSection;
+  @Bind(R.id.location_marker) ImageView mLocationArrow;
+  @Bind(R.id.viewpager) ViewPager mViewPager;
+  @Bind(R.id.sliding_tabs) TabLayout mTabLayout;
 
   boolean expanded = false;
+  boolean voteLocationActive = false;
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -337,6 +333,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     mSetButton.setOnClickListener(this);
     mInviteButton.setOnClickListener(this);
     mExpandButton.setOnClickListener(this);
+    mLocationArrow.setOnClickListener(this);
   }
 
   private void setupTabLayout() {
@@ -433,10 +430,12 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         //name will need to be saved as a shared preference or in database
         mGroupTextView.setText(mGroupEditText.getText());
         break;
+
       case R.id.invite_button:
         //do something
         Etils.showToast(GroupActivity.this, "Invite Button Clicked");
         break;
+
       case R.id.expand_chat_fab:
 
         Display display = getWindowManager().getDefaultDisplay();
@@ -450,16 +449,11 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
         if (!expanded) {
           Util.rotateFabForward(mExpandButton);
-
           resizeAnimation = new ResizeAnimation(
               mBottomSection,
               (int) (height * 0.75),
               getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
           );
-
-          Etils.showToast(GroupActivity.this, "Expand chat");
-
-          expanded = !expanded;
         } else {
           Util.rotateFabBackward(mExpandButton);
 
@@ -468,15 +462,19 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
               getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
               (int) (height * 0.75)
           );
-
-          Etils.showToast(GroupActivity.this, "Minimize chat");
-
-          expanded = !expanded;
         }
-
+        expanded = !expanded;
         resizeAnimation.setDuration(400);
         mBottomSection.startAnimation(resizeAnimation);
+        break;
 
+      case R.id.location_marker:
+        if (!voteLocationActive) {
+          Util.rotateLocationActive(mLocationArrow);
+        } else {
+          Util.rotateLocationInactive(mLocationArrow);
+        }
+        voteLocationActive = !voteLocationActive;
         break;
     }
   }

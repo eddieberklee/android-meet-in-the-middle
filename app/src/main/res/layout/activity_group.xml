@@ -71,45 +71,77 @@
 
 
             <LinearLayout
-                android:id="@+id/group_members"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    style="@style/MenuAvatarStyle"
-                    android:layout_width="@dimen/menu_avatar_size"
-                    android:layout_height="@dimen/menu_avatar_size"
-                    android:background="@drawable/circle_fill_grey"
-                    android:src="@drawable/ic_face_white_48dp"/>
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    style="@style/MenuAvatarStyle"
-                    android:layout_width="@dimen/menu_avatar_size"
-                    android:layout_height="@dimen/menu_avatar_size"
-                    android:background="@drawable/circle_fill_grey"
-                    android:src="@drawable/ic_face_white_48dp"/>
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    style="@style/MenuAvatarStyle"
-                    android:layout_width="@dimen/menu_avatar_size"
-                    android:layout_height="@dimen/menu_avatar_size"
-                    android:background="@drawable/circle_fill_grey"
-                    android:src="@drawable/ic_face_white_48dp"/>
+                android:orientation="horizontal"
+                android:weightSum="1">
 
                 <TextView
-                    android:id="@+id/invite_button"
-                    style="@style/ButtonOutlineAccent"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/meet_at"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"/>
+
+                <ImageView
+                    android:id="@+id/marker_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_place_black_48dp"
+                    android:tint="@color/flatui_red_1"/>
+
+                <ImageView
+                    android:id="@+id/location_marker"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:padding="6dp"
-                    android:text="@string/invite"/>
+                    android:rotation="90"
+                    android:src="@drawable/ic_arrow_drop_down_black_48dp"/>
+
+
             </LinearLayout>
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/group_members"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                style="@style/MenuAvatarStyle"
+                android:layout_width="@dimen/menu_avatar_size"
+                android:layout_height="@dimen/menu_avatar_size"
+                android:background="@drawable/circle_fill_grey"
+                android:src="@drawable/ic_face_white_48dp"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                style="@style/MenuAvatarStyle"
+                android:layout_width="@dimen/menu_avatar_size"
+                android:layout_height="@dimen/menu_avatar_size"
+                android:background="@drawable/circle_fill_grey"
+                android:src="@drawable/ic_face_white_48dp"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                style="@style/MenuAvatarStyle"
+                android:layout_width="@dimen/menu_avatar_size"
+                android:layout_height="@dimen/menu_avatar_size"
+                android:background="@drawable/circle_fill_grey"
+                android:src="@drawable/ic_face_white_48dp"/>
+
+            <TextView
+                android:id="@+id/invite_button"
+                style="@style/ButtonOutlineAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:padding="6dp"
+                android:text="@string/invite"/>
+        </LinearLayout>
 
         <RelativeLayout
             android:id="@+id/bottom_section"
@@ -122,18 +154,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-            <android.support.design.widget.TabLayout
-                android:id="@+id/sliding_tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabGravity="fill"
-                app:tabMode="fixed"/>
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewpager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"/>
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/sliding_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:tabGravity="fill"
+                    app:tabMode="fixed"/>
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"/>
             </LinearLayout>
         </RelativeLayout>
 

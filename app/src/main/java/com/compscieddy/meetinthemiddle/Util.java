@@ -52,4 +52,20 @@ public class Util {
         .start();
   }
 
+  public static void rotateLocationActive(View view) {
+    ViewCompat.animate(view)
+        .rotation(0.0f)
+        .withLayer()
+        .setDuration(400)
+        .start();
+  }
+
+  public static void rotateLocationInactive(View view) {
+    ViewCompat.animate(view)
+        .rotation(90.0f)
+        .withLayer()
+        .setDuration(400)
+        .start();
+  }
+
 }
