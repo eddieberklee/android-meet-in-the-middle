@@ -59,7 +59,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   private final int LOCATION_REQUEST_CODE = 1;
   private Handler mHandler;
 
-
   private Coordinate mLastKnownCoord = new Coordinate();
   private boolean mIsLocationPermissionEnabled = false;
 

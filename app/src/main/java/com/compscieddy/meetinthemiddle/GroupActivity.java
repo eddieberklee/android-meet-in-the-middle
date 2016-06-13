@@ -18,10 +18,14 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.View;
@@ -32,9 +36,7 @@ import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
-import com.compscieddy.meetinthemiddle.adapter.ChatsAdapter;
 import com.compscieddy.meetinthemiddle.model.UserMarker;
-import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -87,15 +89,15 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Bind(R.id.group_edit_text) EditText mGroupEditText;
   @Bind(R.id.group_text_view) TextView mGroupTextView;
   @Bind(R.id.group_set_button) TextView mSetButton;
-  @Bind(R.id.chats_recycler_view) RecyclerView mChatsRecyclerView;
   @Bind(R.id.invite_button) TextView mInviteButton;
   @Bind(R.id.expand_chat_fab) FloatingActionButton mExpandButton;
   @Bind(R.id.bottom_section) RelativeLayout mBottomSection;
   @Bind(R.id.location_marker) ImageView mLocationArrow;
+  @Bind(R.id.viewpager) ViewPager mViewPager;
+  @Bind(R.id.sliding_tabs) TabLayout mTabLayout;
+
   boolean expanded = false;
   boolean voteLocationActive = false;
-
-  private ChatsAdapter mChatsAdapter;
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -160,12 +162,13 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       requestLocationPermission();
     }
 
-    setListeners();
-    setupRecyclerView();
-
     mExpandButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
     mExpandButton.setImageResource(R.drawable.ic_expand_less_black_48dp);
 
+    mViewPager.setAdapter(new GroupFragmentPagerAdapter(getSupportFragmentManager(), GroupActivity.this));
+
+    setupTabLayout();
+    setListeners();
   }
 
   @Override
@@ -291,8 +294,13 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         }
         LatLngBounds bounds = builder.build();
         int padding = Etils.dpToPx(50);
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        mMap.animateCamera(cameraUpdate);
+        final CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+          @Override
+          public void onMapLoaded() {
+            mMap.animateCamera(cameraUpdate);
+          }
+        });
 
         // TODO: Google maps bounds need to be extended here
       }
@@ -328,12 +336,10 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     mLocationArrow.setOnClickListener(this);
   }
 
-  private void setupRecyclerView() {
-    mChatsAdapter = new ChatsAdapter();
-    lawg.e("_______________" + mChatsAdapter);
-    mChatsRecyclerView.setAdapter(mChatsAdapter);
-    mChatsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    RecyclerViewDivider.with(this).addTo(mChatsRecyclerView).marginSize(Etils.dpToPx(5)).build();
+  private void setupTabLayout() {
+    mTabLayout.setupWithViewPager(mViewPager);
+    mTabLayout.getTabAt(0).setIcon(R.drawable.ic_message_text_grey600_48dp);
+    mTabLayout.getTabAt(1).setIcon(R.drawable.ic_magnify_grey600_48dp);
   }
 
   @Override
@@ -375,7 +381,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
             .strokeWidth(4)
             .fillColor(getResources().getColor(R.color.flatui_red_1_transp_50));
 
-      // Get back the mutable Polygon
+        // Get back the mutable Polygon
         mMap.addPolygon(rectOptions);
       }
     } catch (SecurityException se) {
@@ -462,7 +468,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         mBottomSection.startAnimation(resizeAnimation);
         break;
 
-      case R.id.location_arrow:
+      case R.id.location_marker:
         if (!voteLocationActive) {
           Util.rotateLocationActive(mLocationArrow);
         } else {
@@ -473,5 +479,31 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     }
   }
 
+  public class GroupFragmentPagerAdapter extends FragmentPagerAdapter {
+    final int PAGE_COUNT = 2;
+    final int CHAT_FRAGMENT = 0;
+    final int SEARCH_FRAGMENT = 1;
+    private Context context;
 
+    public GroupFragmentPagerAdapter(FragmentManager fm, Context context) {
+      super(fm);
+      this.context = context;
+    }
+
+    @Override
+    public int getCount() {
+      return PAGE_COUNT;
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+      switch (position) {
+        case CHAT_FRAGMENT:
+          return ChatFragment.newInstance();
+        case SEARCH_FRAGMENT:
+          return SearchFragment.newInstance();
+      }
+      return null;
+    }
+  }
 }
