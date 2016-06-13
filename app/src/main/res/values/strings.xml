@@ -6,7 +6,7 @@
     <string name="hint_set_group_name">Group Name..</string>
     <string name="set_group_title">Set</string>
 
-    <string name="new_group">New Group +</string>
+    <string name="new_group">New\nGroup\n+</string>
     <string name="invite">Invite</string>
 
     <string name="sample_chat_message">Sample text message talking about what\'s going on in the group and where to meet and when people are coming.</string>

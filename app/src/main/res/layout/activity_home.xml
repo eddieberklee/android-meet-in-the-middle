@@ -64,30 +64,34 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="5dp"/>
 
-                <com.compscieddy.meetinthemiddle.FontTextView
-                    android:id="@+id/new_group_button"
-                    android:layout_width="@dimen/map_size"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_below="@+id/map_card_view"
-                    android:layout_margin="10dp"
-                    android:padding="10dp"
-                    android:text="@string/new_group"
-                    app:fontface="montserrat_semibold"
-                    style="@style/ButtonOutlineAccent"/>
-
             </RelativeLayout>
 
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/group_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_anchor="@+id/app_bar_layout"
+        app:layout_anchorGravity="bottom"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <com.compscieddy.meetinthemiddle.FontTextView
+        android:id="@+id/new_group_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_margin="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/new_group"
+        app:fontface="montserrat_semibold"
+        android:fitsSystemWindows="true"
+        style="@style/ButtonOutlineAccent"/>
 
 
 </android.support.design.widget.CoordinatorLayout>
