@@ -30,6 +30,8 @@ import android.view.animation.ScaleAnimation;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -110,6 +112,9 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     mMapView.getMapAsync(this);
     MapsInitializer.initialize(this);
     mMapView.onCreate(savedInstanceState);
+
+    FacebookSdk.sdkInitialize(getApplicationContext());
+    AppEventsLogger.activateApp(this);
 
     mHandler = new Handler(Looper.getMainLooper());
     mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
@@ -339,7 +344,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
     mGroupRecyclerView.setAdapter(mGroupsAdapter);
     mGroupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
+//    RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
 
 
 

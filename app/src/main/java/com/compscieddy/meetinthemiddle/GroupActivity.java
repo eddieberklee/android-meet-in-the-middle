@@ -12,6 +12,7 @@ import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,7 +27,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
@@ -37,6 +37,8 @@ import android.widget.TextView;
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.UserMarker;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.MessageDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -169,6 +171,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
     setupTabLayout();
     setListeners();
+
   }
 
   @Override
@@ -432,12 +435,13 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         break;
 
       case R.id.invite_button:
-        //do something
-        Etils.showToast(GroupActivity.this, "Invite Button Clicked");
+        ShareLinkContent content = new ShareLinkContent.Builder()
+            .setContentUrl(Uri.parse("https://developers.facebook.com"))
+            .build();
+        MessageDialog.show(this, content);
         break;
 
       case R.id.expand_chat_fab:
-
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -476,7 +480,9 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         }
         voteLocationActive = !voteLocationActive;
         break;
+
     }
+
   }
 
   public class GroupFragmentPagerAdapter extends FragmentPagerAdapter {

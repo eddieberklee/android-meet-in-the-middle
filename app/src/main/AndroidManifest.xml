@@ -28,6 +28,14 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
+        <provider android:authorities="com.facebook.app.FacebookContentProvider252967458413543"
+                  android:name="com.facebook.FacebookContentProvider"
+                  android:exported="true"/>
+
 
         <activity android:name=".HomeActivity">
             <intent-filter>
