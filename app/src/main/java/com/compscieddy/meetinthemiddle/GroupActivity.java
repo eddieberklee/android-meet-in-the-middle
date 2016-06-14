@@ -11,7 +11,6 @@ import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -35,8 +34,8 @@ import android.widget.TextView;
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.UserMarker;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.MessageDialog;
+import com.facebook.share.model.AppInviteContent;
+import com.facebook.share.widget.AppInviteDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -432,10 +431,26 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         break;
 
       case R.id.invite_button:
-        ShareLinkContent content = new ShareLinkContent.Builder()
+        //Invites through Facebook Messenger
+/*        ShareLinkContent content = new ShareLinkContent.Builder()
             .setContentUrl(Uri.parse("https://developers.facebook.com"))
             .build();
-        MessageDialog.show(this, content);
+        MessageDialog.show(this, content);*/
+
+
+        String appLinkUrl, previewImageUrl;
+
+        appLinkUrl = "https://www.facebook.com/";
+        previewImageUrl = "https://scontent-syd1-1.xx.fbcdn.net/v/t1.0-9/1479360_10151708109576856_405696712_n.jpg?oh=c6bd6367b90cf0f5f52a25217bc753d2&oe=57CDED70";
+
+        if (AppInviteDialog.canShow()) {
+          AppInviteContent content = new AppInviteContent.Builder()
+              .setApplinkUrl(appLinkUrl)
+              .setPreviewImageUrl(previewImageUrl)
+              .build();
+          AppInviteDialog.show(this, content);
+        }
+
         break;
 
       case R.id.expand_chat_fab:
