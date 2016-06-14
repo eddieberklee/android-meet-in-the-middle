@@ -2,6 +2,7 @@ package com.compscieddy.meetinthemiddle;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -24,7 +25,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.PopupMenu;
 import android.view.Display;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -431,26 +434,45 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         break;
 
       case R.id.invite_button:
-        //Invites through Facebook Messenger
+        PopupMenu popupMenu = new PopupMenu(this, mInviteButton);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_popup_invite, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+          @Override
+          public boolean onMenuItemClick(MenuItem item) {
+            switch (item.getItemId()){
+              case R.id.invite_members:
+                return true;
+              case R.id.share_facebook:
+               // TODO HANDLE SHARING GROUP URL VIA FACEBOOK
+                //Invites through Facebook Messenger
 /*        ShareLinkContent content = new ShareLinkContent.Builder()
             .setContentUrl(Uri.parse("https://developers.facebook.com"))
             .build();
         MessageDialog.show(this, content);*/
 
 
-        String appLinkUrl, previewImageUrl;
+                String appLinkUrl, previewImageUrl;
 
-        appLinkUrl = "https://www.facebook.com/";
-        previewImageUrl = "https://scontent-syd1-1.xx.fbcdn.net/v/t1.0-9/1479360_10151708109576856_405696712_n.jpg?oh=c6bd6367b90cf0f5f52a25217bc753d2&oe=57CDED70";
+                appLinkUrl = "https://www.facebook.com/";
+                previewImageUrl = "https://scontent-syd1-1.xx.fbcdn.net/v/t1.0-9/1479360_10151708109576856_405696712_n.jpg?oh=c6bd6367b90cf0f5f52a25217bc753d2&oe=57CDED70";
 
-        if (AppInviteDialog.canShow()) {
-          AppInviteContent content = new AppInviteContent.Builder()
-              .setApplinkUrl(appLinkUrl)
-              .setPreviewImageUrl(previewImageUrl)
-              .build();
-          AppInviteDialog.show(this, content);
-        }
-
+                if (AppInviteDialog.canShow()) {
+                  AppInviteContent content = new AppInviteContent.Builder()
+                      .setApplinkUrl(appLinkUrl)
+                      .setPreviewImageUrl(previewImageUrl)
+                      .build();
+                  AppInviteDialog.show(GroupActivity.this, content);
+                }
+                return true;
+              case R.id.share_link:
+                shareLinkClicked();
+                return true;
+              default:
+                return false;
+            }
+          }
+        });
+        popupMenu.show();
         break;
 
       case R.id.expand_chat_fab:
@@ -495,6 +517,14 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
     }
 
+  }
+
+  private void shareLinkClicked(){
+    Intent shareLinkIntent = new Intent(Intent.ACTION_SEND);
+    shareLinkIntent.setType("text/plain");
+    shareLinkIntent.putExtra(Intent.EXTRA_TEXT, "Testing");
+    // TODO CREATE UNIQUE URL FOR GROUP
+    startActivity(Intent.createChooser(shareLinkIntent, "Share link using"));
   }
 
   public class GroupFragmentPagerAdapter extends FragmentPagerAdapter {

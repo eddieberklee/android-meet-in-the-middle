@@ -44,7 +44,21 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".GroupActivity"/>
+        <activity android:name=".GroupActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:host="meet-in-the-middle.com"
+                    android:scheme="http"/>
+                <data
+                    android:host="meet-in-the-middle.com"
+                    android:scheme="https"/>
+            </intent-filter>
+
         <activity android:name=".AuthenticationActivity">
         </activity>
     </application>
