@@ -96,7 +96,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
       if (false) lawg.d(" zoom: " + zoom);
 
       LatLng latLng = mLastKnownCoord.getLatLng();
-      if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 13) {
+      if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 9) {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
       }
