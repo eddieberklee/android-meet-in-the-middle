@@ -60,9 +60,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.yelp.clientlib.connection.YelpAPI;
 import com.yelp.clientlib.connection.YelpAPIFactory;
+import com.yelp.clientlib.entities.Business;
 import com.yelp.clientlib.entities.SearchResponse;
+import com.yelp.clientlib.entities.options.CoordinateOptions;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -516,6 +519,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         if (!voteLocationActive) {
           Util.rotateLocationActive(mLocationArrow);
 
+          // TODO: JSON PARSE THE DATA TO READABLE FORMAT (OR TO ANOTHER FRAME)
+
           Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -533,15 +538,41 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
               params.put("limit", "3");
 
               // locale params
-              params.put("lang", "fr");
+              params.put("lang", "en");
 
-              Call<SearchResponse> call = yelpAPI.search("San Francisco", params);
+              //Call<SearchResponse> call = yelpAPI.search("San Francisco", params);
+
+/*              // bounding box
+              BoundingBoxOptions bounds = BoundingBoxOptions.builder()
+                  .swLatitude(37.7577)
+                  .swLongitude(-122.4376)
+                  .neLatitude(37.785381)
+                  .neLongitude(-122.391681).build();
+              Call<SearchResponse> call = yelpAPI.search(bounds, params);*/
+
+              // coordinates
+              CoordinateOptions coordinate = CoordinateOptions.builder()
+                  .latitude(mLastKnownCoord.lat)
+                  .longitude(mLastKnownCoord.lon).build();
+              Call<SearchResponse> call = yelpAPI.search(coordinate, params);
 
               try {
                 //Response<SearchResponse> response = call.execute();
+                //lawg.d("Yelp Response: " + response.body());
+
                 SearchResponse searchResponse = call.execute().body();
 
-                lawg.d("Yelp Response: " + searchResponse);
+                //int totalNumberOfResult = searchResponse.total();  // 13297 for some reason
+
+                for (int i = 0; i < params.size(); i++) { //or can use Integer.parseInt(params.get("limit")
+                  ArrayList<Business> businesses = searchResponse.businesses();
+                  String businessName = businesses.get(i).name();  // "JapaCurry Truck"
+                  Double rating = businesses.get(i).rating();  // 4.0
+                  lawg.d("Yelp Business: " + businessName);
+                  lawg.d("Yelp Rating: " + rating);
+                }
+
+
               } catch (IOException e) {
                 lawg.e(e.toString());
               }
