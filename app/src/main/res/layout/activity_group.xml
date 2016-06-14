@@ -146,7 +146,7 @@
         <RelativeLayout
             android:id="@+id/bottom_section"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="@dimen/group_bottom_section_starting_height"
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
 
@@ -172,15 +172,22 @@
 
     </RelativeLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/expand_chat_fab"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+    <android.support.v7.widget.CardView
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="@color/greyscale_8"
+        android:padding="3dp"
         android:layout_margin="10dp"
-        android:scaleType="center"
-        android:src="@drawable/ic_expand_less_black_48dp"
         app:layout_anchor="@id/map"
-        app:layout_anchorGravity="bottom|right"/>
+        app:layout_anchorGravity="bottom|right"
+        app:cardCornerRadius="22dp">
+        <ImageView
+            android:id="@+id/expand_chat_fab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_expand_less_black_48dp"
+            android:tint="@color/greyscale_8"/>
+    </android.support.v7.widget.CardView>
 
 </android.support.design.widget.CoordinatorLayout>
 

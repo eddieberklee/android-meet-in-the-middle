@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -18,7 +17,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -92,7 +90,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Bind(R.id.group_text_view) TextView mGroupTextView;
   @Bind(R.id.group_set_button) TextView mSetButton;
   @Bind(R.id.invite_button) TextView mInviteButton;
-  @Bind(R.id.expand_chat_fab) FloatingActionButton mExpandButton;
+  @Bind(R.id.expand_chat_fab) ImageView mExpandButton;
   @Bind(R.id.bottom_section) RelativeLayout mBottomSection;
   @Bind(R.id.location_marker) ImageView mLocationArrow;
   @Bind(R.id.viewpager) ViewPager mViewPager;
@@ -164,7 +162,6 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       requestLocationPermission();
     }
 
-    mExpandButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
     mExpandButton.setImageResource(R.drawable.ic_expand_less_black_48dp);
 
     mViewPager.setAdapter(new GroupFragmentPagerAdapter(getSupportFragmentManager(), GroupActivity.this));
