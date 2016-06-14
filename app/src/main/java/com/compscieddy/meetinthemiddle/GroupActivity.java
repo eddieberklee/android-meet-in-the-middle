@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -18,7 +17,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -39,6 +37,8 @@ import android.widget.TextView;
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.UserMarker;
+import com.facebook.share.model.AppInviteContent;
+import com.facebook.share.widget.AppInviteDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -92,7 +92,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Bind(R.id.group_text_view) TextView mGroupTextView;
   @Bind(R.id.group_set_button) TextView mSetButton;
   @Bind(R.id.invite_button) TextView mInviteButton;
-  @Bind(R.id.expand_chat_fab) FloatingActionButton mExpandButton;
+  @Bind(R.id.expand_chat_fab) ImageView mExpandButton;
   @Bind(R.id.bottom_section) RelativeLayout mBottomSection;
   @Bind(R.id.location_marker) ImageView mLocationArrow;
   @Bind(R.id.viewpager) ViewPager mViewPager;
@@ -164,7 +164,6 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       requestLocationPermission();
     }
 
-    mExpandButton.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
     mExpandButton.setImageResource(R.drawable.ic_expand_less_black_48dp);
 
     mViewPager.setAdapter(new GroupFragmentPagerAdapter(getSupportFragmentManager(), GroupActivity.this));
@@ -445,6 +444,25 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
                 return true;
               case R.id.share_facebook:
                // TODO HANDLE SHARING GROUP URL VIA FACEBOOK
+                //Invites through Facebook Messenger
+/*        ShareLinkContent content = new ShareLinkContent.Builder()
+            .setContentUrl(Uri.parse("https://developers.facebook.com"))
+            .build();
+        MessageDialog.show(this, content);*/
+
+
+                String appLinkUrl, previewImageUrl;
+
+                appLinkUrl = "https://www.facebook.com/";
+                previewImageUrl = "https://scontent-syd1-1.xx.fbcdn.net/v/t1.0-9/1479360_10151708109576856_405696712_n.jpg?oh=c6bd6367b90cf0f5f52a25217bc753d2&oe=57CDED70";
+
+                if (AppInviteDialog.canShow()) {
+                  AppInviteContent content = new AppInviteContent.Builder()
+                      .setApplinkUrl(appLinkUrl)
+                      .setPreviewImageUrl(previewImageUrl)
+                      .build();
+                  AppInviteDialog.show(GroupActivity.this, content);
+                }
                 return true;
               case R.id.share_link:
                 shareLinkClicked();

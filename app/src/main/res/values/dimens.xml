@@ -3,11 +3,12 @@
     <dimen name="menu_avatar_size">28dp</dimen>
 
     <dimen name="edit_text_outline_rounded_corners">4dp</dimen>
-    <dimen name="map_size">200dp</dimen>
+    <dimen name="map_size">150dp</dimen>
+    <dimen name="map_radius">75dp</dimen>
     <dimen name="chat_avatar_size">30dp</dimen>
     <dimen name="chat_margin_sender_v_sendee">48dp</dimen>
     <dimen name="chat_bubble_radius">4dp</dimen>
-    <dimen name="group_bottom_section_starting_height">250dp</dimen>
+    <dimen name="group_bottom_section_starting_height">280dp</dimen>
     <dimen name="item_group_icon_size">12dp</dimen>
     <dimen name="item_group_icon_spacing">3dp</dimen>
     <dimen name="item_group_padding_edges">10dp</dimen>

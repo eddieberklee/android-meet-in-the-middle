@@ -27,14 +27,12 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatHolder> 
     mContext = parent.getContext();
     LayoutInflater layoutInflater = LayoutInflater.from(mContext);
     View itemView = layoutInflater.inflate(R.layout.item_chat, parent, false);
-    lawg.e("BOOOOOOO " + mContext.getString(R.string.sample_chat_message));
     return new ChatHolder(itemView);
   }
 
   @Override
   public void onBindViewHolder(ChatsAdapter.ChatHolder holder, int position) {
 //    holder.chatIcon.setImageResource();
-    lawg.e("YOOOOOOO " + mContext.getString(R.string.sample_chat_message));
     holder.chatMessage.setText(mContext.getString(R.string.sample_chat_message) + " " + position);
   }
 
