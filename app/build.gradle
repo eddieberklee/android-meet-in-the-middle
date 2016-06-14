@@ -33,15 +33,12 @@ dependencies {
     compile 'com.facebook.rebound:rebound:0.3.8'
 
     compile 'com.google.firebase:firebase-database:9.0.2'
-<<<<<<< HEAD
     compile 'com.google.firebase:firebase-invites:9.0.2'
-=======
     compile 'com.firebaseui:firebase-ui-database:0.4.1'
 
     compile 'com.google.android.gms:play-services-auth:9.0.2'
     compile 'com.google.firebase:firebase-auth:9.0.2'
 
->>>>>>> 546fede7635802d8988efc7acb5575be9d9950cb
     compile 'com.compscieddy:eddie-utils:0.8.+'
     testCompile 'org.mockito:mockito-core:1.+'
     compile 'de.hdodenhof:circleimageview:2.0.0'
