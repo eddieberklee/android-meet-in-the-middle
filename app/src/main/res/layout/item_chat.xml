@@ -15,10 +15,7 @@
         android:textColor="@color/greyscale_11"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:padding="10dp"
         app:fontface="montserrat_light"
         android:backgroundTint="@color/flatui_blue_1"
         tools:text="@string/sample_chat_message"/>
