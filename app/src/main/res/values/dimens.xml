@@ -12,5 +12,6 @@
     <dimen name="item_group_icon_size">12dp</dimen>
     <dimen name="item_group_icon_spacing">3dp</dimen>
     <dimen name="item_group_padding_edges">10dp</dimen>
+    <dimen name="invite_button_two_height">48dp</dimen>
 
 </resources>
