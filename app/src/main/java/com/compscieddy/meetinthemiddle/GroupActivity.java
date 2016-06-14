@@ -2,6 +2,7 @@ package com.compscieddy.meetinthemiddle;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
@@ -12,7 +13,6 @@ import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -27,7 +27,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.PopupMenu;
 import android.view.Display;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,8 +39,6 @@ import android.widget.TextView;
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.UserMarker;
-import com.facebook.share.model.ShareLinkContent;
-import com.facebook.share.widget.MessageDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -435,10 +435,26 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         break;
 
       case R.id.invite_button:
-        ShareLinkContent content = new ShareLinkContent.Builder()
-            .setContentUrl(Uri.parse("https://developers.facebook.com"))
-            .build();
-        MessageDialog.show(this, content);
+        PopupMenu popupMenu = new PopupMenu(this, mInviteButton);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_popup_invite, popupMenu.getMenu());
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+          @Override
+          public boolean onMenuItemClick(MenuItem item) {
+            switch (item.getItemId()){
+              case R.id.invite_members:
+                return true;
+              case R.id.share_facebook:
+               // TODO HANDLE SHARING GROUP URL VIA FACEBOOK
+                return true;
+              case R.id.share_link:
+                shareLinkClicked();
+                return true;
+              default:
+                return false;
+            }
+          }
+        });
+        popupMenu.show();
         break;
 
       case R.id.expand_chat_fab:
@@ -483,6 +499,14 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
     }
 
+  }
+
+  private void shareLinkClicked(){
+    Intent shareLinkIntent = new Intent(Intent.ACTION_SEND);
+    shareLinkIntent.setType("text/plain");
+    shareLinkIntent.putExtra(Intent.EXTRA_TEXT, "Testing");
+    // TODO CREATE UNIQUE URL FOR GROUP
+    startActivity(Intent.createChooser(shareLinkIntent, "Share link using"));
   }
 
   public class GroupFragmentPagerAdapter extends FragmentPagerAdapter {

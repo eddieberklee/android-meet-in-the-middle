@@ -13,6 +13,10 @@
     <string name="chat">Chat</string>
     <string name="meet_at">Meet At:</string>
 
+    <string name="invite_members">Invite members</string>
+    <string name="share_facebook">Share invite link via Facebook</string>
+    <string name="share_link">Share invite link</string>
+
     <string name="facebook_app_id">252967458413543</string>
 
 </resources>

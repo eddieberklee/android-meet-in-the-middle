@@ -33,8 +33,12 @@ import com.compscieddy.eddie_utils.Lawg;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
+import com.google.android.gms.appinvite.AppInvite;
+import com.google.android.gms.appinvite.AppInviteInvitationResult;
+import com.google.android.gms.appinvite.AppInviteReferral;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -124,8 +128,32 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
           .addConnectionCallbacks(HomeActivity.this)
           .addOnConnectionFailedListener(HomeActivity.this)
           .addApi(LocationServices.API)
+          .addApi(AppInvite.API)
+          .enableAutoManage(this, this)
           .build();
     }
+
+    // Check if this app was launched from a deep link. Setting autoLaunchDeepLink to true
+    // would automatically launch the deep link if one is found.
+    boolean autoLaunchDeepLink = false;
+    AppInvite.AppInviteApi.getInvitation(mGoogleApiClient, this, autoLaunchDeepLink)
+        .setResultCallback(
+            new ResultCallback<AppInviteInvitationResult>() {
+              @Override
+              public void onResult(@NonNull AppInviteInvitationResult result) {
+                if (result.getStatus().isSuccess()) {
+                  // Extract deep link from Intent
+                  Intent intent = result.getInvitationIntent();
+                  String deepLink = AppInviteReferral.getDeepLink(intent);
+
+                  // Handle the deep link, that is, open the
+                  // group saved in the deep link, and start
+                  // corresponding GroupActivity.
+
+                }
+              }
+            });
+
 
     mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     int locationPermissionCheck = ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.ACCESS_FINE_LOCATION);
