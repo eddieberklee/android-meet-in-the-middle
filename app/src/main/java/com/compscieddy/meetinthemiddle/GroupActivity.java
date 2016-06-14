@@ -519,7 +519,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         if (!voteLocationActive) {
           Util.rotateLocationActive(mLocationArrow);
 
-          // TODO: JSON PARSE THE DATA TO READABLE FORMAT (OR TO ANOTHER FRAME)
+          // TODO: PARSE THE DATA INTO MORE USEFUL FORMAT IN ANOTHER FRAME (POSSIBLY RECYCLEVIEW)
 
           Thread thread = new Thread(new Runnable() {
             @Override
