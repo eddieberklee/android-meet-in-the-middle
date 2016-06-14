@@ -58,13 +58,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.yelp.clientlib.connection.YelpAPI;
+import com.yelp.clientlib.connection.YelpAPIFactory;
+import com.yelp.clientlib.entities.SearchResponse;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit2.Call;
 
 public class GroupActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, GoogleMap.OnMapClickListener {
@@ -389,6 +394,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     } catch (SecurityException se) {
       lawg.e("se: " + se);
     }
+
   }
 
   @Override
@@ -509,6 +515,41 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       case R.id.location_marker:
         if (!voteLocationActive) {
           Util.rotateLocationActive(mLocationArrow);
+
+          Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+              YelpAPIFactory apiFactory = new YelpAPIFactory(
+                  getString(R.string.yelp_consumer_key),
+                  getString(R.string.yelp_consumer_secret),
+                  getString(R.string.yelp_token),
+                  getString(R.string.yelp_token_secret));
+              YelpAPI yelpAPI = apiFactory.createAPI();
+
+              Map<String, String> params = new HashMap<>();
+
+              // general params
+              params.put("term", "food");
+              params.put("limit", "3");
+
+              // locale params
+              params.put("lang", "fr");
+
+              Call<SearchResponse> call = yelpAPI.search("San Francisco", params);
+
+              try {
+                //Response<SearchResponse> response = call.execute();
+                SearchResponse searchResponse = call.execute().body();
+
+                lawg.d("Yelp Response: " + searchResponse);
+              } catch (IOException e) {
+                lawg.e(e.toString());
+              }
+            }
+          });
+
+          thread.start();
+
         } else {
           Util.rotateLocationInactive(mLocationArrow);
         }

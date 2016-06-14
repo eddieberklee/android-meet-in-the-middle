@@ -19,4 +19,9 @@
 
     <string name="facebook_app_id">252967458413543</string>
 
+    <string name="yelp_consumer_key">5A05-ep8SUMCsR5UJP-kTQ</string>
+    <string name="yelp_consumer_secret">k4iIUupmG9JazbywYn0crL39CB8</string>
+    <string name="yelp_token">4lXH_qvGpjiOrC_naPvp2pUoWr_0BCAS</string>
+    <string name="yelp_token_secret">1Dhs09I6Fi1XTseUf8evVNmkqSI</string>
+
 </resources>
