@@ -346,8 +346,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     mGroupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 //    RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
 
-
-
     mStatusAdapter = new StatusAdapter();
     mStatusAdapter.setClickListener(new StatusAdapter.ClickListener() {
       @Override
