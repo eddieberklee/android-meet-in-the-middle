@@ -75,6 +75,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
   @Bind(R.id.map_card_view) CardView mMapCardView;
   @Bind(R.id.toolbar_viewgroup) ViewGroup mToolbarLayout;
+  @Bind(R.id.new_group_button) FontTextView mNewGroupButton;
 
   private SupportMapFragment mMapFragment;
   private Location mLastLocation;
@@ -154,6 +155,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         animation.setDuration(500);
         animation.setFillAfter(true);
         mToolbarLayout.startAnimation(animation);
+
+        mNewGroupButton.animate().translationY(mNewGroupButton.getHeight()*2);
       }
 
     } else if (finalVerticalOffset > initialVerticalOffset){
@@ -164,6 +167,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
         animation.setDuration(500);
         animation.setFillAfter(true);
         mToolbarLayout.startAnimation(animation);
+
+        mNewGroupButton.animate().translationY(0);
       }
     }
     initialVerticalOffset = finalVerticalOffset;
