@@ -17,12 +17,12 @@
         android:textColor="@color/greyscale_11"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
-        android:paddingTop="8dp"
+        android:paddingTop="6dp"
         android:paddingBottom="8dp"
-        android:paddingLeft="13dp"
+        android:paddingLeft="20dp"
         android:paddingRight="3dp"
         app:fontface="montserrat_light"
-        android:backgroundTint="@color/flatui_blue_1"
+        android:backgroundTint="@color/greyscale_1"
         tools:text="@string/sample_chat_message"/>
 
     <ImageView

@@ -21,41 +21,47 @@
             android:id="@+id/top_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white_transp_40"
+            android:background="@color/white_transp_60"
             android:orientation="vertical"
             android:padding="6dp">
 
-            <FrameLayout
-                android:id="@+id/group_name_frame_layout"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:padding="4dp">
 
                 <com.compscieddy.meetinthemiddle.FontTextView
                     android:id="@+id/group_text_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:focusable="true"
                     android:clickable="true"
-                    android:gravity="center_vertical"
                     android:hint="@string/hint_set_group_name"
                     android:singleLine="true"
-                    android:textSize="18sp"
+                    android:textSize="22sp"
                     android:visibility="visible"/>
 
-                <EditText
+                <com.compscieddy.meetinthemiddle.FontEditText
                     android:id="@+id/group_edit_text"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_toLeftOf="@+id/invite_button_two"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:singleLine="true"
-                    android:textSize="18sp"
+                    android:textSize="22sp"
                     android:visibility="invisible"/>
 
                 <com.compscieddy.meetinthemiddle.FontTextView
                     android:id="@+id/group_set_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
-                    android:layout_marginBottom="2dp"
+                    android:layout_alignRight="@+id/group_edit_text"
+                    android:layout_centerVertical="true"
+                    android:translationY="-4dp"
                     android:background="@drawable/rounded_fill_set_group_title"
                     android:paddingBottom="7dp"
                     android:paddingLeft="12dp"
@@ -68,12 +74,25 @@
                     android:visibility="invisible"
                     app:fontface="montserrat_semibold"/>
 
-            </FrameLayout>
+                <com.compscieddy.meetinthemiddle.FontTextView
+                    android:id="@+id/invite_button_two"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="@dimen/invite_button_two_height"
+                    android:layout_height="@dimen/invite_button_two_height"
+                    android:gravity="center"
+                    android:text="+ Invite\nPeople"
+                    android:textAllCaps="true"
+                    android:textSize="9sp"
+                    android:textColor="@color/colorAccent"
+                    android:background="@drawable/rounded_outline_accent"/>
+
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/group_members"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
                 android:gravity="right"
                 android:orientation="horizontal">
 
