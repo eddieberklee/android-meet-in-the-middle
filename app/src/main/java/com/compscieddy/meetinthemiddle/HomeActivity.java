@@ -38,9 +38,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -71,12 +71,12 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   private Marker mCurrentMarker;
 
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
-  @Bind(R.id.map) MapView mMapView;
   @Bind(R.id.app_bar_layout) AppBarLayout mAppBarLayout;
   @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
   @Bind(R.id.map_card_view) CardView mMapCardView;
   @Bind(R.id.toolbar_viewgroup) ViewGroup mToolbarLayout;
 
+  private SupportMapFragment mMapFragment;
   private Location mLastLocation;
   private GroupsAdapter mGroupsAdapter;
 
@@ -96,7 +96,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
       if (false) lawg.d(" zoom: " + zoom);
 
       LatLng latLng = mLastKnownCoord.getLatLng();
-      if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 16) {
+      if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 13) {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
       }
@@ -109,9 +109,9 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_home);
     ButterKnife.bind(HomeActivity.this);
-    mMapView.getMapAsync(this);
     MapsInitializer.initialize(this);
-    mMapView.onCreate(savedInstanceState);
+    mMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+    mMapFragment.getMapAsync(this);
 
     FacebookSdk.sdkInitialize(getApplicationContext());
     AppEventsLogger.activateApp(this);
@@ -168,50 +168,6 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     }
     initialVerticalOffset = finalVerticalOffset;
     count = 0;
-  }
-
-  @Override
-  public void onResume() {
-    super.onResume();
-    if (mMapView != null) {
-      mMapView.onResume();
-    }
-  }
-
-  @Override
-  public void onPause() {
-    super.onPause();
-    if (mMapView != null) {
-      mMapView.onPause();
-    }
-  }
-
-  @Override
-  public void onDestroy() {
-    if (mMapView != null) {
-      try {
-        mMapView.onDestroy();
-      } catch (NullPointerException e) {
-        lawg.e("NPE:" + e);
-      }
-    }
-    super.onDestroy();
-  }
-
-  @Override
-  public void onLowMemory() {
-    super.onLowMemory();
-    if (mMapView != null) {
-      mMapView.onLowMemory();
-    }
-  }
-
-  @Override
-  public void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    if (mMapView != null) {
-      mMapView.onSaveInstanceState(outState);
-    }
   }
 
   @Override
