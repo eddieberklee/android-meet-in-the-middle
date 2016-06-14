@@ -10,6 +10,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -41,12 +42,12 @@ dependencies {
     compile 'com.google.android.gms:play-services-nearby:9.0.2'
 
     compile 'com.android.support:design:23.4.0'
+
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.facebook.rebound:rebound:0.3.8'
 
     compile 'com.google.firebase:firebase-database:9.0.2'
     compile 'com.google.firebase:firebase-invites:9.0.2'
-    compile 'com.firebaseui:firebase-ui-database:0.4.1'
 
     compile 'com.google.android.gms:play-services-auth:9.0.2'
     compile 'com.google.firebase:firebase-auth:9.0.2'

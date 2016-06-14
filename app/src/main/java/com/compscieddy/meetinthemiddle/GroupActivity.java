@@ -100,6 +100,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Bind(R.id.group_text_view) TextView mGroupTextView;
   @Bind(R.id.group_set_button) TextView mSetButton;
   @Bind(R.id.invite_button) TextView mInviteButton;
+  @Bind(R.id.invite_button_two) TextView mInviteButtonTwo;
   @Bind(R.id.expand_chat_fab) ImageView mExpandButton;
   @Bind(R.id.bottom_section) RelativeLayout mBottomSection;
   @Bind(R.id.location_marker) ImageView mLocationArrow;
@@ -342,6 +343,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     mGroupTextView.setOnClickListener(this);
     mSetButton.setOnClickListener(this);
     mInviteButton.setOnClickListener(this);
+    mInviteButtonTwo.setOnClickListener(this);
     mExpandButton.setOnClickListener(this);
     mLocationArrow.setOnClickListener(this);
   }
@@ -515,6 +517,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         mBottomSection.startAnimation(resizeAnimation);
         break;
 
+      case R.id.invite_button_two:
       case R.id.location_marker:
         if (!voteLocationActive) {
           Util.rotateLocationActive(mLocationArrow);
