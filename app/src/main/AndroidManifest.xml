@@ -58,6 +58,7 @@
                     android:host="meet-in-the-middle.com"
                     android:scheme="https"/>
             </intent-filter>
+        </activity>
 
         <activity android:name=".AuthenticationActivity">
         </activity>
