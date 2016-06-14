@@ -26,5 +26,6 @@
         android:paddingRight="7dp"
         android:layout_weight="1"
         app:fontface="montserrat_light"
+        android:backgroundTint="@color/flatui_blue_1"
         tools:text="@string/sample_chat_message"/>
 </LinearLayout>
