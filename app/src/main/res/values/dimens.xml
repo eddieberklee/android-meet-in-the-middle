@@ -3,7 +3,8 @@
     <dimen name="menu_avatar_size">28dp</dimen>
 
     <dimen name="edit_text_outline_rounded_corners">4dp</dimen>
-    <dimen name="map_size">200dp</dimen>
+    <dimen name="map_size">120dp</dimen>
+    <dimen name="map_radius">60dp</dimen>
     <dimen name="chat_avatar_size">30dp</dimen>
     <dimen name="chat_margin_sender_v_sendee">48dp</dimen>
     <dimen name="chat_bubble_radius">4dp</dimen>
