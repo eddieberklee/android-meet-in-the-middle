@@ -31,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:orientation="vertical"
+                android:padding="10dp"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="1.0">
 
@@ -39,8 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
+                    android:layout_marginBottom="10dp"
                     android:text="\@username"
                     android:textSize="20sp"/>
 
@@ -72,10 +72,10 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/group_recycler_view"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_anchor="@+id/app_bar_layout"
-        app:layout_anchorGravity="bottom"
+        app:layout_anchorGravity="bottom|center_horizontal"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <com.compscieddy.meetinthemiddle.FontTextView
