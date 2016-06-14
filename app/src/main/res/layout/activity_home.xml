@@ -18,7 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            android:minHeight="150dp"
             app:contentScrim="@android:color/transparent"
             app:expandedTitleMarginEnd="64dp"
             app:expandedTitleMarginStart="48dp"
@@ -63,7 +62,9 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/status_recycler_view"
                     android:layout_width="50dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="5dp"/>
 
