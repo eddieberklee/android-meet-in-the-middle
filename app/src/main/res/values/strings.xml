@@ -17,7 +17,7 @@
     <string name="share_facebook">Share invite link via Facebook</string>
     <string name="share_link">Share invite link</string>
 
-    <string name="facebook_app_id">252967458413543</string>
+    <string name="facebook_application_id">252967458413543</string>
 
     <string name="yelp_consumer_key">5A05-ep8SUMCsR5UJP-kTQ</string>
     <string name="yelp_consumer_secret">k4iIUupmG9JazbywYn0crL39CB8</string>

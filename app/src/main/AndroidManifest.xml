@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.compscieddy.meetinthemiddle"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.compscieddy.meetinthemiddle">
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -31,19 +31,23 @@
             android:value="@string/google_maps_key"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_application_id"/>
 
         <provider
             android:name="com.facebook.FacebookContentProvider"
             android:authorities="com.facebook.app.FacebookContentProvider252967458413543"
             android:exported="true"/>
 
-        <activity android:name=".HomeActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity android:name=".HomeActivity">
+        </activity>
+
         <activity android:name=".GroupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -58,9 +62,6 @@
                     android:host="meet-in-the-middle.com"
                     android:scheme="https"/>
             </intent-filter>
-        </activity>
-
-        <activity android:name=".AuthenticationActivity">
         </activity>
     </application>
 
