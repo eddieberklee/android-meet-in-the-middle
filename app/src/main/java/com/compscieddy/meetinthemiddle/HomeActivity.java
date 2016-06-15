@@ -339,6 +339,9 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
       @Override
       public void OnItemClick(View v) {
         Intent intent = new Intent(HomeActivity.this, GroupActivity.class);
+        // For testing purposes, gives NPE otherwise
+        intent.putExtra(GroupActivity.ARG_GROUP_KEY, "TEST");
+
         startActivity(intent);
       }
     });
