@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.compscieddy.eddie_utils.Lawg;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -13,6 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 public class LoginActivity extends Activity {
 
+  private static final Lawg lawg = Lawg.newInstance(LoginActivity.class.getSimpleName());
   private static final int RC_SIGN_IN = 100;
 
   @Override
@@ -42,6 +44,7 @@ public class LoginActivity extends Activity {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == RC_SIGN_IN) {
       if (resultCode == RESULT_OK) {
+//        GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
         // user is signed in!
         startActivity(new Intent(this, HomeActivity.class));
         finish();

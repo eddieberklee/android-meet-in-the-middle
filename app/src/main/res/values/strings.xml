@@ -4,14 +4,15 @@
 
     <string name="preference_file_key">com.compscieddy.meetinthemiddle.PREFERENCE_FILE_KEY</string>
     <string name="hint_set_group_name">Group Name..</string>
-    <string name="set_group_title">Set</string>
+    <string name="set_group_title_editing">Set</string>
 
     <string name="new_group">+ New\nGroup</string>
     <string name="invite">Invite</string>
 
     <string name="sample_chat_message">Sample text message talking about what\'s going on in the group and where to meet and when people are coming.</string>
     <string name="chat">Chat</string>
-    <string name="meet_at">Meet At:</string>
+    <string name="meet_at">We\'re all meeting at:</string>
+    <string name="cancel_group_title_editing">Cancel</string>
 
     <string name="invite_members">Invite members</string>
     <string name="share_facebook">Share invite link via Facebook</string>

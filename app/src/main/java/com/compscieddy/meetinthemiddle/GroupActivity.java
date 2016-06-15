@@ -26,6 +26,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.PopupMenu;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +38,7 @@ import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
+import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.model.UserMarker;
 import com.facebook.share.model.AppInviteContent;
 import com.facebook.share.widget.AppInviteDialog;
@@ -58,6 +61,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.yelp.clientlib.connection.YelpAPI;
 import com.yelp.clientlib.connection.YelpAPIFactory;
 import com.yelp.clientlib.entities.Business;
@@ -87,6 +91,10 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private boolean mIsLocationPermissionEnabled = false;
 
   private final int ANIMATE_CAMERA_REPEAT = 2000;
+
+  public static final String ARG_GROUP_KEY = "group_id_key";
+  private String mGroupKey;
+  private Group mGroup;
 
   private LocationManager mLocationManager;
   private GoogleApiClient mGoogleApiClient;
@@ -152,6 +160,40 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       editor.putString(UUID_KEY, mUUID);
       editor.apply();
     }
+
+    Bundle args = getIntent().getExtras();
+    mGroupKey = args.getString(ARG_GROUP_KEY);
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference groupReference = database.getReference("groups").child(mGroupKey);
+    groupReference.addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        mGroup = dataSnapshot.getValue(Group.class);
+        mGroupTextView.setText(mGroup.groupTitle);
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+        lawg.e("onCancelled() " + databaseError);
+      }
+    });
+
+    mGroupEditText.addTextChangedListener(new TextWatcher() {
+      @Override
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+      @Override
+      public void onTextChanged(CharSequence s, int start, int before, int count) {
+        if (s.length() > 1) {
+          mSetButton.setText(getString(R.string.set_group_title_editing));
+        } else {
+          mSetButton.setText(getString(R.string.cancel_group_title_editing));
+        }
+      }
+
+      @Override
+      public void afterTextChanged(Editable s) {}
+    });
 
     mHandler = new Handler(Looper.getMainLooper());
     // TODO: let's turn off this zooming animation for now
@@ -433,6 +475,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         mGroupTextView.setVisibility(View.INVISIBLE);
         mSetButton.setVisibility(View.VISIBLE);
         mGroupEditText.requestFocus();
+        mGroupEditText.setText("");
+        mSetButton.setText(getString(R.string.cancel_group_title_editing));
         break;
 
       case R.id.group_set_button:

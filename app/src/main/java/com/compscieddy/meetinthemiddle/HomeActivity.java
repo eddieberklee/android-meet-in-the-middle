@@ -27,9 +27,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
+import com.compscieddy.meetinthemiddle.model.Group;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
@@ -49,6 +51,10 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -74,11 +80,14 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   private GoogleApiClient mGoogleApiClient;
   private Marker mCurrentMarker;
 
+  @Bind(R.id.username)
+  TextView mUsername;
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
   @Bind(R.id.app_bar_layout) AppBarLayout mAppBarLayout;
   @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
   @Bind(R.id.map_card_view) CardView mMapCardView;
   @Bind(R.id.toolbar_viewgroup) ViewGroup mToolbarLayout;
+  @Bind(R.id.new_group_button) View mNewGroupButton;
 
   private SupportMapFragment mMapFragment;
   private Location mLastLocation;
@@ -116,6 +125,13 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     MapsInitializer.initialize(this);
     mMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
     mMapFragment.getMapAsync(this);
+
+    // todo: Create BaseActivity to always check if user authed, and if so send back to LoginActivity
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser user = auth.getCurrentUser();
+    String displayName = user.getDisplayName();
+    String email = user.getEmail();
+    mUsername.setText(displayName + "\n" + email);
 
     FacebookSdk.sdkInitialize(getApplicationContext());
     AppEventsLogger.activateApp(this);
@@ -169,6 +185,7 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
   private void setListeners() {
     mAppBarLayout.addOnOffsetChangedListener(this);
+    mNewGroupButton.setOnClickListener(this);
   }
 
   @Override
@@ -346,6 +363,19 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
   @Override
   public void onClick(View v) {
+    int viewId = v.getId();
+    switch (viewId) {
+      case R.id.new_group_button:
+        Intent intent = new Intent(HomeActivity.this, GroupActivity.class);
+        DatabaseReference newGroupReference = FirebaseDatabase.getInstance().getReference("groups").push();
 
+        String groupKey = newGroupReference.getKey();
+        Group newGroup = new Group(groupKey, null, null);
+        newGroupReference.setValue(newGroup);
+
+        intent.putExtra(GroupActivity.ARG_GROUP_KEY, groupKey);
+        startActivity(intent);
+        break;
+    }
   }
 }

@@ -21,7 +21,7 @@
             android:id="@+id/top_section"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white_transp_60"
+            android:background="@color/transparent"
             android:orientation="vertical"
             android:padding="6dp">
 
@@ -67,7 +67,7 @@
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:paddingTop="7dp"
-                    android:text="@string/set_group_title"
+                    android:text="@string/set_group_title_editing"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="12sp"
@@ -138,6 +138,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/meet_at"
+                    android:layout_marginRight="7dp"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textStyle="bold"/>
