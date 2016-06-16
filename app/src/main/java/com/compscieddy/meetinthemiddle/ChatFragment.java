@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.compscieddy.meetinthemiddle.model.Chat;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -77,7 +78,7 @@ public class ChatFragment extends Fragment {
     mSendButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        String uid = mAuth.getCurrentUser().getUid();
+        String uid = mAuth.getCurrentUser().getUid(); // todo: use the user's id
         String name = "User " + uid.substring(0, 6);
 
         Chat chat = new Chat(name, uid, mMessageEdit.getText().toString());
@@ -182,35 +183,6 @@ public class ChatFragment extends Fragment {
     mSendButton.setEnabled(isSignedIn());
     mMessageEdit.setEnabled(isSignedIn());
   }
-
-  public static class Chat {
-
-    String name;
-    String text;
-    String uid;
-
-    public Chat() {
-    }
-
-    public Chat(String name, String uid, String message) {
-      this.name = name;
-      this.text = message;
-      this.uid = uid;
-    }
-
-    public String getName() {
-      return name;
-    }
-
-    public String getUid() {
-      return uid;
-    }
-
-    public String getText() {
-      return text;
-    }
-  }
-
 
   public static class ChatHolder extends RecyclerView.ViewHolder {
     View mView;

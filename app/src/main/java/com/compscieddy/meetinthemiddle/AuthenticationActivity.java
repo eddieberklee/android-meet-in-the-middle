@@ -5,16 +5,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
+import com.compscieddy.meetinthemiddle.model.User;
 import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by ambar on 6/15/16.
  */
-public class LoginActivity extends Activity {
+public class AuthenticationActivity extends Activity {
 
-  private static final Lawg lawg = Lawg.newInstance(LoginActivity.class.getSimpleName());
+  private static final Lawg lawg = Lawg.newInstance(AuthenticationActivity.class.getSimpleName());
   private static final int RC_SIGN_IN = 100;
 
   @Override
@@ -44,8 +51,21 @@ public class LoginActivity extends Activity {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == RC_SIGN_IN) {
       if (resultCode == RESULT_OK) {
-//        GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-        // user is signed in!
+        GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+
+        // User creation is occurring! Tada! Welcome to being trapped to the most addictive map app ever
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        String encodedEmail = Etils.encodeEmail(firebaseUser.getEmail());
+        String name = firebaseUser.getDisplayName();
+
+        DatabaseReference userReference = database.getReference("users").child(encodedEmail);
+        User user = new User(encodedEmail, name);
+        userReference.setValue(user);
+
         startActivity(new Intent(this, HomeActivity.class));
         finish();
       } else {
