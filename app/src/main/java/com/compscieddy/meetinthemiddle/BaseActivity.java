@@ -44,19 +44,30 @@ public class BaseActivity extends FragmentActivity {
       finish();
     }
 
-    String encodedEmail = Etils.encodeEmail(mFirebaseUser.getEmail());
+    final String encodedEmail = Etils.encodeEmail(mFirebaseUser.getEmail());
     mFirebaseDatabase.getReference("users").child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
       @Override
       public void onDataChange(DataSnapshot dataSnapshot) {
         mUser = dataSnapshot.getValue(User.class);
-        lawg.d("email: " + mUser.email + " name: " + mUser.name);
+        if (mUser == null) {
+          // This should only happen in developer mode since we may arbitrarily delete from the database - resulting in inconsistency between database and logged in status
+          User.createUser(mFirebaseDatabase, mFirebaseUser);
+          mFirebaseDatabase.getReference("users").child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+              mUser = dataSnapshot.getValue(User.class);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled " + databaseError); }
+          });
+        } else {
+          lawg.d("email: " + mUser.email + " name: " + mUser.name);
+        }
         userIsReady();
       }
 
       @Override
-      public void onCancelled(DatabaseError databaseError) {
-        lawg.e("onCancelled " + databaseError);
-      }
+      public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled " + databaseError); }
     });
 
   }

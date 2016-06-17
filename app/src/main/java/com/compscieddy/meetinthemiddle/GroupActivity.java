@@ -672,7 +672,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     public Fragment getItem(int position) {
       switch (position) {
         case CHAT_FRAGMENT:
-          return ChatFragment.newInstance();
+          return ChatFragment.newInstance(mGroupKey);
         case SEARCH_FRAGMENT:
           return SearchFragment.newInstance();
       }

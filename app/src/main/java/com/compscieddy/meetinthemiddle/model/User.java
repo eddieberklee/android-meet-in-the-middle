@@ -1,6 +1,8 @@
 package com.compscieddy.meetinthemiddle.model;
 
 import com.compscieddy.eddie_utils.Etils;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -49,5 +51,14 @@ public class User {
     return result;
   }
 
+  /********************* STATIC METHODS **************************/
+
+  public static void createUser(FirebaseDatabase firebaseDatabase, FirebaseUser firebaseUser) {
+    String encodedEmail = Etils.encodeEmail(firebaseUser.getEmail());
+    String name = firebaseUser.getDisplayName();
+    DatabaseReference userReference = firebaseDatabase.getReference("users").child(encodedEmail);
+    User user = new User(encodedEmail, name);
+    userReference.setValue(user);
+  }
 
 }
