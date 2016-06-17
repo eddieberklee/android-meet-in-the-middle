@@ -7,10 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.compscieddy.meetinthemiddle.model.Group;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,6 +26,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
 
   private static Context mContext;
   private static ClickListener mClickListener;
+  private List<Group> groups = new ArrayList<>();
 
   public interface ClickListener {
     void OnItemClick(View v);
@@ -29,6 +34,18 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
 
   public void setClickListener(ClickListener clickListener) {
     mClickListener = clickListener;
+  }
+
+  public void addGroup(Group group) {
+    groups.add(group);
+  }
+
+  public void removeGroup(Group deleteGroup) {
+    for (Group group : groups) {
+      if (group.groupKey == deleteGroup.groupKey) {
+        groups.remove(group);
+      }
+    }
   }
 
   @Override
@@ -48,8 +65,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
 
   @Override
   public int getItemCount() {
-    //Arbitrary for now
-    return 10;
+    return groups.size();
   }
 
   public static final class GroupHolder extends RecyclerView.ViewHolder implements View.OnClickListener, OnMapReadyCallback {

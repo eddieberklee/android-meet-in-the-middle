@@ -162,21 +162,27 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     }
 
     Bundle args = getIntent().getExtras();
-    mGroupKey = args.getString(ARG_GROUP_KEY);
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference groupReference = database.getReference("groups").child(mGroupKey);
-    groupReference.addListenerForSingleValueEvent(new ValueEventListener() {
-      @Override
-      public void onDataChange(DataSnapshot dataSnapshot) {
-        mGroup = dataSnapshot.getValue(Group.class);
-        mGroupTextView.setText(mGroup.groupTitle);
-      }
+    if (args != null) {
+      mGroupKey = args.getString(ARG_GROUP_KEY);
+      FirebaseDatabase database = FirebaseDatabase.getInstance();
+      DatabaseReference groupReference = database.getReference("groups").child(mGroupKey);
+      groupReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+          mGroup = dataSnapshot.getValue(Group.class);
+          if (mGroup == null) {
+            Etils.logAndToast(GroupActivity.this, lawg, "Group is null - shit is so wrong");
+            return;
+          }
+          mGroupTextView.setText(mGroup.groupTitle);
+        }
 
-      @Override
-      public void onCancelled(DatabaseError databaseError) {
-        lawg.e("onCancelled() " + databaseError);
-      }
-    });
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+          lawg.e("onCancelled() " + databaseError);
+        }
+      });
+    }
 
     mGroupEditText.addTextChangedListener(new TextWatcher() {
       @Override

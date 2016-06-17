@@ -1,0 +1,53 @@
+package com.compscieddy.meetinthemiddle.model;
+
+import com.compscieddy.eddie_utils.Etils;
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * Created by elee on 6/15/16.
+ */
+@IgnoreExtraProperties
+public class User {
+
+  public String email;
+  public String name;
+  public Map<String, Boolean> groups = new HashMap<>();
+
+  public User() {}
+
+  public User(String email, String name) {
+    this.email = email;
+    this.name = name;
+  }
+
+  @Exclude
+  public String getKey() {
+    return Etils.encodeEmail(email);
+  }
+
+  public void addGroup(String groupKey) {
+    groups.put(groupKey, true);
+  }
+
+  public void update() {
+    Map<String, Object> fields = toMap();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    database.getReference("users").child(getKey()).updateChildren(fields);
+  }
+
+  @Exclude
+  public Map<String, Object> toMap() {
+    HashMap<String, Object> result = new HashMap<>();
+    result.put("email", email);
+    result.put("name", name);
+    result.put("groups", groups);
+    return result;
+  }
+
+
+}

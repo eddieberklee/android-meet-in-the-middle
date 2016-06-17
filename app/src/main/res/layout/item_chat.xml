@@ -1,37 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:paddingLeft="4dp"
-              android:paddingRight="4dp"
-              android:paddingBottom="3dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/message_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp">
 
-    <com.compscieddy.meetinthemiddle.FontTextView
-        android:id="@+id/chat_message"
+    <FrameLayout
+        android:id="@+id/left_arrow"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="2dp"
+        android:background="@drawable/chat_message_arrow"
+        android:rotation="180"/>
+
+
+    <LinearLayout
+        android:id="@+id/message_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_fill_chat_sendee"
-        android:textColor="@color/greyscale_11"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:paddingTop="6dp"
-        android:paddingBottom="8dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="3dp"
-        app:fontface="montserrat_light"
-        android:backgroundTint="@color/greyscale_1"
-        tools:text="@string/sample_chat_message"/>
+        android:layout_marginLeft="26dp"
+        android:layout_marginRight="26dp"
+        android:background="@drawable/chat_message_background"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-    <ImageView
-        android:id="@+id/chat_icon"
-        android:layout_width="@dimen/chat_avatar_size"
-        android:layout_height="@dimen/chat_avatar_size"
-        android:src="@drawable/cat"
-        android:padding="3dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/circle_fill_grey"/>
+        <TextView
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:id="@+id/message_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            tools:text="Hey this is a message, look!" />
 
-</FrameLayout>
+        <TextView
+            style="@style/TextAppearance.AppCompat.Small"
+            android:id="@+id/name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Some User" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/right_arrow"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignEnd="@+id/message_box"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/message_box"
+        android:layout_marginRight="-25dp"
+        android:background="@drawable/chat_message_arrow"
+        android:rotation="180"/>
+
+</RelativeLayout>

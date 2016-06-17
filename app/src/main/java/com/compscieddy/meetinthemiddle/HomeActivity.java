@@ -17,7 +17,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
@@ -51,16 +50,16 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 
-public class HomeActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
+public class HomeActivity extends BaseActivity implements OnMapReadyCallback, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, AppBarLayout.OnOffsetChangedListener {
 
   private static final Lawg lawg = Lawg.newInstance(GroupActivity.class.getSimpleName());
@@ -80,14 +79,14 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
   private GoogleApiClient mGoogleApiClient;
   private Marker mCurrentMarker;
 
-  @Bind(R.id.username)
-  TextView mUsername;
+  @Bind(R.id.username) TextView mUsername;
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
   @Bind(R.id.app_bar_layout) AppBarLayout mAppBarLayout;
   @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
   @Bind(R.id.map_card_view) CardView mMapCardView;
   @Bind(R.id.toolbar_viewgroup) ViewGroup mToolbarLayout;
   @Bind(R.id.new_group_button) View mNewGroupButton;
+  @Bind(R.id.logout_button) View mLogoutButton;
 
   private SupportMapFragment mMapFragment;
   private Location mLastLocation;
@@ -126,11 +125,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     mMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
     mMapFragment.getMapAsync(this);
 
-    // todo: Create BaseActivity to always check if user authed, and if so send back to LoginActivity
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    FirebaseUser user = auth.getCurrentUser();
-    String displayName = user.getDisplayName();
-    String email = user.getEmail();
+    String displayName = mFirebaseUser.getDisplayName();
+    String email = mFirebaseUser.getEmail();
     mUsername.setText(displayName + "\n" + email);
 
     FacebookSdk.sdkInitialize(getApplicationContext());
@@ -181,11 +177,13 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
 
     setListeners();
     setupRecyclerView();
+    initFirebaseData();
   }
 
   private void setListeners() {
     mAppBarLayout.addOnOffsetChangedListener(this);
     mNewGroupButton.setOnClickListener(this);
+    mLogoutButton.setOnClickListener(this);
   }
 
   @Override
@@ -339,6 +337,8 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
       @Override
       public void OnItemClick(View v) {
         Intent intent = new Intent(HomeActivity.this, GroupActivity.class);
+        // For testing purposes, gives NPE otherwise
+        intent.putExtra(GroupActivity.ARG_GROUP_KEY, "TEST");
         startActivity(intent);
       }
     });
@@ -361,21 +361,61 @@ public class HomeActivity extends FragmentActivity implements OnMapReadyCallback
     mGroupRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
   }
 
+  private void initFirebaseData() {
+
+    mFirebaseDatabase.getReference("groups").addChildEventListener(new ChildEventListener() {
+      @Override
+      public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        Group group = dataSnapshot.getValue(Group.class);
+        mGroupsAdapter.addGroup(group);
+      }
+
+      @Override
+      public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+
+      @Override
+      public void onChildRemoved(DataSnapshot dataSnapshot) {
+        lawg.e(" dataSnapshot: " + dataSnapshot);
+        Group group = dataSnapshot.getValue(Group.class);
+        lawg.e(" group: " + group);
+        mGroupsAdapter.removeGroup(group);
+      }
+
+      @Override
+      public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+        lawg.e("onCancelled " + databaseError);
+      }
+    });
+
+  }
+
   @Override
   public void onClick(View v) {
     int viewId = v.getId();
     switch (viewId) {
-      case R.id.new_group_button:
+      case R.id.new_group_button: {
         Intent intent = new Intent(HomeActivity.this, GroupActivity.class);
-        DatabaseReference newGroupReference = FirebaseDatabase.getInstance().getReference("groups").push();
+        DatabaseReference newGroupReference = mFirebaseDatabase.getReference("groups").push();
 
         String groupKey = newGroupReference.getKey();
         Group newGroup = new Group(groupKey, null, null);
         newGroupReference.setValue(newGroup);
+        mUser.addGroup(groupKey);
+        mUser.update();
 
         intent.putExtra(GroupActivity.ARG_GROUP_KEY, groupKey);
         startActivity(intent);
         break;
+      }
+      case R.id.logout_button: {
+        mFirebaseAuth.signOut();
+        Intent intent = new Intent(HomeActivity.this, AuthenticationActivity.class);
+        startActivity(intent);
+        break;
+      }
     }
   }
 }

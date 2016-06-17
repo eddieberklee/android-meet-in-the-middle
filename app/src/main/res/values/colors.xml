@@ -104,6 +104,9 @@
     <color name="greyscale_13">#282828</color>
     <color name="greyscale_14">#181818</color>
 
+    <color name="group_chat_background_color">#AED581</color>
+    <color name="user_chat_background_color">#E0E0E0</color>
+
     <color name="colorBackgroundItemSelected">#d3d2d2</color>
 
 

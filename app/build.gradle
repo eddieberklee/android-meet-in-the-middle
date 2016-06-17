@@ -46,9 +46,10 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.facebook.rebound:rebound:0.3.8'
 
+    compile 'com.google.firebase:firebase-core:9.0.2'
     compile 'com.google.firebase:firebase-database:9.0.2'
     compile 'com.google.firebase:firebase-invites:9.0.2'
-
+    compile 'com.firebaseui:firebase-ui:0.4.1'
 
     compile 'com.google.android.gms:play-services-auth:9.0.2'
     compile 'com.google.firebase:firebase-auth:9.0.2'
@@ -60,7 +61,6 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.4.0'
 
     compile 'com.yelp.clientlib:yelp-android:2.0.0'
-    compile 'com.firebaseui:firebase-ui:0.4.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

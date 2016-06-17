@@ -91,6 +91,17 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <com.compscieddy.meetinthemiddle.FontTextView
+        android:id="@+id/logout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:translationX="40dp"
+        android:background="@drawable/rounded_outline_accent"
+        app:layout_anchor="@+id/new_group_button"
+        app:layout_anchorGravity="right|center_vertical"
+        android:text="Logout"/>
+
+    <com.compscieddy.meetinthemiddle.FontTextView
         android:id="@+id/new_group_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
