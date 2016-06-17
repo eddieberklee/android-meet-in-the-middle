@@ -55,6 +55,8 @@ public class ChatFragment extends Fragment {
   @Bind(R.id.message_edit_text) EditText mMessageEdit;
 
   @Bind(R.id.chats_recycler_view) RecyclerView mChatRecyclerView;
+  @Bind(R.id.empty_chat_view) LinearLayout mEmptyChatView;
+
   private LinearLayoutManager mLayoutManager;
   private FirebaseRecyclerAdapter<Chat, ChatHolder> mChatsFirebaseAdapter;
 
@@ -150,6 +152,7 @@ public class ChatFragment extends Fragment {
       @Override
       public void populateViewHolder(final ChatHolder chatView, final Chat chat, int position) {
         mFirebaseDatabase.getReference("users").child(chat.getUserKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             User user = dataSnapshot.getValue(User.class);
@@ -178,8 +181,17 @@ public class ChatFragment extends Fragment {
         mLayoutManager.smoothScrollToPosition(mChatRecyclerView, null, mChatsFirebaseAdapter.getItemCount());
       }
     });
-
     mChatRecyclerView.setAdapter(mChatsFirebaseAdapter);
+
+    lawg.d("Item Count: " + Integer.toString(mChatsFirebaseAdapter.getItemCount()));
+
+    if (mChatsFirebaseAdapter.getItemCount() <= 0) {
+      mChatRecyclerView.setVisibility(View.INVISIBLE);
+      mEmptyChatView.setVisibility(View.VISIBLE);
+    } else {
+      mEmptyChatView.setVisibility(View.INVISIBLE);
+      mChatRecyclerView.setVisibility(View.VISIBLE);
+    }
   }
 
   private void signInAnonymously() {

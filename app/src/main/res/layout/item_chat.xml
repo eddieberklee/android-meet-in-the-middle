@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/message_container"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="5dp"
-    android:paddingTop="5dp">
+<RelativeLayout android:id="@+id/message_container"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
     <FrameLayout
         android:id="@+id/left_arrow"
@@ -15,7 +15,6 @@
         android:background="@drawable/chat_message_arrow"
         android:rotation="180"/>
 
-
     <LinearLayout
         android:id="@+id/message_box"
         android:layout_width="wrap_content"
@@ -24,25 +23,25 @@
         android:layout_marginRight="26dp"
         android:background="@drawable/chat_message_background"
         android:orientation="vertical"
-        android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp">
+        android:paddingRight="8dp"
+        android:paddingTop="4dp">
 
         <TextView
-            style="@style/TextAppearance.AppCompat.Medium"
             android:id="@+id/message_text"
+            style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            tools:text="Hey this is a message, look!" />
+            tools:text="Hey this is a message, look!"/>
 
         <TextView
-            style="@style/TextAppearance.AppCompat.Small"
             android:id="@+id/name_text"
+            style="@style/TextAppearance.AppCompat.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Some User" />
+            tools:text="Some User"/>
 
     </LinearLayout>
 
