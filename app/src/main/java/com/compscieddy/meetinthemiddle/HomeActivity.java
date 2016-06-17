@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.Group;
+import com.compscieddy.meetinthemiddle.model.User;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
@@ -405,11 +406,42 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
         Intent intent = new Intent(HomeActivity.this, GroupActivity.class);
         DatabaseReference newGroupReference = mFirebaseDatabase.getReference("groups").push();
 
-        String groupKey = newGroupReference.getKey();
+        final String groupKey = newGroupReference.getKey();
         Group newGroup = new Group(groupKey, null, null);
         newGroupReference.setValue(newGroup);
         mUser.addGroup(groupKey);
         mUser.update();
+        // Just while testing, add everyone to every group
+        mFirebaseDatabase.getReference("users").addChildEventListener(new ChildEventListener() {
+          @Override
+          public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            User user = dataSnapshot.getValue(User.class);
+            if (!user.getKey().equals(mUser.getKey())) {
+              user.addGroup(groupKey);
+              user.update();
+            }
+          }
+
+          @Override
+          public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+          }
+
+          @Override
+          public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+          }
+
+          @Override
+          public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+          }
+
+          @Override
+          public void onCancelled(DatabaseError databaseError) {
+
+          }
+        });
 
         intent.putExtra(GroupActivity.ARG_GROUP_KEY, groupKey);
         startActivity(intent);
