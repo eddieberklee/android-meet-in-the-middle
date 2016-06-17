@@ -400,6 +400,9 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   }
 
   private void setupTabLayout() {
+    // if mViewPager > 0
+    // show empty chat
+
     mTabLayout.setupWithViewPager(mViewPager);
     mTabLayout.getTabAt(0).setIcon(R.drawable.ic_message_text_grey600_48dp);
     mTabLayout.getTabAt(1).setIcon(R.drawable.ic_magnify_grey600_48dp);
