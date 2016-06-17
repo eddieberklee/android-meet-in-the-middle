@@ -9,9 +9,9 @@
 
     <FrameLayout
         android:id="@+id/left_arrow"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="2dp"
+        android:layout_width="@dimen/arrow_size"
+        android:layout_height="@dimen/arrow_size"
+        android:layout_marginLeft="@dimen/half_arrow_size"
         android:background="@drawable/chat_message_arrow"
         android:rotation="180"/>
 
@@ -48,12 +48,12 @@
 
     <FrameLayout
         android:id="@+id/right_arrow"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/arrow_size"
+        android:layout_height="@dimen/arrow_size"
         android:layout_alignEnd="@+id/message_box"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/message_box"
-        android:layout_marginRight="-25dp"
+        android:layout_marginRight="@dimen/neg_half_arrow_size"
         android:background="@drawable/chat_message_arrow"
         android:rotation="180"/>
 

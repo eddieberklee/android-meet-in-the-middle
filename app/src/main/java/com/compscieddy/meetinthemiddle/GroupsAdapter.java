@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -25,17 +26,20 @@ import butterknife.ButterKnife;
  */
 public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolder> {
 
+  private static final Lawg lawg = Lawg.newInstance(GroupsAdapter.class.getSimpleName());
   private static Context mContext;
   public List<Group> groups = new ArrayList<>();
 
   public void addGroup(Group group) {
     groups.add(group);
+    notifyDataSetChanged();
   }
 
   public void removeGroup(Group deleteGroup) {
     for (Group group : groups) {
       if (group.groupKey == deleteGroup.groupKey) {
         groups.remove(group);
+        notifyDataSetChanged();
       }
     }
   }

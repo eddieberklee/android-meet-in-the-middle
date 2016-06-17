@@ -12,9 +12,11 @@
     <dimen name="item_group_icon_size">12dp</dimen>
     <dimen name="item_group_icon_spacing">3dp</dimen>
     <dimen name="item_group_padding_edges">10dp</dimen>
-    <dimen name="invite_button_two_height">28dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="arrow_size">30dp</dimen>
+    <dimen name="half_arrow_size">15dp</dimen>
+    <dimen name="neg_half_arrow_size">-15dp</dimen>
 
 </resources>
