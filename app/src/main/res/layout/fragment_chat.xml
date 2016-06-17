@@ -42,7 +42,9 @@
                 android:layout_weight="1"
                 android:layout_marginRight="7dp"
                 android:hint="Message.."
-                android:textSize="14sp"
+                android:inputType="textCapSentences"
+                android:imeOptions="actionSend"
+                android:textSize="16sp"
                 android:gravity="bottom"
                 android:paddingLeft="10dp"
                 android:paddingRight="5dp"/>

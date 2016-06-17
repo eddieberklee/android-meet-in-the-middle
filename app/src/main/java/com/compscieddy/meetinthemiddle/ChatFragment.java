@@ -23,16 +23,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.compscieddy.eddie_utils.Etils;
+import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.Chat;
+import com.compscieddy.meetinthemiddle.model.User;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,8 +47,10 @@ import butterknife.ButterKnife;
  */
 public class ChatFragment extends Fragment {
 
-  private FirebaseAuth mAuth;
-  private DatabaseReference mRef;
+  private static final Lawg lawg = Lawg.newInstance(ChatFragment.class.getSimpleName());
+
+  private FirebaseAuth firebaseAuth;
+  private DatabaseReference mChatsReference;
   @Bind(R.id.message_send_button) ImageView mSendButton;
   @Bind(R.id.message_edit_text) EditText mMessageEdit;
 
@@ -51,12 +58,16 @@ public class ChatFragment extends Fragment {
   private LinearLayoutManager mLayoutManager;
   private FirebaseRecyclerAdapter<Chat, ChatHolder> mChatsFirebaseAdapter;
 
+  public static final String ARG_GROUP_KEY = "arg_group_key";
+  private String mGroupKey;
+  private DatabaseReference mChatReference;
+  private FirebaseDatabase mFirebaseDatabase;
 
-  public static ChatFragment newInstance() {
-
-    Bundle args = new Bundle();
+  public static ChatFragment newInstance(String groupKey) {
     //For future arguments, add here
     ChatFragment fragment = new ChatFragment();
+    Bundle args = new Bundle();
+    args.putString(ARG_GROUP_KEY, groupKey);
     fragment.setArguments(args);
     return fragment;
   }
@@ -66,24 +77,31 @@ public class ChatFragment extends Fragment {
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_chat, container, false);
     ButterKnife.bind(ChatFragment.this, view);
-    mAuth = FirebaseAuth.getInstance();
-    mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+
+    Bundle args = getArguments();
+    mGroupKey = args.getString(ARG_GROUP_KEY);
+
+    firebaseAuth = FirebaseAuth.getInstance();
+    firebaseAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
       @Override
       public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         updateUI();
       }
     });
-
-    mRef = FirebaseDatabase.getInstance().getReference();
+    mFirebaseDatabase = FirebaseDatabase.getInstance();
+    mChatReference = mFirebaseDatabase.getReference("chats").child(mGroupKey);
 
     mSendButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        String uid = mAuth.getCurrentUser().getUid(); // todo: use the user's id
+        String uid = firebaseAuth.getCurrentUser().getUid(); // todo: use the user's id
         String name = "User " + uid.substring(0, 6);
+        String userKey = Etils.encodeEmail(firebaseAuth.getCurrentUser().getEmail());
 
-        Chat chat = new Chat(name, uid, mMessageEdit.getText().toString());
-        mRef.push().setValue(chat, new DatabaseReference.CompletionListener() {
+        DatabaseReference newChatReference = mChatReference.push();
+        String chatKey = newChatReference.getKey();
+        Chat chat = new Chat(chatKey, mGroupKey, userKey, mMessageEdit.getText().toString());
+        newChatReference.setValue(chat, new DatabaseReference.CompletionListener() {
           @Override
           public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
             if (databaseError != null) {
@@ -91,7 +109,6 @@ public class ChatFragment extends Fragment {
             }
           }
         });
-
         mMessageEdit.setText("");
       }
     });
@@ -128,19 +145,29 @@ public class ChatFragment extends Fragment {
 
   private void attachRecyclerViewAdapter() {
     mChatsFirebaseAdapter = new FirebaseRecyclerAdapter<Chat, ChatHolder>(
-        Chat.class, R.layout.item_chat, ChatHolder.class, mRef) {
+        Chat.class, R.layout.item_chat, ChatHolder.class, mChatReference) {
 
       @Override
-      public void populateViewHolder(ChatHolder chatView, Chat chat, int position) {
-        chatView.setName(chat.getName());
-        chatView.setText(chat.getText());
+      public void populateViewHolder(final ChatHolder chatView, final Chat chat, int position) {
+        mFirebaseDatabase.getReference("users").child(chat.getUserKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+          @Override
+          public void onDataChange(DataSnapshot dataSnapshot) {
+            User user = dataSnapshot.getValue(User.class);
+            chatView.setName(user.name);
+            chatView.setText(chat.getChatMessage());
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null && chat.getUid() != null && chat.getUid().equals(currentUser.getUid())) {
-          chatView.setIsSender(true);
-        } else {
-          chatView.setIsSender(false);
-        }
+            FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+            if (currentUser != null && chat.getUserKey().equals(user.getKey())) {
+              chatView.setIsSender(true);
+            } else {
+              chatView.setIsSender(false);
+            }
+          }
+
+          @Override
+          public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled " + databaseError);
+          }
+        });
       }
     };
 
@@ -157,7 +184,7 @@ public class ChatFragment extends Fragment {
 
   private void signInAnonymously() {
     Toast.makeText(getContext(), "Signing in...", Toast.LENGTH_SHORT).show();
-    mAuth.signInAnonymously()
+    firebaseAuth.signInAnonymously()
         .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
           @Override
           public void onComplete(@NonNull Task<AuthResult> task) {
@@ -174,7 +201,7 @@ public class ChatFragment extends Fragment {
   }
 
   public boolean isSignedIn() {
-    return (mAuth.getCurrentUser() != null);
+    return (firebaseAuth.getCurrentUser() != null);
   }
 
   public void updateUI() {

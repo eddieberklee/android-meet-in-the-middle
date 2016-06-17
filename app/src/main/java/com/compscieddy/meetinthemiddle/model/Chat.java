@@ -1,6 +1,11 @@
 package com.compscieddy.meetinthemiddle.model;
 
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by elee on 6/15/16.
@@ -8,27 +13,50 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Chat {
 
-    String name;
-    String text;
-    String uid;
+  String key;
+  String groupKey;
+  String userKey;
+  String chatMessage;
 
-    public Chat() {}
+  public Chat() {}
 
-    public Chat(String name, String uid, String message) {
-      this.name = name;
-      this.text = message;
-      this.uid = uid;
-    }
+  public Chat(String key, String groupKey, String userKey, String message) {
+    this.key = key;
+    this.groupKey = groupKey;
+    this.userKey = userKey;
+    this.chatMessage = message;
+  }
 
-    public String getName() {
-      return name;
-    }
+  public String getKey() {
+    return key;
+  }
 
-    public String getUid() {
-      return uid;
-    }
+  public String getGroupKey() {
+    return groupKey;
+  }
 
-    public String getText() {
-      return text;
-    }
+  public String getUserKey() {
+    return userKey;
+  }
+
+  public String getChatMessage() {
+    return chatMessage;
+  }
+
+  public void update() {
+    Map<String, Object> fields = toMap();
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    database.getReference("chats").child(getKey()).updateChildren(fields);
+  }
+
+  @Exclude
+  public Map<String, Object> toMap() {
+    HashMap<String, Object> result = new HashMap<>();
+    result.put("key", key);
+    result.put("groupKey", groupKey);
+    result.put("userKey", userKey);
+    result.put("chatMessage", chatMessage);
+    return result;
+  }
+
 }

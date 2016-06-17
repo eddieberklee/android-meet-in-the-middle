@@ -333,16 +333,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
   private void setupRecyclerView() {
     mGroupsAdapter = new GroupsAdapter();
-    mGroupsAdapter.setClickListener(new GroupsAdapter.ClickListener() {
-      @Override
-      public void OnItemClick(View v) {
-        Intent intent = new Intent(HomeActivity.this, GroupActivity.class);
-        // For testing purposes, gives NPE otherwise
-        intent.putExtra(GroupActivity.ARG_GROUP_KEY, "TEST");
-        startActivity(intent);
-      }
-    });
-
     mGroupRecyclerView.setAdapter(mGroupsAdapter);
     mGroupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 //    RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();

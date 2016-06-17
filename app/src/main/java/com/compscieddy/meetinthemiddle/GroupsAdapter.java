@@ -1,6 +1,7 @@
 package com.compscieddy.meetinthemiddle;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,16 +26,7 @@ import butterknife.ButterKnife;
 public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolder> {
 
   private static Context mContext;
-  private static ClickListener mClickListener;
-  private List<Group> groups = new ArrayList<>();
-
-  public interface ClickListener {
-    void OnItemClick(View v);
-  }
-
-  public void setClickListener(ClickListener clickListener) {
-    mClickListener = clickListener;
-  }
+  public List<Group> groups = new ArrayList<>();
 
   public void addGroup(Group group) {
     groups.add(group);
@@ -53,12 +45,24 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
     mContext = parent.getContext();
     LayoutInflater layoutInflater = LayoutInflater.from(mContext);
     View itemView = layoutInflater.inflate(R.layout.item_group, parent, false);
-    return new GroupHolder(itemView);
+    final GroupHolder groupHolder = new GroupHolder(itemView);
+    groupHolder.onClickListener = new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent intent = new Intent(mContext, GroupActivity.class);
+        // For testing purposes, gives NPE otherwise
+        intent.putExtra(GroupActivity.ARG_GROUP_KEY, GroupsAdapter.this.groups.get(groupHolder.position).groupKey);
+        mContext.startActivity(intent);
+      }
+    };
+    groupHolder.itemView.setOnClickListener(groupHolder.onClickListener);
+    return groupHolder;
   }
 
   @Override
   public void onBindViewHolder(GroupsAdapter.GroupHolder holder, int position) {
     //Placeholder text for now
+    holder.position = position;
     holder.titleTextView.setText("Group " + position);
     holder.lastMessageTextView.setText("Last message of group " + position);
   }
@@ -68,10 +72,12 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
     return groups.size();
   }
 
-  public static final class GroupHolder extends RecyclerView.ViewHolder implements View.OnClickListener, OnMapReadyCallback {
+  public static final class GroupHolder extends RecyclerView.ViewHolder implements OnMapReadyCallback {
     @Bind(R.id.group_title_text_view) TextView titleTextView;
     @Bind(R.id.group_last_message_text_view) TextView lastMessageTextView;
     @Bind(R.id.group_map_view) MapView groupMapView;
+    public int position;
+    public View.OnClickListener onClickListener;
     GoogleMap groupMap;
 
     public GroupHolder(View itemView) {
@@ -81,13 +87,6 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
       groupMapView.onCreate(null);
       groupMapView.getMapAsync(this);
       groupMapView.setClickable(false);
-
-      itemView.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-      mClickListener.OnItemClick(v);
     }
 
     @Override

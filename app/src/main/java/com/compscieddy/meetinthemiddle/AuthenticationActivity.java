@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.User;
 import com.firebase.ui.auth.AuthUI;
@@ -13,7 +12,6 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 /**
@@ -59,12 +57,7 @@ public class AuthenticationActivity extends Activity {
         FirebaseUser firebaseUser = auth.getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        String encodedEmail = Etils.encodeEmail(firebaseUser.getEmail());
-        String name = firebaseUser.getDisplayName();
-
-        DatabaseReference userReference = database.getReference("users").child(encodedEmail);
-        User user = new User(encodedEmail, name);
-        userReference.setValue(user);
+        User.createUser(database, firebaseUser);
 
         startActivity(new Intent(this, HomeActivity.class));
         finish();
