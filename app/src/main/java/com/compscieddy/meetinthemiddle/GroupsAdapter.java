@@ -3,6 +3,7 @@ package com.compscieddy.meetinthemiddle;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +68,11 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
   public void onBindViewHolder(GroupsAdapter.GroupHolder holder, int position) {
     //Placeholder text for now
     holder.position = position;
-    holder.titleTextView.setText("Group " + position);
+    Group group = groups.get(position);
+    String groupTitle = group.getGroupTitle();
+    if (!TextUtils.isEmpty(groupTitle)) {
+      holder.titleTextView.setText(groupTitle);
+    }
     holder.lastMessageTextView.setText("Last message of group " + position);
   }
 
