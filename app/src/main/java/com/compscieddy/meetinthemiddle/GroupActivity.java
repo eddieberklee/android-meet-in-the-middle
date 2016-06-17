@@ -139,6 +139,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
     }
   };
+  private FirebaseDatabase mFirebaseDatabase;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -161,11 +162,12 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       editor.apply();
     }
 
+    mFirebaseDatabase = FirebaseDatabase.getInstance();
+
     Bundle args = getIntent().getExtras();
     if (args != null) {
       mGroupKey = args.getString(ARG_GROUP_KEY);
-      FirebaseDatabase database = FirebaseDatabase.getInstance();
-      DatabaseReference groupReference = database.getReference("groups").child(mGroupKey);
+      DatabaseReference groupReference = mFirebaseDatabase.getReference("groups").child(mGroupKey);
       groupReference.addListenerForSingleValueEvent(new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -227,6 +229,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
     setupTabLayout();
     setListeners();
+    initFirebase();
 
   }
 
@@ -490,8 +493,21 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         mGroupTextView.setVisibility(View.VISIBLE);
         mSetButton.setVisibility(View.INVISIBLE);
 
-        //name will need to be saved as a shared preference or in database
-        mGroupTextView.setText(mGroupEditText.getText());
+        final String newGroupTitle = mGroupEditText.getText().toString();
+        DatabaseReference groupReference = mFirebaseDatabase.getReference("groups").child(mGroupKey);
+        groupReference.addListenerForSingleValueEvent(new ValueEventListener() {
+          @Override
+          public void onDataChange(DataSnapshot dataSnapshot) {
+            mGroup = dataSnapshot.getValue(Group.class);
+            mGroup.setGroupTitle(newGroupTitle);
+            mGroup.update();
+          }
+
+          @Override
+          public void onCancelled(DatabaseError databaseError) {
+            lawg.e("onCancelled " + databaseError);
+          }
+        });
         break;
 
       case R.id.invite_button:
@@ -641,6 +657,19 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         break;
 
     }
+
+  }
+
+  private void initFirebase() {
+    mFirebaseDatabase.getReference("groups").child(mGroupKey).child("groupTitle").addValueEventListener(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        String groupTitle = dataSnapshot.getValue(String.class);
+        mGroupTextView.setText(groupTitle);
+      }
+      @Override
+      public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }
+    });
 
   }
 
