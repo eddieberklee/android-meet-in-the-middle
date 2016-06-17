@@ -51,15 +51,11 @@ public class ChatFragment extends Fragment {
 
   private FirebaseAuth firebaseAuth;
   private DatabaseReference mChatsReference;
-  @Bind(R.id.message_send_button)
-  ImageView mSendButton;
-  @Bind(R.id.message_edit_text)
-  EditText mMessageEdit;
+  @Bind(R.id.message_send_button) ImageView mSendButton;
+  @Bind(R.id.message_edit_text) EditText mMessageEdit;
 
-  @Bind(R.id.chats_recycler_view)
-  RecyclerView mChatRecyclerView;
-  @Bind(R.id.empty_chat_view)
-  LinearLayout mEmptyChatView;
+  @Bind(R.id.chats_recycler_view) RecyclerView mChatRecyclerView;
+  @Bind(R.id.empty_chat_view) LinearLayout mEmptyChatView;
 
   private LinearLayoutManager mLayoutManager;
   private FirebaseRecyclerAdapter<Chat, ChatHolder> mChatsFirebaseAdapter;
