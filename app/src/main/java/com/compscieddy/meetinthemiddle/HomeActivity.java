@@ -26,7 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Etils;
@@ -90,7 +90,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   @Bind(R.id.toolbar_viewgroup) ViewGroup mToolbarLayout;
   @Bind(R.id.new_group_button) View mNewGroupButton;
   @Bind(R.id.logout_button) View mLogoutButton;
-  @Bind(R.id.empty_group_view) ImageView mEmptyGroupView;
+  @Bind(R.id.empty_group_view) LinearLayout mEmptyGroupView;
 
   private SupportMapFragment mMapFragment;
   private Location mLastLocation;
@@ -181,6 +181,17 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
     setListeners();
     setupRecyclerView();
+
+    int size = new GroupsAdapter().getItemCount();
+    lawg.d("Group Count: " + size);
+
+    if (size == 0) {
+      mEmptyGroupView.setVisibility(View.VISIBLE);
+      mGroupRecyclerView.setVisibility(View.GONE);
+    } else {
+      mEmptyGroupView.setVisibility(View.GONE);
+      mGroupRecyclerView.setVisibility(View.VISIBLE);
+    }
   }
 
   private void setListeners() {
@@ -335,12 +346,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   }
 
   private void setupRecyclerView() {
-/*    int i = 0;
-
-    if (i == 0) {
-      mEmptyGroupView.setVisibility(View.VISIBLE);
-      //mGroupRecyclerView.setVisibility(View.GONE);
-    }*/
 
     mGroupsAdapter = new GroupsAdapter();
     mGroupRecyclerView.setAdapter(mGroupsAdapter);
@@ -359,6 +364,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     mStatusRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     RecyclerViewDivider.with(this).addTo(mStatusRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
     mGroupRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+
   }
 
   @Override
