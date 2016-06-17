@@ -27,6 +27,7 @@ public class BaseActivity extends FragmentActivity {
   FirebaseAuth mFirebaseAuth;
   User mUser;
 
+  /** This is when the mUser object has been correctly populated from Firebase */
   public void userIsReady() {
     // no-op, implement this in the activity you extend
   }

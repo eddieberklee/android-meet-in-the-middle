@@ -54,6 +54,7 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -177,7 +178,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
     setListeners();
     setupRecyclerView();
-    initFirebaseData();
   }
 
   private void setListeners() {
@@ -351,13 +351,28 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     mGroupRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
   }
 
+  @Override
+  public void userIsReady() {
+    super.userIsReady();
+    initFirebaseData();
+  }
+
   private void initFirebaseData() {
 
-    mFirebaseDatabase.getReference("groups").addChildEventListener(new ChildEventListener() {
+    mFirebaseDatabase.getReference("users").child(mUser.getKey()).child("groups").addChildEventListener(new ChildEventListener() {
       @Override
       public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        Group group = dataSnapshot.getValue(Group.class);
-        mGroupsAdapter.addGroup(group);
+        String groupKey = dataSnapshot.getKey();
+        mFirebaseDatabase.getReference("groups").child(groupKey).addListenerForSingleValueEvent(new ValueEventListener() {
+          @Override
+          public void onDataChange(DataSnapshot dataSnapshot) {
+            Group group = dataSnapshot.getValue(Group.class);
+            mGroupsAdapter.addGroup(group);
+          }
+
+          @Override
+          public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled " + databaseError); }
+        });
       }
 
       @Override
