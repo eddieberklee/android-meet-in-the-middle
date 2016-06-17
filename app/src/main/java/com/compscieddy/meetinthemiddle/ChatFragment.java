@@ -34,6 +34,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by ambar on 6/12/16.
  */
@@ -41,12 +44,12 @@ public class ChatFragment extends Fragment {
 
   private FirebaseAuth mAuth;
   private DatabaseReference mRef;
-  private ImageView mSendButton;
-  private EditText mMessageEdit;
+  @Bind(R.id.message_send_button) ImageView mSendButton;
+  @Bind(R.id.message_edit_text) EditText mMessageEdit;
 
-  private RecyclerView mMessages;
-  private LinearLayoutManager mManager;
-  private FirebaseRecyclerAdapter<Chat, ChatHolder> mRecyclerViewAdapter;
+  @Bind(R.id.chats_recycler_view) RecyclerView mChatRecyclerView;
+  private LinearLayoutManager mLayoutManager;
+  private FirebaseRecyclerAdapter<Chat, ChatHolder> mChatsFirebaseAdapter;
 
 
   public static ChatFragment newInstance() {
@@ -62,6 +65,7 @@ public class ChatFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_chat, container, false);
+    ButterKnife.bind(ChatFragment.this, view);
     mAuth = FirebaseAuth.getInstance();
     mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
       @Override
@@ -69,9 +73,6 @@ public class ChatFragment extends Fragment {
         updateUI();
       }
     });
-
-    mSendButton = (ImageView) view.findViewById(R.id.message_send_button);
-    mMessageEdit = (EditText) view.findViewById(R.id.message_edit_text);
 
     mRef = FirebaseDatabase.getInstance().getReference();
 
@@ -95,13 +96,11 @@ public class ChatFragment extends Fragment {
       }
     });
 
-    mMessages = (RecyclerView) view.findViewById(R.id.chats_recycler_view);
+    mLayoutManager = new LinearLayoutManager(getActivity());
+    mLayoutManager.setReverseLayout(false);
 
-    mManager = new LinearLayoutManager(getActivity());
-    mManager.setReverseLayout(false);
-
-    mMessages.setHasFixedSize(false);
-    mMessages.setLayoutManager(mManager);
+    mChatRecyclerView.setHasFixedSize(false);
+    mChatRecyclerView.setLayoutManager(mLayoutManager);
 
     return view;
   }
@@ -122,13 +121,13 @@ public class ChatFragment extends Fragment {
   @Override
   public void onStop() {
     super.onStop();
-    if (mRecyclerViewAdapter != null) {
-      mRecyclerViewAdapter.cleanup();
+    if (mChatsFirebaseAdapter != null) {
+      mChatsFirebaseAdapter.cleanup();
     }
   }
 
   private void attachRecyclerViewAdapter() {
-    mRecyclerViewAdapter = new FirebaseRecyclerAdapter<Chat, ChatHolder>(
+    mChatsFirebaseAdapter = new FirebaseRecyclerAdapter<Chat, ChatHolder>(
         Chat.class, R.layout.item_chat, ChatHolder.class, mRef) {
 
       @Override
@@ -137,7 +136,7 @@ public class ChatFragment extends Fragment {
         chatView.setText(chat.getText());
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null && chat.getUid().equals(currentUser.getUid())) {
+        if (currentUser != null && chat.getUid() != null && chat.getUid().equals(currentUser.getUid())) {
           chatView.setIsSender(true);
         } else {
           chatView.setIsSender(false);
@@ -146,14 +145,14 @@ public class ChatFragment extends Fragment {
     };
 
     // Scroll to bottom on new messages
-    mRecyclerViewAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+    mChatsFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
       @Override
       public void onItemRangeInserted(int positionStart, int itemCount) {
-        mManager.smoothScrollToPosition(mMessages, null, mRecyclerViewAdapter.getItemCount());
+        mLayoutManager.smoothScrollToPosition(mChatRecyclerView, null, mChatsFirebaseAdapter.getItemCount());
       }
     });
 
-    mMessages.setAdapter(mRecyclerViewAdapter);
+    mChatRecyclerView.setAdapter(mChatsFirebaseAdapter);
   }
 
   private void signInAnonymously() {
@@ -185,46 +184,47 @@ public class ChatFragment extends Fragment {
   }
 
   public static class ChatHolder extends RecyclerView.ViewHolder {
-    View mView;
+
+    @Bind(R.id.left_arrow) FrameLayout leftArrow;
+    @Bind(R.id.right_arrow) FrameLayout rightArrow;
+    @Bind(R.id.message_container) RelativeLayout messageContainer;
+    @Bind(R.id.message_box) LinearLayout messageBox;
+    View rootView;
 
     public ChatHolder(View itemView) {
       super(itemView);
-      mView = itemView;
+      rootView = itemView;
+      ButterKnife.bind(ChatHolder.this, rootView);
     }
 
-    public void setIsSender(Boolean isSender) {
-      FrameLayout left_arrow = (FrameLayout) mView.findViewById(R.id.left_arrow);
-      FrameLayout right_arrow = (FrameLayout) mView.findViewById(R.id.right_arrow);
-      RelativeLayout messageContainer = (RelativeLayout) mView.findViewById(R.id.message_container);
-      LinearLayout message = (LinearLayout) mView.findViewById(R.id.message);
-
+    public void setIsSender(boolean isSender) {
       int color;
       if (isSender) {
-        color = ContextCompat.getColor(mView.getContext(), R.color.group_chat_background_color);
-        left_arrow.setVisibility(View.GONE);
-        right_arrow.setVisibility(View.VISIBLE);
+        color = ContextCompat.getColor(rootView.getContext(), R.color.group_chat_background_color);
+        leftArrow.setVisibility(View.GONE);
+        rightArrow.setVisibility(View.VISIBLE);
         messageContainer.setGravity(Gravity.RIGHT);
       } else {
-        color = ContextCompat.getColor(mView.getContext(), R.color.user_chat_background_color);
-        left_arrow.setVisibility(View.VISIBLE);
-        right_arrow.setVisibility(View.GONE);
+        color = ContextCompat.getColor(rootView.getContext(), R.color.user_chat_background_color);
+        leftArrow.setVisibility(View.VISIBLE);
+        rightArrow.setVisibility(View.GONE);
         messageContainer.setGravity(Gravity.LEFT);
       }
 
-      ((GradientDrawable) message.getBackground()).setColor(color);
-      ((RotateDrawable) left_arrow.getBackground()).getDrawable()
+      ((GradientDrawable) messageBox.getBackground()).setColor(color);
+      ((RotateDrawable) leftArrow.getBackground()).getDrawable()
           .setColorFilter(color, PorterDuff.Mode.SRC);
-      ((RotateDrawable) right_arrow.getBackground()).getDrawable()
+      ((RotateDrawable) rightArrow.getBackground()).getDrawable()
           .setColorFilter(color, PorterDuff.Mode.SRC);
     }
 
     public void setName(String name) {
-      TextView field = (TextView) mView.findViewById(R.id.name_text);
+      TextView field = (TextView) rootView.findViewById(R.id.name_text);
       field.setText(name);
     }
 
     public void setText(String text) {
-      TextView field = (TextView) mView.findViewById(R.id.message_text);
+      TextView field = (TextView) rootView.findViewById(R.id.message_text);
       field.setText(text);
     }
   }

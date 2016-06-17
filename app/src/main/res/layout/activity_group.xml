@@ -40,7 +40,7 @@
                     android:clickable="true"
                     android:hint="@string/hint_set_group_name"
                     android:singleLine="true"
-                    android:textSize="22sp"
+                    android:textSize="16sp"
                     android:visibility="visible"/>
 
                 <com.compscieddy.meetinthemiddle.FontEditText
@@ -52,7 +52,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:singleLine="true"
-                    android:textSize="22sp"
+                    android:textSize="16sp"
                     android:visibility="invisible"/>
 
                 <com.compscieddy.meetinthemiddle.FontTextView
@@ -77,11 +77,13 @@
                 <com.compscieddy.meetinthemiddle.FontTextView
                     android:id="@+id/invite_button_two"
                     android:layout_alignParentRight="true"
-                    android:layout_width="@dimen/invite_button_two_height"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/invite_button_two_height"
                     android:gravity="center"
                     android:text="+ Invite\nPeople"
                     android:textAllCaps="true"
+                    android:paddingLeft="6dp"
+                    android:paddingRight="6dp"
                     android:textSize="9sp"
                     android:textColor="@color/colorAccent"
                     android:background="@drawable/rounded_outline_accent"/>

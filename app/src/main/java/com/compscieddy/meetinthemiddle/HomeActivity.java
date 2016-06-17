@@ -50,6 +50,9 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 
 import butterknife.Bind;
@@ -174,6 +177,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
     setListeners();
     setupRecyclerView();
+    initFirebaseData();
   }
 
   private void setListeners() {
@@ -335,7 +339,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
         Intent intent = new Intent(HomeActivity.this, GroupActivity.class);
         // For testing purposes, gives NPE otherwise
         intent.putExtra(GroupActivity.ARG_GROUP_KEY, "TEST");
-
         startActivity(intent);
       }
     });
@@ -356,6 +359,37 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     mStatusRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     RecyclerViewDivider.with(this).addTo(mStatusRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
     mGroupRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+  }
+
+  private void initFirebaseData() {
+
+    mFirebaseDatabase.getReference("groups").addChildEventListener(new ChildEventListener() {
+      @Override
+      public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        Group group = dataSnapshot.getValue(Group.class);
+        mGroupsAdapter.addGroup(group);
+      }
+
+      @Override
+      public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+
+      @Override
+      public void onChildRemoved(DataSnapshot dataSnapshot) {
+        lawg.e(" dataSnapshot: " + dataSnapshot);
+        Group group = dataSnapshot.getValue(Group.class);
+        lawg.e(" group: " + group);
+        mGroupsAdapter.removeGroup(group);
+      }
+
+      @Override
+      public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+        lawg.e("onCancelled " + databaseError);
+      }
+    });
+
   }
 
   @Override
