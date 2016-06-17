@@ -182,16 +182,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     setListeners();
     setupRecyclerView();
 
-    int size = new GroupsAdapter().getItemCount();
-    lawg.d("Group Count: " + size);
-
-    if (size == 0) {
-      mEmptyGroupView.setVisibility(View.VISIBLE);
-      mGroupRecyclerView.setVisibility(View.GONE);
-    } else {
-      mEmptyGroupView.setVisibility(View.GONE);
-      mGroupRecyclerView.setVisibility(View.VISIBLE);
-    }
   }
 
   private void setListeners() {
@@ -384,15 +374,30 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           public void onDataChange(DataSnapshot dataSnapshot) {
             Group group = dataSnapshot.getValue(Group.class);
             mGroupsAdapter.addGroup(group);
-          }
 
+            //TODO Need to find a better place to put this
+            int size = mGroupsAdapter.getItemCount();
+            lawg.d("Group Count: " + size);
+
+            if (size == 0) {
+              mEmptyGroupView.setVisibility(View.VISIBLE);
+              mGroupRecyclerView.setVisibility(View.GONE);
+            } else {
+              mEmptyGroupView.setVisibility(View.GONE);
+              mGroupRecyclerView.setVisibility(View.VISIBLE);
+            }
+
+          }
           @Override
-          public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled " + databaseError); }
+          public void onCancelled(DatabaseError databaseError) {
+            lawg.e("onCancelled " + databaseError);
+          }
         });
       }
 
       @Override
-      public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+      public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+      }
 
       @Override
       public void onChildRemoved(DataSnapshot dataSnapshot) {
@@ -403,14 +408,14 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       }
 
       @Override
-      public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+      public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+      }
 
       @Override
       public void onCancelled(DatabaseError databaseError) {
         lawg.e("onCancelled " + databaseError);
       }
     });
-
   }
 
   @Override
