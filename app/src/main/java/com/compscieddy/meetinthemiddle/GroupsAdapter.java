@@ -10,11 +10,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Lawg;
+import com.compscieddy.meetinthemiddle.model.Chat;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +36,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
   private static final Lawg lawg = Lawg.newInstance(GroupsAdapter.class.getSimpleName());
   private static Context mContext;
   public List<Group> groups = new ArrayList<>();
+  private FirebaseDatabase mFirebaseDatabase;
 
   public void addGroup(Group group) {
     groups.add(group);
@@ -50,6 +57,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
     mContext = parent.getContext();
     LayoutInflater layoutInflater = LayoutInflater.from(mContext);
     View itemView = layoutInflater.inflate(R.layout.item_group, parent, false);
+
     final GroupHolder groupHolder = new GroupHolder(itemView);
     groupHolder.onClickListener = new View.OnClickListener() {
       @Override
@@ -61,19 +69,48 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
       }
     };
     groupHolder.itemView.setOnClickListener(groupHolder.onClickListener);
+
+    mFirebaseDatabase = FirebaseDatabase.getInstance();
+
     return groupHolder;
   }
 
   @Override
-  public void onBindViewHolder(GroupsAdapter.GroupHolder holder, int position) {
+  public void onBindViewHolder(final GroupsAdapter.GroupHolder holder, final int position) {
     //Placeholder text for now
     holder.position = position;
-    Group group = groups.get(position);
+    final Group group = groups.get(position);
     String groupTitle = group.getGroupTitle();
     if (!TextUtils.isEmpty(groupTitle)) {
       holder.titleTextView.setText(groupTitle);
     }
-    holder.lastMessageTextView.setText("Last message of group " + position);
+    Query lastMessageQuery = mFirebaseDatabase.getReference("chats").child(group.getKey()).limitToLast(1);
+    lastMessageQuery.addChildEventListener(new ChildEventListener() {
+      @Override
+      public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        Chat lastChat = dataSnapshot.getValue(Chat.class);
+        String lastChatMessage = lastChat.getChatMessage();
+        if (TextUtils.isEmpty(lastChatMessage)) {
+          holder.lastMessageTextView.setText("Last message of group " + position);
+        } else {
+          holder.lastMessageTextView.setText(lastChat.getChatMessage());
+        }
+      }
+
+      @Override
+      public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+
+      @Override
+      public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+      @Override
+      public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) {
+        lawg.e("onCancelled() " + databaseError);
+      }
+    });
   }
 
   @Override
