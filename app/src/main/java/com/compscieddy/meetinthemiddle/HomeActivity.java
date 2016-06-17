@@ -63,7 +63,7 @@ import butterknife.ButterKnife;
 public class HomeActivity extends BaseActivity implements OnMapReadyCallback, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, AppBarLayout.OnOffsetChangedListener {
 
-  private static final Lawg lawg = Lawg.newInstance(GroupActivity.class.getSimpleName());
+  private static final Lawg lawg = Lawg.newInstance(HomeActivity.class.getSimpleName());
   int count = 0;
   int initialVerticalOffset = 0;
   int finalVerticalOffset;
