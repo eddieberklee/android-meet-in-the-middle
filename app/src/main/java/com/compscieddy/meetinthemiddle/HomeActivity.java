@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Etils;
@@ -89,6 +90,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   @Bind(R.id.toolbar_viewgroup) ViewGroup mToolbarLayout;
   @Bind(R.id.new_group_button) View mNewGroupButton;
   @Bind(R.id.logout_button) View mLogoutButton;
+  @Bind(R.id.empty_group_view) ImageView mEmptyGroupView;
 
   private SupportMapFragment mMapFragment;
   private Location mLastLocation;
@@ -333,6 +335,13 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   }
 
   private void setupRecyclerView() {
+/*    int i = 0;
+
+    if (i == 0) {
+      mEmptyGroupView.setVisibility(View.VISIBLE);
+      //mGroupRecyclerView.setVisibility(View.GONE);
+    }*/
+
     mGroupsAdapter = new GroupsAdapter();
     mGroupRecyclerView.setAdapter(mGroupsAdapter);
     mGroupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
