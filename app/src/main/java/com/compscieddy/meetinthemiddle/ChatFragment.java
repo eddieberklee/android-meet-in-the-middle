@@ -51,11 +51,15 @@ public class ChatFragment extends Fragment {
 
   private FirebaseAuth firebaseAuth;
   private DatabaseReference mChatsReference;
-  @Bind(R.id.message_send_button) ImageView mSendButton;
-  @Bind(R.id.message_edit_text) EditText mMessageEdit;
+  @Bind(R.id.message_send_button)
+  ImageView mSendButton;
+  @Bind(R.id.message_edit_text)
+  EditText mMessageEdit;
 
-  @Bind(R.id.chats_recycler_view) RecyclerView mChatRecyclerView;
-  @Bind(R.id.empty_chat_view) LinearLayout mEmptyChatView;
+  @Bind(R.id.chats_recycler_view)
+  RecyclerView mChatRecyclerView;
+  @Bind(R.id.empty_chat_view)
+  LinearLayout mEmptyChatView;
 
   private LinearLayoutManager mLayoutManager;
   private FirebaseRecyclerAdapter<Chat, ChatHolder> mChatsFirebaseAdapter;
@@ -146,6 +150,7 @@ public class ChatFragment extends Fragment {
   }
 
   private void attachRecyclerViewAdapter() {
+
     mChatsFirebaseAdapter = new FirebaseRecyclerAdapter<Chat, ChatHolder>(
         Chat.class, R.layout.item_chat, ChatHolder.class, mChatReference) {
 
@@ -165,14 +170,24 @@ public class ChatFragment extends Fragment {
             } else {
               chatView.setIsSender(false);
             }
+             if (mChatsFirebaseAdapter.getItemCount() > 0) {
+              mEmptyChatView.setVisibility(View.INVISIBLE);
+              mChatRecyclerView.setVisibility(View.VISIBLE);
+            }
           }
 
           @Override
-          public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled " + databaseError);
+          public void onCancelled(DatabaseError databaseError) {
+            lawg.e("onCancelled " + databaseError);
           }
         });
       }
     };
+
+    if (mChatsFirebaseAdapter.getItemCount() <= 0) {
+              mChatRecyclerView.setVisibility(View.INVISIBLE);
+              mEmptyChatView.setVisibility(View.VISIBLE);
+            }
 
     // Scroll to bottom on new messages
     mChatsFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
@@ -184,14 +199,6 @@ public class ChatFragment extends Fragment {
     mChatRecyclerView.setAdapter(mChatsFirebaseAdapter);
 
     lawg.d("Item Count: " + Integer.toString(mChatsFirebaseAdapter.getItemCount()));
-
-    if (mChatsFirebaseAdapter.getItemCount() <= 0) {
-      mChatRecyclerView.setVisibility(View.INVISIBLE);
-      mEmptyChatView.setVisibility(View.VISIBLE);
-    } else {
-      mEmptyChatView.setVisibility(View.INVISIBLE);
-      mChatRecyclerView.setVisibility(View.VISIBLE);
-    }
   }
 
   private void signInAnonymously() {
@@ -224,10 +231,14 @@ public class ChatFragment extends Fragment {
 
   public static class ChatHolder extends RecyclerView.ViewHolder {
 
-    @Bind(R.id.left_arrow) FrameLayout leftArrow;
-    @Bind(R.id.right_arrow) FrameLayout rightArrow;
-    @Bind(R.id.message_container) RelativeLayout messageContainer;
-    @Bind(R.id.message_box) LinearLayout messageBox;
+    @Bind(R.id.left_arrow)
+    FrameLayout leftArrow;
+    @Bind(R.id.right_arrow)
+    FrameLayout rightArrow;
+    @Bind(R.id.message_container)
+    RelativeLayout messageContainer;
+    @Bind(R.id.message_box)
+    LinearLayout messageBox;
     View rootView;
 
     public ChatHolder(View itemView) {
