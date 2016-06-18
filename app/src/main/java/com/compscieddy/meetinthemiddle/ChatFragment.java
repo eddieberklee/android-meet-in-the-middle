@@ -181,9 +181,9 @@ public class ChatFragment extends Fragment {
     };
 
     if (mChatsFirebaseAdapter.getItemCount() <= 0) {
-              mChatRecyclerView.setVisibility(View.INVISIBLE);
-              mEmptyChatView.setVisibility(View.VISIBLE);
-            }
+      mChatRecyclerView.setVisibility(View.INVISIBLE);
+      mEmptyChatView.setVisibility(View.VISIBLE);
+    }
 
     // Scroll to bottom on new messages
     mChatsFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
@@ -193,8 +193,6 @@ public class ChatFragment extends Fragment {
       }
     });
     mChatRecyclerView.setAdapter(mChatsFirebaseAdapter);
-
-    lawg.d("Item Count: " + Integer.toString(mChatsFirebaseAdapter.getItemCount()));
   }
 
   private void signInAnonymously() {
@@ -227,14 +225,10 @@ public class ChatFragment extends Fragment {
 
   public static class ChatHolder extends RecyclerView.ViewHolder {
 
-    @Bind(R.id.left_arrow)
-    FrameLayout leftArrow;
-    @Bind(R.id.right_arrow)
-    FrameLayout rightArrow;
-    @Bind(R.id.message_container)
-    RelativeLayout messageContainer;
-    @Bind(R.id.message_box)
-    LinearLayout messageBox;
+    @Bind(R.id.left_arrow) FrameLayout leftArrow;
+    @Bind(R.id.right_arrow) FrameLayout rightArrow;
+    @Bind(R.id.message_container) RelativeLayout messageContainer;
+    @Bind(R.id.message_box) LinearLayout messageBox;
     View rootView;
 
     public ChatHolder(View itemView) {

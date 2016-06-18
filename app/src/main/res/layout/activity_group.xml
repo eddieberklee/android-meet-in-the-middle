@@ -181,7 +181,7 @@
         android:background="@color/greyscale_8"
         android:padding="3dp"
         app:cardCornerRadius="22dp"
-        app:layout_anchor="@id/map"
+        app:layout_anchor="@+id/map"
         app:layout_anchorGravity="bottom|right">
 
         <ImageView
