@@ -157,7 +157,7 @@ public class ChatFragment extends Fragment {
             chatView.setText(chat.getChatMessage());
 
             FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-            if (currentUser != null && chat.getUserKey().equals(user.getKey())) {
+            if (currentUser != null && chat.getUserKey().equals(Etils.encodeEmail(currentUser.getEmail()))) {
               chatView.setIsSender(true);
             } else {
               chatView.setIsSender(false);
