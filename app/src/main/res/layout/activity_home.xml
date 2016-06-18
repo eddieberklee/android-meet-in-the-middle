@@ -113,6 +113,7 @@
         android:paddingRight="20dp"
         android:text="@string/new_group"
         app:fontface="montserrat_semibold"
+        app:layout_behavior="com.compscieddy.meetinthemiddle.ui.ScrollAwareViewBehavior"
         android:fitsSystemWindows="true"
         style="@style/ButtonOutlineAccent"/>
 
