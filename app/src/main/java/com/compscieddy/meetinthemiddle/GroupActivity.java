@@ -748,7 +748,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       public void run() {
         long elapsed = SystemClock.uptimeMillis() - startTime;
         float t = Math.max(1 - interpolator.getInterpolation((float) elapsed/duration), 0);
-        marker.setAnchor(0.5f, 1.0f +  t);
+        marker.setAnchor(0.5f, 1.0f + t);
 
         if (t > 0.0) {
           handler.postDelayed(this, 16);
