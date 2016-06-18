@@ -11,20 +11,14 @@
 
     <!-- todo: Should we be using CoordinatorLayout or LinearLayout here, let's not use both -->
 
-    <LinearLayout
-        android:id="@+id/comments_section"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="6dp"
-        android:orientation="vertical">
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/chats_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:scrollbars="vertical"/>
 
         <LinearLayout
@@ -32,8 +26,11 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="horizontal"
+            app:layout_anchor="@id/chats_recycler_view"
+            app:layout_anchorGravity="bottom|center_horizontal"
             android:clipChildren="false"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            app:layout_behavior="com.compscieddy.meetinthemiddle.ui.ScrollAwareChatBehavior">
 
             <com.compscieddy.meetinthemiddle.FontEditText
                 android:id="@+id/message_edit_text"
@@ -61,6 +58,5 @@
                 android:src="@drawable/ic_send_white_48dp"/>
         </LinearLayout>
 
-    </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

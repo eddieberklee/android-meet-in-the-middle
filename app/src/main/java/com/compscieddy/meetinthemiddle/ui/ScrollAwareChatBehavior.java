@@ -3,6 +3,8 @@ package com.compscieddy.meetinthemiddle.ui;
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
@@ -11,9 +13,9 @@ import android.view.animation.LinearInterpolator;
  * Created by ambar on 6/18/16.
  */
 
-public class ScrollAwareViewBehavior extends CoordinatorLayout.Behavior {
+public class ScrollAwareChatBehavior extends CoordinatorLayout.Behavior {
 
-  public ScrollAwareViewBehavior(Context context, AttributeSet attrs) {
+  public ScrollAwareChatBehavior(Context context, AttributeSet attrs) {
     super();
   }
 
@@ -26,13 +28,23 @@ public class ScrollAwareViewBehavior extends CoordinatorLayout.Behavior {
   public void onNestedScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
     super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
     if (dyConsumed > 0) {
-      // Scrolling down. Hide the view.
+      // Scrolling down. Hide the layout.
       CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
-      int view_bottomMargin = layoutParams.bottomMargin;
-      child.animate().translationY(child.getHeight() + view_bottomMargin).setInterpolator(new LinearInterpolator()).start();
+      int layout_bottomMargin = layoutParams.bottomMargin;
+      child.animate().translationY(child.getHeight() + layout_bottomMargin).setInterpolator(new LinearInterpolator()).start();
     } else if (dyConsumed < 0) {
-      // Scrolling up. Display the view.
+      // Scrolling up. Display the layout.
       child.animate().translationY(0).setInterpolator(new LinearInterpolator()).start();
+    }
+
+    if (target instanceof RecyclerView){
+      final RecyclerView recyclerView = (RecyclerView) target;
+      LinearLayoutManager linearLayoutManager = (LinearLayoutManager)recyclerView.getLayoutManager();
+      // Check if we've reached the bottom of RecyclerView, and display layout if so.
+      if (linearLayoutManager.findLastVisibleItemPosition() == recyclerView.getAdapter().getItemCount() - 1){
+        child.animate().translationY(0).setInterpolator(new LinearInterpolator()).start();
+      }
+
     }
   }
 }
