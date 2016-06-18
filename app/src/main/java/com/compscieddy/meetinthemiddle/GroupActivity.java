@@ -93,6 +93,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private boolean mIsLocationPermissionEnabled = false;
 
   private final int ANIMATE_CAMERA_REPEAT = 2000;
+  private final int ACTIVITY_REFRESH_MILLIS = 3000;
 
   public static final String ARG_GROUP_KEY = "group_id_key";
   private String mGroupKey;
@@ -452,14 +453,12 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
         Intent intent = new Intent(this, ActivityRecognitionService.class);
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mGoogleApiClient, 3000, pendingIntent);
+        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mGoogleApiClient, ACTIVITY_REFRESH_MILLIS, pendingIntent);
       }
     } catch (SecurityException se) {
       lawg.e("se: " + se);
     }
   }
-
-
 
   @Override
   public void onConnectionSuspended(int i) {
