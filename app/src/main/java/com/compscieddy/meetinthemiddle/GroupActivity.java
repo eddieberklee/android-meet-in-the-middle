@@ -16,6 +16,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -32,6 +33,8 @@ import android.text.TextWatcher;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -120,6 +123,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
   boolean expanded = false;
   boolean voteLocationActive = false;
+
+  Marker queenstownMarker, sydneyMarker;
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -323,14 +328,17 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     }
 
     LatLng sydney = new LatLng(-34, 151);
-    Marker sydneyMarker = mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+    sydneyMarker = mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
     mMarkers.put(UUID.randomUUID().toString(), sydneyMarker);
     mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
     LatLng queenstown = new LatLng(-45, 168);
-    Marker queenstownMarker = mMap.addMarker(new MarkerOptions().position(queenstown).title("Marker in Queenstown"));
+    queenstownMarker = mMap.addMarker(new MarkerOptions().position(queenstown).title("Marker in Queenstown"));
     mMarkers.put(UUID.randomUUID().toString(), queenstownMarker);
     mMap.moveCamera(CameraUpdateFactory.newLatLng(queenstown));
+
+    //call this on marker creation
+    setMarkerBounce(queenstownMarker);
 
     initMarkers();
   }
@@ -688,6 +696,17 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     startActivity(Intent.createChooser(shareLinkIntent, "Share link using"));
   }
 
+/*  @Override
+  public boolean onMarkerClick(Marker marker) {
+
+    if (marker.equals(queenstownMarker)) {
+
+      setMarkerBounce(marker);
+    }
+
+    return false;
+  }*/
+
   public class GroupFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
     final int CHAT_FRAGMENT = 0;
@@ -715,4 +734,26 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       return null;
     }
   }
+
+  private void setMarkerBounce(final Marker marker) {
+    final Handler handler = new Handler();
+    final long startTime = SystemClock.uptimeMillis();
+    final long duration = 2000;
+    final Interpolator interpolator = new BounceInterpolator();
+    handler.post(new Runnable() {
+      @Override
+      public void run() {
+        long elapsed = SystemClock.uptimeMillis() - startTime;
+        float t = Math.max(1 - interpolator.getInterpolation((float) elapsed/duration), 0);
+        marker.setAnchor(0.5f, 1.0f +  t);
+
+        if (t > 0.0) {
+          handler.postDelayed(this, 16);
+        } else {
+          setMarkerBounce(marker);
+        }
+      }
+    });
+  }
+
 }
