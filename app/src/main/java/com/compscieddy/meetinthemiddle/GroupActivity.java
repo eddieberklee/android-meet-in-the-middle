@@ -682,8 +682,11 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         String groupTitle = dataSnapshot.getValue(String.class);
         mGroupTextView.setText(groupTitle);
       }
+
       @Override
-      public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }
+      public void onCancelled(DatabaseError databaseError) {
+        lawg.e("onCancelled() " + databaseError);
+      }
     });
 
   }
