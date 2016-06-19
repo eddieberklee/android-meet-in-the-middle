@@ -81,29 +81,20 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   private GoogleApiClient mGoogleApiClient;
   private Marker mCurrentMarker;
 
-  @Bind(R.id.username)
-  TextView mUsername;
-  @Bind(R.id.group_recycler_view)
-  RecyclerView mGroupRecyclerView;
-  @Bind(R.id.app_bar_layout)
-  AppBarLayout mAppBarLayout;
-  @Bind(R.id.collapsing_toolbar)
-  CollapsingToolbarLayout mCollapsingToolbarLayout;
-  @Bind(R.id.map_card_view)
-  CardView mMapCardView;
-  @Bind(R.id.toolbar_viewgroup)
-  ViewGroup mToolbarLayout;
-  @Bind(R.id.new_group_button)
-  View mNewGroupButton;
-  @Bind(R.id.logout_button)
-  View mLogoutButton;
+  @Bind(R.id.username) TextView mUsername;
+  @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
+  @Bind(R.id.app_bar_layout) AppBarLayout mAppBarLayout;
+  @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
+  @Bind(R.id.map_card_view) CardView mMapCardView;
+  @Bind(R.id.toolbar_viewgroup) ViewGroup mToolbarLayout;
+  @Bind(R.id.new_group_button) View mNewGroupButton;
+  @Bind(R.id.logout_button) View mLogoutButton;
 
   private SupportMapFragment mMapFragment;
   private Location mLastLocation;
   private GroupsAdapter mGroupsAdapter;
 
-  @Bind(R.id.status_recycler_view)
-  RecyclerView mStatusRecyclerView;
+  @Bind(R.id.status_recycler_view) RecyclerView mStatusRecyclerView;
   private StatusAdapter mStatusAdapter;
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
