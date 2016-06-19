@@ -465,6 +465,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
         mFirebaseAuth.signOut();
         Intent intent = new Intent(HomeActivity.this, AuthenticationActivity.class);
         startActivity(intent);
+        finish();
         break;
       }
     }
