@@ -1,5 +1,6 @@
 package com.compscieddy.meetinthemiddle.model;
 
+import com.compscieddy.eddie_utils.Lawg;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -8,6 +9,8 @@ import com.google.firebase.database.IgnoreExtraProperties;
  */
 @IgnoreExtraProperties
 public class UserMarker {
+
+  private static final Lawg lawg = Lawg.newInstance(UserMarker.class.getSimpleName());
 
   public String userUUID;
   public double latitude;

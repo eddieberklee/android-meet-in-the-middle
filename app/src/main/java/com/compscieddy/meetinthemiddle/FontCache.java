@@ -3,12 +3,16 @@ package com.compscieddy.meetinthemiddle;
 import android.content.Context;
 import android.graphics.Typeface;
 
+import com.compscieddy.eddie_utils.Lawg;
+
 import java.util.HashMap;
 
 /**
  * Created by elee on 1/7/16.
  */
 public class FontCache {
+
+  private static final Lawg lawg = Lawg.newInstance(FontCache.class.getSimpleName());
 
   public static final int MONTSERRAT_HAIRLINE   = 0;
   public static final int MONTSERRAT_ULTRALIGHT = 1;

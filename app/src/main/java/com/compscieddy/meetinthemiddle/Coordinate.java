@@ -1,11 +1,14 @@
 package com.compscieddy.meetinthemiddle;
 
+import com.compscieddy.eddie_utils.Lawg;
 import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Created by elee on 6/6/16.
  */
 public class Coordinate {
+
+  private static final Lawg lawg = Lawg.newInstance(Coordinate.class.getSimpleName());
 
   public double lat;
   public double lon;
