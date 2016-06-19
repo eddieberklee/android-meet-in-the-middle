@@ -12,7 +12,7 @@ import java.util.Map;
  */
 @IgnoreExtraProperties
 public class Chat {
-
+  
   String key;
   String groupKey;
   String userKey;
