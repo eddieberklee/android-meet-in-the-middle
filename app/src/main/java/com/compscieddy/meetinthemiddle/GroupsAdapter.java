@@ -43,9 +43,9 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
     notifyDataSetChanged();
   }
 
-  public void removeGroup(Group deleteGroup) {
+  public void removeGroup(String deleteGroupKey) {
     for (Group group : groups) {
-      if (group.key == deleteGroup.key) {
+      if (group.key == deleteGroupKey) {
         groups.remove(group);
         notifyDataSetChanged();
       }

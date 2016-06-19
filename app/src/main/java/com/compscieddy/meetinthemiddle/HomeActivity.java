@@ -393,9 +393,8 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       @Override
       public void onChildRemoved(DataSnapshot dataSnapshot) {
         lawg.e(" dataSnapshot: " + dataSnapshot);
-        Group group = dataSnapshot.getValue(Group.class);
-        lawg.e(" group: " + group);
-        mGroupsAdapter.removeGroup(group);
+        String groupKey = dataSnapshot.getKey();
+        mGroupsAdapter.removeGroup(groupKey);
       }
 
       @Override
