@@ -45,7 +45,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
 
   public void removeGroup(Group deleteGroup) {
     for (Group group : groups) {
-      if (group.groupKey == deleteGroup.groupKey) {
+      if (group.key == deleteGroup.key) {
         groups.remove(group);
         notifyDataSetChanged();
       }
@@ -54,7 +54,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
 
   public void updateGroup(Group updatedGroup) {
     for (Group group : groups) {
-      if (group.groupKey == updatedGroup.groupKey) {
+      if (group.key == updatedGroup.key) {
         group.updateWith(updatedGroup);
         notifyDataSetChanged();
       }
@@ -73,7 +73,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
       public void onClick(View v) {
         Intent intent = new Intent(mContext, GroupActivity.class);
         // For testing purposes, gives NPE otherwise
-        intent.putExtra(GroupActivity.ARG_GROUP_KEY, GroupsAdapter.this.groups.get(groupHolder.position).groupKey);
+        intent.putExtra(GroupActivity.ARG_GROUP_KEY, GroupsAdapter.this.groups.get(groupHolder.position).key);
         mContext.startActivity(intent);
       }
     };
