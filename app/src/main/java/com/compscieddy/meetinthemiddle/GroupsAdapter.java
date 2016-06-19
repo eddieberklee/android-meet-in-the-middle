@@ -52,6 +52,15 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
     }
   }
 
+  public void updateGroup(Group updatedGroup) {
+    for (Group group : groups) {
+      if (group.groupKey == updatedGroup.groupKey) {
+        group.updateWith(updatedGroup);
+        notifyDataSetChanged();
+      }
+    }
+  }
+
   @Override
   public GroupsAdapter.GroupHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     mContext = parent.getContext();

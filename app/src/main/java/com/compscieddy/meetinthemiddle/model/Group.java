@@ -23,6 +23,17 @@ public class Group {
   public Group() {}
 
   public Group(String groupKey, @Nullable String groupTitle, @Nullable Set<String> groupUserIds) {
+    init(groupKey, groupTitle, groupUserIds);
+  }
+
+  private void init(Group group) {
+    init(
+        group.groupKey,
+        group.groupTitle,
+        group.groupUserIds
+    );
+  }
+  private void init(String groupKey, @Nullable String groupTitle, @Nullable Set<String> groupUserIds) {
     this.groupKey = groupKey;
     if (this.groupTitle != null) {
       this.groupTitle = groupTitle;
@@ -49,6 +60,11 @@ public class Group {
     Map<String, Object> fields = toMap();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     database.getReference("groups").child(getKey()).updateChildren(fields);
+  }
+
+  public void updateWith(Group updatedGroup) {
+    init(updatedGroup);
+    update();
   }
 
   @Exclude
