@@ -82,7 +82,9 @@ public class ProfilePicture extends AppCompatActivity {
 
     AsyncTask<Void, Void, Bitmap> task = new AsyncTask<Void, Void, Bitmap>() {
 
+      //TODO: DYNAMICALLY CHOOSE THISE FACEBOOK userID IF THEY LOG IN WITH FACEBOOK
       String userId = "705621855";
+      //String userId = me.getCurrentProfile().getId()
       @Override
       public Bitmap doInBackground(Void... params) {
         URL fbAvatarUrl = null;
