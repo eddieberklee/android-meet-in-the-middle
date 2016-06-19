@@ -65,6 +65,7 @@ public class Group {
   public void update() {
     Map<String, Object> fields = toMap();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    lawg.e(" getKey(): " + getKey() + " groupTitle: " + groupTitle);
     database.getReference("groups").child(getKey()).updateChildren(fields);
   }
 
@@ -73,7 +74,6 @@ public class Group {
       Etils.logAndToast(MitmApplication.getContext(), lawg, "Group being updated doesn't have same key " + key + " vs " + updatedGroup.getKey());
     }
     init(updatedGroup);
-    update();
   }
 
   @Exclude

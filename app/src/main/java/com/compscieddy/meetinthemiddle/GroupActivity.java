@@ -522,6 +522,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             mGroup = dataSnapshot.getValue(Group.class);
+            lawg.e(" mGroup: " + mGroup + " mGroup.getKey(): " + mGroup.getKey() + " newGroupTitle: " + newGroupTitle);
             mGroup.setGroupTitle(newGroupTitle);
             mGroup.update();
           }
