@@ -1,6 +1,7 @@
 package com.compscieddy.meetinthemiddle;
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,6 +45,7 @@ import com.facebook.share.model.AppInviteContent;
 import com.facebook.share.widget.AppInviteDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.ActivityRecognition;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -91,6 +93,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private boolean mIsLocationPermissionEnabled = false;
 
   private final int ANIMATE_CAMERA_REPEAT = 2000;
+  private final int ACTIVITY_REFRESH_MILLIS = 3000;
 
   public static final String ARG_GROUP_KEY = "group_id_key";
   private String mGroupKey;
@@ -212,6 +215,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
           .addConnectionCallbacks(GroupActivity.this)
           .addOnConnectionFailedListener(GroupActivity.this)
           .addApi(LocationServices.API)
+          .addApi(ActivityRecognition.API)
           .build();
     }
 
@@ -446,11 +450,14 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
         // Get back the mutable Polygon
         mMap.addPolygon(rectOptions);
+
+        Intent intent = new Intent(this, ActivityRecognitionService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mGoogleApiClient, ACTIVITY_REFRESH_MILLIS, pendingIntent);
       }
     } catch (SecurityException se) {
       lawg.e("se: " + se);
     }
-
   }
 
   @Override
