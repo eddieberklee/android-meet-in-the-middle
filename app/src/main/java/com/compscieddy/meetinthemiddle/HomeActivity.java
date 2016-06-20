@@ -190,7 +190,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   @Override
   public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
     finalVerticalOffset = verticalOffset;
-    if (finalVerticalOffset < initialVerticalOffset){
+    if (finalVerticalOffset < initialVerticalOffset) {
       // we are scrolling down
       count++;
       if (count == 1) {
@@ -200,7 +200,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
         mToolbarLayout.startAnimation(animation);
       }
 
-    } else if (finalVerticalOffset > initialVerticalOffset){
+    } else if (finalVerticalOffset > initialVerticalOffset) {
       // we are scrolling up
       count++;
       if (count == 1) {
@@ -372,7 +372,9 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           }
 
           @Override
-          public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled " + databaseError); }
+          public void onCancelled(DatabaseError databaseError) {
+            lawg.e("onCancelled " + databaseError);
+          }
         });
 
         mFirebaseDatabase.getReference("groups").child(groupKey).addValueEventListener(new ValueEventListener() {
@@ -389,7 +391,8 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       }
 
       @Override
-      public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+      public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+      }
 
       @Override
       public void onChildRemoved(DataSnapshot dataSnapshot) {
@@ -399,7 +402,8 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       }
 
       @Override
-      public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+      public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+      }
 
       @Override
       public void onCancelled(DatabaseError databaseError) {

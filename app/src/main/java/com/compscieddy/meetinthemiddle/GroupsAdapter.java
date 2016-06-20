@@ -88,7 +88,6 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
 
   @Override
   public void onBindViewHolder(final GroupsAdapter.GroupHolder holder, final int position) {
-    //Placeholder text for now
     holder.position = position;
     final Group group = groups.get(position);
     String groupTitle = group.getGroupTitle();
