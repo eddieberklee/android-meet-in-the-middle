@@ -1,6 +1,7 @@
 package com.compscieddy.meetinthemiddle.model;
 
 import com.compscieddy.eddie_utils.Etils;
+import com.compscieddy.eddie_utils.Lawg;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
@@ -15,6 +16,8 @@ import java.util.Map;
  */
 @IgnoreExtraProperties
 public class User {
+
+  private static final Lawg lawg = Lawg.newInstance(User.class.getSimpleName());
 
   public String email;
   public String name;

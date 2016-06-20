@@ -1,5 +1,6 @@
 package com.compscieddy.meetinthemiddle.model;
 
+import com.compscieddy.eddie_utils.Lawg;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -12,7 +13,8 @@ import java.util.Map;
  */
 @IgnoreExtraProperties
 public class Chat {
-  
+  private static final Lawg lawg = Lawg.newInstance(Chat.class.getSimpleName());
+
   String key;
   String groupKey;
   String userKey;
@@ -53,7 +55,7 @@ public class Chat {
   public Map<String, Object> toMap() {
     HashMap<String, Object> result = new HashMap<>();
     result.put("key", key);
-    result.put("groupKey", groupKey);
+    result.put("key", groupKey);
     result.put("userKey", userKey);
     result.put("chatMessage", chatMessage);
     return result;
