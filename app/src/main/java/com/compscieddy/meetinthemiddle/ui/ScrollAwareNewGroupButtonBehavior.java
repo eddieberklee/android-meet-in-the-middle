@@ -11,9 +11,9 @@ import android.view.animation.LinearInterpolator;
  * Created by ambar on 6/18/16.
  */
 
-public class ScrollAwareViewBehavior extends CoordinatorLayout.Behavior {
+public class ScrollAwareNewGroupButtonBehavior extends CoordinatorLayout.Behavior {
 
-  public ScrollAwareViewBehavior(Context context, AttributeSet attrs) {
+  public ScrollAwareNewGroupButtonBehavior(Context context, AttributeSet attrs) {
     super();
   }
 
