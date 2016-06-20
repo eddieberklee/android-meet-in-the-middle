@@ -102,6 +102,17 @@
         android:text="Logout"/>
 
     <com.compscieddy.meetinthemiddle.FontTextView
+        android:id="@+id/temp_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:translationX="-40dp"
+        android:background="@drawable/rounded_outline_accent"
+        app:layout_anchor="@+id/new_group_button"
+        app:layout_anchorGravity="left|center_vertical"
+        android:text="Temp"/>
+
+    <com.compscieddy.meetinthemiddle.FontTextView
         android:id="@+id/new_group_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

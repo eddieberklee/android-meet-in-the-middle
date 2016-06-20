@@ -24,5 +24,9 @@
     <string name="yelp_consumer_secret">k4iIUupmG9JazbywYn0crL39CB8</string>
     <string name="yelp_token">4lXH_qvGpjiOrC_naPvp2pUoWr_0BCAS</string>
     <string name="yelp_token_secret">1Dhs09I6Fi1XTseUf8evVNmkqSI</string>
+    <string name="title_activity_profile_picture">ProfilePicture</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
