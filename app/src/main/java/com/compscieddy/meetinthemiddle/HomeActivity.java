@@ -376,6 +376,18 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
             lawg.e("onCancelled " + databaseError);
           }
         });
+
+        mFirebaseDatabase.getReference("groups").child(groupKey).addValueEventListener(new ValueEventListener() {
+          @Override
+          public void onDataChange(DataSnapshot dataSnapshot) {
+            Group updatedGroup = dataSnapshot.getValue(Group.class);
+            mGroupsAdapter.updateGroup(updatedGroup);
+            lawg.d("onDataChange() " + " updatedGroup.getKey(): " + updatedGroup.getKey() + " " + updatedGroup.getGroupTitle());
+          }
+
+          @Override
+          public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }
+        });
       }
 
       @Override
@@ -385,9 +397,8 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       @Override
       public void onChildRemoved(DataSnapshot dataSnapshot) {
         lawg.e(" dataSnapshot: " + dataSnapshot);
-        Group group = dataSnapshot.getValue(Group.class);
-        lawg.e(" group: " + group);
-        mGroupsAdapter.removeGroup(group);
+        String groupKey = dataSnapshot.getKey();
+        mGroupsAdapter.removeGroup(groupKey);
       }
 
       @Override
@@ -410,18 +421,22 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
         Intent intent = new Intent(HomeActivity.this, GroupActivity.class);
         DatabaseReference newGroupReference = mFirebaseDatabase.getReference("groups").push();
 
-        final String groupKey = newGroupReference.getKey();
-        Group newGroup = new Group(groupKey, null, null);
+        final String newGroupKey = newGroupReference.getKey();
+        Group newGroup = new Group(newGroupKey, null, null);
         newGroupReference.setValue(newGroup);
-        mUser.addGroup(groupKey);
+        mUser.addGroup(newGroupKey);
         mUser.update();
         // Just while testing, add everyone to every group
         mFirebaseDatabase.getReference("users").addChildEventListener(new ChildEventListener() {
           @Override
           public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             User user = dataSnapshot.getValue(User.class);
+            lawg.e("onChildAdded " + " user: " + user);
+            if (user != null) {
+              lawg.e("name: " + user.name);
+            }
             if (!user.getKey().equals(mUser.getKey())) {
-              user.addGroup(groupKey);
+              user.addGroup(newGroupKey);
               user.update();
             }
           }
@@ -447,7 +462,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           }
         });
 
-        intent.putExtra(GroupActivity.ARG_GROUP_KEY, groupKey);
+        intent.putExtra(GroupActivity.ARG_GROUP_KEY, newGroupKey);
         startActivity(intent);
         break;
       }
@@ -455,6 +470,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
         mFirebaseAuth.signOut();
         Intent intent = new Intent(HomeActivity.this, AuthenticationActivity.class);
         startActivity(intent);
+        finish();
         break;
       }
     }

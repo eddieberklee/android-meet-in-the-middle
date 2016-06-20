@@ -28,10 +28,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -107,8 +109,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private Location mLastLocation;
   private String mUUID;
 
-  @Bind(R.id.group_edit_text) EditText mGroupEditText;
-  @Bind(R.id.group_text_view) TextView mGroupTextView;
+  @Bind(R.id.group_edit_text) EditText mGroupNameEditText;
+  @Bind(R.id.group_text_view) TextView mGroupNameTextView;
   @Bind(R.id.group_set_button) TextView mSetButton;
   @Bind(R.id.invite_button) TextView mInviteButton;
   @Bind(R.id.invite_button_two) TextView mInviteButtonTwo;
@@ -179,7 +181,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
             Etils.logAndToast(GroupActivity.this, lawg, "Group is null - shit is so wrong");
             return;
           }
-          mGroupTextView.setText(mGroup.groupTitle);
+          mGroupNameTextView.setText(mGroup.groupTitle);
         }
 
         @Override
@@ -189,7 +191,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       });
     }
 
-    mGroupEditText.addTextChangedListener(new TextWatcher() {
+    mGroupNameEditText.addTextChangedListener(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -395,7 +397,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   }
 
   private void setListeners() {
-    mGroupTextView.setOnClickListener(this);
+    mGroupNameTextView.setOnClickListener(this);
     mSetButton.setOnClickListener(this);
     mInviteButton.setOnClickListener(this);
     mInviteButtonTwo.setOnClickListener(this);
@@ -487,25 +489,40 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.group_text_view:
-        mGroupEditText.setVisibility(View.VISIBLE);
-        mGroupTextView.setVisibility(View.INVISIBLE);
+        mGroupNameEditText.setVisibility(View.VISIBLE);
+        mGroupNameTextView.setVisibility(View.INVISIBLE);
         mSetButton.setVisibility(View.VISIBLE);
-        mGroupEditText.requestFocus();
-        mGroupEditText.setText("");
+        String groupName = mGroupNameTextView.getText().toString();
+        if (TextUtils.isEmpty(groupName)) {
+          mGroupNameEditText.setHint(R.string.hint_set_group_name);
+        } else {
+          mGroupNameEditText.setText(groupName);
+          mGroupNameEditText.setHint(groupName);
+        }
+        mHandler.post(new Runnable() {
+          @Override
+          public void run() {
+            mGroupNameEditText.requestFocus();
+            // todo: move to Etils
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mGroupNameEditText, InputMethodManager.SHOW_IMPLICIT);
+          }
+        });
         mSetButton.setText(getString(R.string.cancel_group_title_editing));
         break;
 
       case R.id.group_set_button:
-        mGroupEditText.setVisibility(View.INVISIBLE);
-        mGroupTextView.setVisibility(View.VISIBLE);
+        mGroupNameEditText.setVisibility(View.INVISIBLE);
+        mGroupNameTextView.setVisibility(View.VISIBLE);
         mSetButton.setVisibility(View.INVISIBLE);
 
-        final String newGroupTitle = mGroupEditText.getText().toString();
+        final String newGroupTitle = mGroupNameEditText.getText().toString();
         DatabaseReference groupReference = mFirebaseDatabase.getReference("groups").child(mGroupKey);
         groupReference.addListenerForSingleValueEvent(new ValueEventListener() {
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             mGroup = dataSnapshot.getValue(Group.class);
+            lawg.e(" mGroup: " + mGroup + " mGroup.getKey(): " + mGroup.getKey() + " newGroupTitle: " + newGroupTitle);
             mGroup.setGroupTitle(newGroupTitle);
             mGroup.update();
           }
@@ -672,7 +689,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       @Override
       public void onDataChange(DataSnapshot dataSnapshot) {
         String groupTitle = dataSnapshot.getValue(String.class);
-        mGroupTextView.setText(groupTitle);
+        mGroupNameTextView.setText(groupTitle);
       }
       @Override
       public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }

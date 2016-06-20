@@ -53,7 +53,7 @@ public class Chat {
   public Map<String, Object> toMap() {
     HashMap<String, Object> result = new HashMap<>();
     result.put("key", key);
-    result.put("groupKey", groupKey);
+    result.put("key", groupKey);
     result.put("userKey", userKey);
     result.put("chatMessage", chatMessage);
     return result;
