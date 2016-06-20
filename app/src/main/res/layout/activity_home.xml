@@ -100,7 +100,7 @@
         android:translationX="40dp"
         app:layout_anchor="@+id/new_group_button"
         app:layout_anchorGravity="right|center_vertical"
-        android:text="Logout"
+        android:text="Log\nout"
         android:textSize="11sp"
         style="@style/ButtonOutlineAccent"/>
 
