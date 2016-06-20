@@ -1,6 +1,7 @@
 package com.compscieddy.meetinthemiddle;
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,6 +16,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -27,10 +29,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -44,6 +50,7 @@ import com.facebook.share.model.AppInviteContent;
 import com.facebook.share.widget.AppInviteDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.ActivityRecognition;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -91,6 +98,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private boolean mIsLocationPermissionEnabled = false;
 
   private final int ANIMATE_CAMERA_REPEAT = 2000;
+  private final int ACTIVITY_REFRESH_MILLIS = 3000;
 
   public static final String ARG_GROUP_KEY = "group_id_key";
   private String mGroupKey;
@@ -104,8 +112,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private Location mLastLocation;
   private String mUUID;
 
-  @Bind(R.id.group_edit_text) EditText mGroupEditText;
-  @Bind(R.id.group_text_view) TextView mGroupTextView;
+  @Bind(R.id.group_edit_text) EditText mGroupNameEditText;
+  @Bind(R.id.group_text_view) TextView mGroupNameTextView;
   @Bind(R.id.group_set_button) TextView mSetButton;
   @Bind(R.id.invite_button) TextView mInviteButton;
   @Bind(R.id.invite_button_two) TextView mInviteButtonTwo;
@@ -117,6 +125,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
   boolean expanded = false;
   boolean voteLocationActive = false;
+
+  Marker queenstownMarker, sydneyMarker;
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -176,7 +186,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
             Etils.logAndToast(GroupActivity.this, lawg, "Group is null - shit is so wrong");
             return;
           }
-          mGroupTextView.setText(mGroup.groupTitle);
+          mGroupNameTextView.setText(mGroup.groupTitle);
         }
 
         @Override
@@ -186,7 +196,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       });
     }
 
-    mGroupEditText.addTextChangedListener(new TextWatcher() {
+    mGroupNameEditText.addTextChangedListener(new TextWatcher() {
       @Override
       public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -212,6 +222,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
           .addConnectionCallbacks(GroupActivity.this)
           .addOnConnectionFailedListener(GroupActivity.this)
           .addApi(LocationServices.API)
+          .addApi(ActivityRecognition.API)
           .build();
     }
 
@@ -319,14 +330,17 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     }
 
     LatLng sydney = new LatLng(-34, 151);
-    Marker sydneyMarker = mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+    sydneyMarker = mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
     mMarkers.put(UUID.randomUUID().toString(), sydneyMarker);
     mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
     LatLng queenstown = new LatLng(-45, 168);
-    Marker queenstownMarker = mMap.addMarker(new MarkerOptions().position(queenstown).title("Marker in Queenstown"));
+    queenstownMarker = mMap.addMarker(new MarkerOptions().position(queenstown).title("Marker in Queenstown"));
     mMarkers.put(UUID.randomUUID().toString(), queenstownMarker);
     mMap.moveCamera(CameraUpdateFactory.newLatLng(queenstown));
+
+    //call this on marker creation
+    setMarkerBounce(queenstownMarker);
 
     initMarkers();
   }
@@ -360,7 +374,11 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
           @Override
           public void onMapLoaded() {
-            mMap.animateCamera(cameraUpdate);
+            try {
+              mMap.animateCamera(cameraUpdate);
+            } catch (IllegalStateException e) {
+              Etils.logAndToast(GroupActivity.this, lawg, "Illegal State Exception - screenshot to developers");
+            }
           }
         });
 
@@ -391,7 +409,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   }
 
   private void setListeners() {
-    mGroupTextView.setOnClickListener(this);
+    mGroupNameTextView.setOnClickListener(this);
     mSetButton.setOnClickListener(this);
     mInviteButton.setOnClickListener(this);
     mInviteButtonTwo.setOnClickListener(this);
@@ -446,11 +464,14 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
         // Get back the mutable Polygon
         mMap.addPolygon(rectOptions);
+
+        Intent intent = new Intent(this, ActivityRecognitionService.class);
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mGoogleApiClient, ACTIVITY_REFRESH_MILLIS, pendingIntent);
       }
     } catch (SecurityException se) {
       lawg.e("se: " + se);
     }
-
   }
 
   @Override
@@ -480,25 +501,40 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.group_text_view:
-        mGroupEditText.setVisibility(View.VISIBLE);
-        mGroupTextView.setVisibility(View.INVISIBLE);
+        mGroupNameEditText.setVisibility(View.VISIBLE);
+        mGroupNameTextView.setVisibility(View.INVISIBLE);
         mSetButton.setVisibility(View.VISIBLE);
-        mGroupEditText.requestFocus();
-        mGroupEditText.setText("");
+        String groupName = mGroupNameTextView.getText().toString();
+        if (TextUtils.isEmpty(groupName)) {
+          mGroupNameEditText.setHint(R.string.hint_set_group_name);
+        } else {
+          mGroupNameEditText.setText(groupName);
+          mGroupNameEditText.setHint(groupName);
+        }
+        mHandler.post(new Runnable() {
+          @Override
+          public void run() {
+            mGroupNameEditText.requestFocus();
+            // todo: move to Etils
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mGroupNameEditText, InputMethodManager.SHOW_IMPLICIT);
+          }
+        });
         mSetButton.setText(getString(R.string.cancel_group_title_editing));
         break;
 
       case R.id.group_set_button:
-        mGroupEditText.setVisibility(View.INVISIBLE);
-        mGroupTextView.setVisibility(View.VISIBLE);
+        mGroupNameEditText.setVisibility(View.INVISIBLE);
+        mGroupNameTextView.setVisibility(View.VISIBLE);
         mSetButton.setVisibility(View.INVISIBLE);
 
-        final String newGroupTitle = mGroupEditText.getText().toString();
+        final String newGroupTitle = mGroupNameEditText.getText().toString();
         DatabaseReference groupReference = mFirebaseDatabase.getReference("groups").child(mGroupKey);
         groupReference.addListenerForSingleValueEvent(new ValueEventListener() {
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             mGroup = dataSnapshot.getValue(Group.class);
+            lawg.e(" mGroup: " + mGroup + " mGroup.getKey(): " + mGroup.getKey() + " newGroupTitle: " + newGroupTitle);
             mGroup.setGroupTitle(newGroupTitle);
             mGroup.update();
           }
@@ -665,10 +701,13 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       @Override
       public void onDataChange(DataSnapshot dataSnapshot) {
         String groupTitle = dataSnapshot.getValue(String.class);
-        mGroupTextView.setText(groupTitle);
+        mGroupNameTextView.setText(groupTitle);
       }
+
       @Override
-      public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }
+      public void onCancelled(DatabaseError databaseError) {
+        lawg.e("onCancelled() " + databaseError);
+      }
     });
 
   }
@@ -680,6 +719,17 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     // TODO CREATE UNIQUE URL FOR GROUP
     startActivity(Intent.createChooser(shareLinkIntent, "Share link using"));
   }
+
+/*  @Override
+  public boolean onMarkerClick(Marker marker) {
+
+    if (marker.equals(queenstownMarker)) {
+
+      setMarkerBounce(marker);
+    }
+
+    return false;
+  }*/
 
   public class GroupFragmentPagerAdapter extends FragmentPagerAdapter {
     final int PAGE_COUNT = 2;
@@ -708,4 +758,26 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       return null;
     }
   }
+
+  private void setMarkerBounce(final Marker marker) {
+    final Handler handler = new Handler();
+    final long startTime = SystemClock.uptimeMillis();
+    final long duration = 2000;
+    final Interpolator interpolator = new BounceInterpolator();
+    handler.post(new Runnable() {
+      @Override
+      public void run() {
+        long elapsed = SystemClock.uptimeMillis() - startTime;
+        float t = Math.max(1 - interpolator.getInterpolation((float) elapsed/duration), 0);
+        marker.setAnchor(0.5f, 1.0f + t);
+
+        if (t > 0.0) {
+          handler.postDelayed(this, 16);
+        } else {
+          setMarkerBounce(marker);
+        }
+      }
+    });
+  }
+
 }

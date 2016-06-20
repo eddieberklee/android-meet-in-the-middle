@@ -5,10 +5,14 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.compscieddy.eddie_utils.Lawg;
+
 /**
  * Created by elee on 1/6/16.
  */
 public class FontTextView extends TextView {
+
+  private static final Lawg lawg = Lawg.newInstance(FontTextView.class.getSimpleName());
 
   private final Context mContext;
 

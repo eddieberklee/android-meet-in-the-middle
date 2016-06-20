@@ -49,21 +49,21 @@ public class ChatFragment extends Fragment {
 
   private static final Lawg lawg = Lawg.newInstance(ChatFragment.class.getSimpleName());
 
-  private FirebaseAuth firebaseAuth;
-  private DatabaseReference mChatsReference;
   @Bind(R.id.message_send_button) ImageView mSendButton;
   @Bind(R.id.message_edit_text) EditText mMessageEdit;
 
   @Bind(R.id.chats_recycler_view) RecyclerView mChatRecyclerView;
-  @Bind(R.id.empty_chat_view) LinearLayout mEmptyChatView;
+  @Bind(R.id.empty_chat_view) ViewGroup mEmptyChatView;
 
   private LinearLayoutManager mLayoutManager;
   private FirebaseRecyclerAdapter<Chat, ChatHolder> mChatsFirebaseAdapter;
 
   public static final String ARG_GROUP_KEY = "arg_group_key";
   private String mGroupKey;
+
   private DatabaseReference mChatReference;
   private FirebaseDatabase mFirebaseDatabase;
+  private FirebaseAuth mFirebaseAuth;
 
   public static ChatFragment newInstance(String groupKey) {
     //For future arguments, add here
@@ -83,8 +83,8 @@ public class ChatFragment extends Fragment {
     Bundle args = getArguments();
     mGroupKey = args.getString(ARG_GROUP_KEY);
 
-    firebaseAuth = FirebaseAuth.getInstance();
-    firebaseAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+    mFirebaseAuth = FirebaseAuth.getInstance();
+    mFirebaseAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
       @Override
       public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         updateUI();
@@ -96,9 +96,9 @@ public class ChatFragment extends Fragment {
     mSendButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        String uid = firebaseAuth.getCurrentUser().getUid(); // todo: use the user's id
+        String uid = mFirebaseAuth.getCurrentUser().getUid(); // todo: use the user's id
         String name = "User " + uid.substring(0, 6);
-        String userKey = Etils.encodeEmail(firebaseAuth.getCurrentUser().getEmail());
+        String userKey = Etils.encodeEmail(mFirebaseAuth.getCurrentUser().getEmail());
 
         DatabaseReference newChatReference = mChatReference.push();
         String chatKey = newChatReference.getKey();
@@ -160,8 +160,10 @@ public class ChatFragment extends Fragment {
             chatView.setName(user.name);
             chatView.setText(chat.getChatMessage());
 
-            FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-            if (currentUser != null && chat.getUserKey().equals(user.getKey())) {
+            FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
+            String currentUserKey = Etils.encodeEmail(currentUser.getEmail());
+            if (currentUser != null && chat.getUserKey().equals(currentUserKey)) {
+              lawg.d(" user.getKey(): " + user.getKey() + " chat.getUserKey(): " + chat.getUserKey());
               chatView.setIsSender(true);
             } else {
               chatView.setIsSender(false);
@@ -197,7 +199,7 @@ public class ChatFragment extends Fragment {
 
   private void signInAnonymously() {
     Toast.makeText(getContext(), "Signing in...", Toast.LENGTH_SHORT).show();
-    firebaseAuth.signInAnonymously()
+    mFirebaseAuth.signInAnonymously()
         .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
           @Override
           public void onComplete(@NonNull Task<AuthResult> task) {
@@ -214,7 +216,7 @@ public class ChatFragment extends Fragment {
   }
 
   public boolean isSignedIn() {
-    return (firebaseAuth.getCurrentUser() != null);
+    return (mFirebaseAuth.getCurrentUser() != null);
   }
 
   public void updateUI() {

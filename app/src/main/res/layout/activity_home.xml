@@ -70,7 +70,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/status_recycler_view"
                     android:layout_width="50dp"
-                    android:layout_height="130dp"
+                    android:layout_height="100dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
@@ -113,6 +113,7 @@
         android:paddingRight="20dp"
         android:text="@string/new_group"
         app:fontface="montserrat_semibold"
+        app:layout_behavior="com.compscieddy.meetinthemiddle.ui.ScrollAwareNewGroupButtonBehavior"
         android:fitsSystemWindows="true"
         style="@style/ButtonOutlineAccent"/>
 
