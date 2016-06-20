@@ -312,7 +312,10 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
         if (mCurrentMarker != null) mCurrentMarker.remove();
 
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_darren);
-        Bitmap resizedIcon = Bitmap.createScaledBitmap(icon, icon.getWidth() * 2, icon.getHeight() * 2, true);
+        float scaleFactor = 1.4f;
+        Bitmap resizedIcon = Bitmap.createScaledBitmap(icon,
+            Math.round(icon.getWidth() * scaleFactor),
+            Math.round(icon.getHeight() * scaleFactor), true);
         Bitmap croppedIcon = Util.getCroppedBitmap(HomeActivity.this, resizedIcon);
 
         mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));

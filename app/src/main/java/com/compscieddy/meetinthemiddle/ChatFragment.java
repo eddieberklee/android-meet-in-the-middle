@@ -168,10 +168,6 @@ public class ChatFragment extends Fragment {
             } else {
               chatView.setIsSender(false);
             }
-             if (mChatsFirebaseAdapter.getItemCount() > 0) {
-              mEmptyChatView.setVisibility(View.INVISIBLE);
-              mChatRecyclerView.setVisibility(View.VISIBLE);
-            }
           }
 
           @Override
@@ -182,6 +178,12 @@ public class ChatFragment extends Fragment {
       }
     };
 
+    // todo: shit, didn't do a code review thoroughly enough - this should be in a separate singlevalueevent
+    // where I check against the length of the "value" returned - use dataSnapshot.getChildrenCount()
+    if (mChatsFirebaseAdapter.getItemCount() > 0) {
+      mEmptyChatView.setVisibility(View.INVISIBLE);
+      mChatRecyclerView.setVisibility(View.VISIBLE);
+    }
     if (mChatsFirebaseAdapter.getItemCount() <= 0) {
       mChatRecyclerView.setVisibility(View.INVISIBLE);
       mEmptyChatView.setVisibility(View.VISIBLE);
