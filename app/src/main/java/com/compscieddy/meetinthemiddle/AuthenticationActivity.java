@@ -3,8 +3,8 @@ package com.compscieddy.meetinthemiddle;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
+import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.User;
 import com.firebase.ui.auth.AuthUI;
@@ -42,17 +42,16 @@ public class AuthenticationActivity extends Activity {
                 AuthUI.GOOGLE_PROVIDER)
             .build(),
         RC_SIGN_IN);
+    finish();
   }
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == RC_SIGN_IN) {
+      GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
       if (resultCode == RESULT_OK) {
-        GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-
         // User creation is occurring! Tada! Welcome to being trapped to the most addictive map app ever
-
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = auth.getCurrentUser();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -64,8 +63,15 @@ public class AuthenticationActivity extends Activity {
       } else {
         // user is not signed in. Maybe just wait for the user to press
         // "sign in" again, or show a message
-        Log.d("FAIL", "FAIL");
+        lawg.e("FAIL 1");
+        lawg.e(" requestCode: " + requestCode + " resultCode: " + resultCode);
+        lawg.e(" result: " + result);
+        Etils.showToast(AuthenticationActivity.this, "Failed to Sign-In");
       }
+    } else {
+      lawg.e("FAIL 2");
+      lawg.e(" requestCode: " + requestCode + " resultCode: " + resultCode);
     }
   }
+
 }

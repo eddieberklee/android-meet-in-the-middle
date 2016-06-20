@@ -7,10 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.compscieddy.eddie_utils.Lawg;
+
 /**
  * Created by ambar on 6/12/16.
  */
 public class SearchFragment extends Fragment {
+
+  private static final Lawg lawg = Lawg.newInstance(SearchFragment.class.getSimpleName());
 
   public static SearchFragment newInstance() {
 

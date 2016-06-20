@@ -15,3 +15,6 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# http://stackoverflow.com/a/35124136/4326052
+-keepattributes EnclosingMethod

@@ -38,7 +38,6 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
-                    android:focusable="true"
                     android:clickable="true"
                     android:hint="@string/hint_set_group_name"
                     android:singleLine="true"
@@ -49,10 +48,12 @@
                     android:id="@+id/group_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="40dp"
+                    android:hint="@string/hint_set_group_name"
+                    android:layout_marginRight="60dp"
                     android:layout_alignParentLeft="true"
                     android:inputType="textCapWords"
                     android:imeOptions="actionDone"
+                    android:focusable="true"
                     android:layout_centerVertical="true"
                     android:singleLine="true"
                     android:textSize="16sp"
@@ -117,6 +118,7 @@
         <TextView
             android:id="@+id/invite_button"
             style="@style/ButtonOutlineAccent"
+            android:background="@drawable/rounded_outline_accent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/invite_button_two"
@@ -181,7 +183,7 @@
         android:background="@color/greyscale_8"
         android:padding="3dp"
         app:cardCornerRadius="22dp"
-        app:layout_anchor="@id/map"
+        app:layout_anchor="@+id/map"
         app:layout_anchorGravity="bottom|right">
 
         <ImageView

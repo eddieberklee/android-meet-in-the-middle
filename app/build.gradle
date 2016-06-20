@@ -13,6 +13,10 @@ android {
         multiDexEnabled true
     }
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -21,8 +25,7 @@ android {
 
     packagingOptions {
         exclude 'META-INF/notice.txt' // will not include NOTICE file
-        pickFirst  'META-INF/services/javax.annotation.processing.Processor'
-
+        pickFirst 'META-INF/services/javax.annotation.processing.Processor'
     }
 }
 
@@ -61,6 +64,9 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.4.0'
 
     compile 'com.yelp.clientlib:yelp-android:2.0.0'
+
+//  Learn how to use this library later:
+//  https://github.com/Karumi/Dexter
 }
 
 apply plugin: 'com.google.gms.google-services'

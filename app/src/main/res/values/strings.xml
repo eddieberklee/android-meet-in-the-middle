@@ -6,7 +6,7 @@
     <string name="hint_set_group_name">Group Name..</string>
     <string name="set_group_title_editing">Set</string>
 
-    <string name="new_group">+ New\nGroup</string>
+    <string name="new_group">+\nNew\nGroup</string>
     <string name="invite">Invite</string>
 
     <string name="sample_chat_message">Sample text message talking about what\'s going on in the group and where to meet and when people are coming.</string>
@@ -24,5 +24,9 @@
     <string name="yelp_consumer_secret">k4iIUupmG9JazbywYn0crL39CB8</string>
     <string name="yelp_token">4lXH_qvGpjiOrC_naPvp2pUoWr_0BCAS</string>
     <string name="yelp_token_secret">1Dhs09I6Fi1XTseUf8evVNmkqSI</string>
+    <string name="title_activity_profile_picture">ProfilePicture</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

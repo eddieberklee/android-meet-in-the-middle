@@ -43,13 +43,24 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
     notifyDataSetChanged();
   }
 
-  public void removeGroup(Group deleteGroup) {
+  public void removeGroup(String deleteGroupKey) {
     for (Group group : groups) {
-      if (group.groupKey == deleteGroup.groupKey) {
+      if (TextUtils.equals(group.key, deleteGroupKey)) {
         groups.remove(group);
         notifyDataSetChanged();
       }
     }
+  }
+
+  public void updateGroup(Group updatedGroup) {
+    for (Group group : groups) {
+      if (TextUtils.equals(group.key, updatedGroup.key)) {
+        group.updateWith(updatedGroup);
+        notifyDataSetChanged();
+        return;
+      }
+    }
+    lawg.e("No matching group was found");
   }
 
   @Override
@@ -64,7 +75,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
       public void onClick(View v) {
         Intent intent = new Intent(mContext, GroupActivity.class);
         // For testing purposes, gives NPE otherwise
-        intent.putExtra(GroupActivity.ARG_GROUP_KEY, GroupsAdapter.this.groups.get(groupHolder.position).groupKey);
+        intent.putExtra(GroupActivity.ARG_GROUP_KEY, GroupsAdapter.this.groups.get(groupHolder.position).key);
         mContext.startActivity(intent);
       }
     };
@@ -77,7 +88,6 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
 
   @Override
   public void onBindViewHolder(final GroupsAdapter.GroupHolder holder, final int position) {
-    //Placeholder text for now
     holder.position = position;
     final Group group = groups.get(position);
     String groupTitle = group.getGroupTitle();

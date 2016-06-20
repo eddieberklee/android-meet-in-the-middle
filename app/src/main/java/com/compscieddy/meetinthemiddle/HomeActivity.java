@@ -77,6 +77,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   private boolean mIsLocationPermissionEnabled = false;
 
   private final int ANIMATE_CAMERA_REPEAT = 1500;
+  private final int INITIAL_ANIMATE_CAMERA_DELAY = 2000;
 
   private LocationManager mLocationManager;
   private GoogleApiClient mGoogleApiClient;
@@ -91,6 +92,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   @Bind(R.id.new_group_button) View mNewGroupButton;
   @Bind(R.id.logout_button) View mLogoutButton;
   @Bind(R.id.empty_group_view) LinearLayout mEmptyGroupView;
+  @Bind(R.id.temp_button) View mTempButton;
 
   private SupportMapFragment mMapFragment;
   private Location mLastLocation;
@@ -137,7 +139,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     AppEventsLogger.activateApp(this);
 
     mHandler = new Handler(Looper.getMainLooper());
-    mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
 
     if (mGoogleApiClient == null) {
       mGoogleApiClient = new GoogleApiClient.Builder(HomeActivity.this)
@@ -188,12 +189,13 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     mAppBarLayout.addOnOffsetChangedListener(this);
     mNewGroupButton.setOnClickListener(this);
     mLogoutButton.setOnClickListener(this);
+    mTempButton.setOnClickListener(this);
   }
 
   @Override
   public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
     finalVerticalOffset = verticalOffset;
-    if (finalVerticalOffset < initialVerticalOffset){
+    if (finalVerticalOffset < initialVerticalOffset) {
       // we are scrolling down
       count++;
       if (count == 1) {
@@ -203,7 +205,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
         mToolbarLayout.startAnimation(animation);
       }
 
-    } else if (finalVerticalOffset > initialVerticalOffset){
+    } else if (finalVerticalOffset > initialVerticalOffset) {
       // we are scrolling up
       count++;
       if (count == 1) {
@@ -311,11 +313,17 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
         double latitude = mLastLocation.getLatitude();
         double longitude = mLastLocation.getLongitude();
         LatLng latLng = new LatLng(latitude, longitude);
+
         mLastKnownCoord.set(latitude, longitude);
+        mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT + INITIAL_ANIMATE_CAMERA_DELAY);
+
         if (mCurrentMarker != null) mCurrentMarker.remove();
 
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_darren);
-        Bitmap resizedIcon = Bitmap.createScaledBitmap(icon, icon.getWidth() * 2, icon.getHeight() * 2, true);
+        float scaleFactor = 1.4f;
+        Bitmap resizedIcon = Bitmap.createScaledBitmap(icon,
+            Math.round(icon.getWidth() * scaleFactor),
+            Math.round(icon.getHeight() * scaleFactor), true);
         Bitmap croppedIcon = Util.getCroppedBitmap(HomeActivity.this, resizedIcon);
 
         mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
@@ -392,6 +400,21 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           public void onCancelled(DatabaseError databaseError) {
             lawg.e("onCancelled " + databaseError);
           }
+<<<<<<< HEAD
+=======
+        });
+
+        mFirebaseDatabase.getReference("groups").child(groupKey).addValueEventListener(new ValueEventListener() {
+          @Override
+          public void onDataChange(DataSnapshot dataSnapshot) {
+            Group updatedGroup = dataSnapshot.getValue(Group.class);
+            mGroupsAdapter.updateGroup(updatedGroup);
+            lawg.d("onDataChange() " + " updatedGroup.getKey(): " + updatedGroup.getKey() + " " + updatedGroup.getGroupTitle());
+          }
+
+          @Override
+          public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }
+>>>>>>> d878e8b9d3146296d3a120293cff45c8742547f1
         });
       }
 
@@ -402,9 +425,8 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       @Override
       public void onChildRemoved(DataSnapshot dataSnapshot) {
         lawg.e(" dataSnapshot: " + dataSnapshot);
-        Group group = dataSnapshot.getValue(Group.class);
-        lawg.e(" group: " + group);
-        mGroupsAdapter.removeGroup(group);
+        String groupKey = dataSnapshot.getKey();
+        mGroupsAdapter.removeGroup(groupKey);
       }
 
       @Override
@@ -426,18 +448,22 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
         Intent intent = new Intent(HomeActivity.this, GroupActivity.class);
         DatabaseReference newGroupReference = mFirebaseDatabase.getReference("groups").push();
 
-        final String groupKey = newGroupReference.getKey();
-        Group newGroup = new Group(groupKey, null, null);
+        final String newGroupKey = newGroupReference.getKey();
+        Group newGroup = new Group(newGroupKey, null, null);
         newGroupReference.setValue(newGroup);
-        mUser.addGroup(groupKey);
+        mUser.addGroup(newGroupKey);
         mUser.update();
         // Just while testing, add everyone to every group
         mFirebaseDatabase.getReference("users").addChildEventListener(new ChildEventListener() {
           @Override
           public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             User user = dataSnapshot.getValue(User.class);
+            lawg.e("onChildAdded " + " user: " + user);
+            if (user != null) {
+              lawg.e("name: " + user.name);
+            }
             if (!user.getKey().equals(mUser.getKey())) {
-              user.addGroup(groupKey);
+              user.addGroup(newGroupKey);
               user.update();
             }
           }
@@ -463,7 +489,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           }
         });
 
-        intent.putExtra(GroupActivity.ARG_GROUP_KEY, groupKey);
+        intent.putExtra(GroupActivity.ARG_GROUP_KEY, newGroupKey);
         startActivity(intent);
         break;
       }
@@ -471,6 +497,12 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
         mFirebaseAuth.signOut();
         Intent intent = new Intent(HomeActivity.this, AuthenticationActivity.class);
         startActivity(intent);
+        finish();
+        break;
+      }
+
+      case R.id.temp_button: {
+        startActivity(new Intent(this, ProfilePicture.class));
         break;
       }
     }

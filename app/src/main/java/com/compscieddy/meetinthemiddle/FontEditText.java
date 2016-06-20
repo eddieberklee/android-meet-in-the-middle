@@ -8,11 +8,14 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.compscieddy.eddie_utils.Etils;
+import com.compscieddy.eddie_utils.Lawg;
 
 /**
  * Created by elee on 1/7/16.
  */
 public class FontEditText extends EditText {
+
+  private static final Lawg lawg = Lawg.newInstance(FontEditText.class.getSimpleName());
 
   public FontEditText(Context context, AttributeSet attrs) {
     super(context, attrs);

@@ -19,6 +19,7 @@ import com.compscieddy.eddie_utils.Lawg;
 public class CropCircleFrameLayout extends FrameLayout {
 
   private final static Lawg lawg = Lawg.newInstance(CropCircleFrameLayout.class.getSimpleName());
+
   private Paint paint;
   private Paint maskPaint;
   private Bitmap maskBitmap;

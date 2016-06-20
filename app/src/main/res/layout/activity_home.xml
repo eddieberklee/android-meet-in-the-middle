@@ -70,7 +70,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/status_recycler_view"
                     android:layout_width="50dp"
-                    android:layout_height="130dp"
+                    android:layout_height="100dp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
@@ -120,27 +120,44 @@
 
     <com.compscieddy.meetinthemiddle.FontTextView
         android:id="@+id/logout_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:background="@drawable/oval_outline_accent"
         android:padding="5dp"
         android:translationX="40dp"
-        android:background="@drawable/rounded_outline_accent"
         app:layout_anchor="@+id/new_group_button"
         app:layout_anchorGravity="right|center_vertical"
-        android:text="Logout"/>
+        android:text="Log\nout"
+        android:textSize="11sp"
+        style="@style/ButtonOutlineAccent"/>
+
+    <com.compscieddy.meetinthemiddle.FontTextView
+        android:id="@+id/temp_button"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:background="@drawable/oval_outline_accent"
+        android:padding="5dp"
+        android:translationX="-40dp"
+        app:layout_anchor="@+id/new_group_button"
+        app:layout_anchorGravity="left|center_vertical"
+        android:text="Temp"
+        android:textSize="11sp"
+        style="@style/ButtonOutlineAccent"/>
 
     <com.compscieddy.meetinthemiddle.FontTextView
         android:id="@+id/new_group_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:paddingBottom="15dp"
+        android:background="@drawable/oval_outline_accent"
         android:layout_gravity="bottom|center_horizontal"
         android:layout_margin="10dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
         android:text="@string/new_group"
         app:fontface="montserrat_semibold"
+        app:layout_behavior="com.compscieddy.meetinthemiddle.ui.ScrollAwareNewGroupButtonBehavior"
         android:fitsSystemWindows="true"
         style="@style/ButtonOutlineAccent"/>
 
