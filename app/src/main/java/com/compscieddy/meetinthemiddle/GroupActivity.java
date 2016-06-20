@@ -374,7 +374,11 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         mMap.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
           @Override
           public void onMapLoaded() {
-            mMap.animateCamera(cameraUpdate);
+            try {
+              mMap.animateCamera(cameraUpdate);
+            } catch (IllegalStateException e) {
+              Etils.logAndToast(GroupActivity.this, lawg, "Illegal State Exception - screenshot to developers");
+            }
           }
         });
 
