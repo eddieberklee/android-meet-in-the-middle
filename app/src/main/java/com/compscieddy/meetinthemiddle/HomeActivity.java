@@ -89,6 +89,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   @Bind(R.id.toolbar_viewgroup) ViewGroup mToolbarLayout;
   @Bind(R.id.new_group_button) View mNewGroupButton;
   @Bind(R.id.logout_button) View mLogoutButton;
+  @Bind(R.id.temp_button) View mTempButton;
 
   private SupportMapFragment mMapFragment;
   private Location mLastLocation;
@@ -185,6 +186,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     mAppBarLayout.addOnOffsetChangedListener(this);
     mNewGroupButton.setOnClickListener(this);
     mLogoutButton.setOnClickListener(this);
+    mTempButton.setOnClickListener(this);
   }
 
   @Override
@@ -471,6 +473,11 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
         Intent intent = new Intent(HomeActivity.this, AuthenticationActivity.class);
         startActivity(intent);
         finish();
+        break;
+      }
+
+      case R.id.temp_button: {
+        startActivity(new Intent(this, ProfilePicture.class));
         break;
       }
     }
