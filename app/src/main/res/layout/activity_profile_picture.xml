@@ -1,18 +1,55 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                xmlns:facebook="http://schemas.android.com/apk/res-auto"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                tools:context="com.compscieddy.meetinthemiddle.ProfilePicture">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/constraintLayout"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    tools:context="com.compscieddy.meetinthemiddle.ProfilePicture"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
 
     <ImageView
         android:id="@+id/profile_picture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="50dp"
+        tools:layout_width="50dp"
+        tools:layout_height="50dp"
+        tools:background="@color/greyscale_4"/>
 
-</RelativeLayout>
+    <com.compscieddy.meetinthemiddle.FontTextView
+        android:id="@+id/take_new_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Take New Photo"
+        style="@style/NewPhotoButton"/>
+
+    <com.compscieddy.meetinthemiddle.FontTextView
+        android:id="@+id/choose_from_gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose From Gallery"
+        style="@style/NewPhotoButton"/>
+
+    <com.compscieddy.meetinthemiddle.FontTextView
+        android:id="@+id/choose_facebook_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Import from Facebook"
+        style="@style/NewPhotoButton"/>
+
+    <com.compscieddy.meetinthemiddle.FontTextView
+        android:id="@+id/choose_google_photo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Import for Google"
+        style="@style/NewPhotoButton"/>
+
+
+</LinearLayout>
