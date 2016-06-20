@@ -380,6 +380,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           public void onDataChange(DataSnapshot dataSnapshot) {
             Group updatedGroup = dataSnapshot.getValue(Group.class);
             mGroupsAdapter.updateGroup(updatedGroup);
+            lawg.d("onDataChange() " + " updatedGroup.getKey(): " + updatedGroup.getKey() + " " + updatedGroup.getGroupTitle());
           }
 
           @Override

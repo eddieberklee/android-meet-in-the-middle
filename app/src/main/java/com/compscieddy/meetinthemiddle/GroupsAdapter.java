@@ -45,7 +45,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
 
   public void removeGroup(String deleteGroupKey) {
     for (Group group : groups) {
-      if (group.key == deleteGroupKey) {
+      if (TextUtils.equals(group.key, deleteGroupKey)) {
         groups.remove(group);
         notifyDataSetChanged();
       }
@@ -54,11 +54,13 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
 
   public void updateGroup(Group updatedGroup) {
     for (Group group : groups) {
-      if (group.key == updatedGroup.key) {
+      if (TextUtils.equals(group.key, updatedGroup.key)) {
         group.updateWith(updatedGroup);
         notifyDataSetChanged();
+        return;
       }
     }
+    lawg.e("No matching group was found");
   }
 
   @Override
