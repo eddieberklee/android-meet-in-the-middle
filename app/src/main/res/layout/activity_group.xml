@@ -118,6 +118,7 @@
         <TextView
             android:id="@+id/invite_button"
             style="@style/ButtonOutlineAccent"
+            android:background="@drawable/rounded_outline_accent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/invite_button_two"
