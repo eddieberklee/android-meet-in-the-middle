@@ -76,6 +76,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   private boolean mIsLocationPermissionEnabled = false;
 
   private final int ANIMATE_CAMERA_REPEAT = 1500;
+  private final int INITIAL_ANIMATE_CAMERA_DELAY = 2000;
 
   private LocationManager mLocationManager;
   private GoogleApiClient mGoogleApiClient;
@@ -136,7 +137,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     AppEventsLogger.activateApp(this);
 
     mHandler = new Handler(Looper.getMainLooper());
-    mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT);
 
     if (mGoogleApiClient == null) {
       mGoogleApiClient = new GoogleApiClient.Builder(HomeActivity.this)
@@ -310,7 +310,10 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
         double latitude = mLastLocation.getLatitude();
         double longitude = mLastLocation.getLongitude();
         LatLng latLng = new LatLng(latitude, longitude);
+
         mLastKnownCoord.set(latitude, longitude);
+        mHandler.postDelayed(mAnimateCameraRunnable, ANIMATE_CAMERA_REPEAT + INITIAL_ANIMATE_CAMERA_DELAY);
+
         if (mCurrentMarker != null) mCurrentMarker.remove();
 
         Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_darren);
