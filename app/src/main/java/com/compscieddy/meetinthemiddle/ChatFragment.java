@@ -1,5 +1,7 @@
 package com.compscieddy.meetinthemiddle;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.RotateDrawable;
@@ -21,16 +23,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.Chat;
 import com.compscieddy.meetinthemiddle.model.User;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -131,7 +129,11 @@ public class ChatFragment extends Fragment {
     // sign in before attaching the RecyclerView adapter otherwise the Adapter will
     // not be able to read any data from the Database.
     if (!isSignedIn()) {
-      signInAnonymously();
+      // eject the user from current flow if they're not signed in
+      Activity activity = getActivity();
+      Intent intent = new Intent(activity, AuthenticationActivity.class);
+      startActivity(intent);
+      activity.finish();
     } else {
       attachRecyclerViewAdapter();
     }
@@ -178,17 +180,6 @@ public class ChatFragment extends Fragment {
       }
     };
 
-    // todo: shit, didn't do a code review thoroughly enough - this should be in a separate singlevalueevent
-    // where I check against the length of the "value" returned - use dataSnapshot.getChildrenCount()
-    if (mChatsFirebaseAdapter.getItemCount() > 0) {
-      mEmptyChatView.setVisibility(View.INVISIBLE);
-      mChatRecyclerView.setVisibility(View.VISIBLE);
-    }
-    if (mChatsFirebaseAdapter.getItemCount() <= 0) {
-      mChatRecyclerView.setVisibility(View.INVISIBLE);
-      mEmptyChatView.setVisibility(View.VISIBLE);
-    }
-
     // Scroll to bottom on new messages
     mChatsFirebaseAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
       @Override
@@ -196,25 +187,25 @@ public class ChatFragment extends Fragment {
         mLayoutManager.smoothScrollToPosition(mChatRecyclerView, null, mChatsFirebaseAdapter.getItemCount());
       }
     });
-    mChatRecyclerView.setAdapter(mChatsFirebaseAdapter);
-  }
 
-  private void signInAnonymously() {
-    Toast.makeText(getContext(), "Signing in...", Toast.LENGTH_SHORT).show();
-    mFirebaseAuth.signInAnonymously()
-        .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-          @Override
-          public void onComplete(@NonNull Task<AuthResult> task) {
-            if (task.isSuccessful()) {
-              Toast.makeText(getActivity(), "Signed In",
-                  Toast.LENGTH_SHORT).show();
-              attachRecyclerViewAdapter();
-            } else {
-              Toast.makeText(getActivity(), "Sign In Failed",
-                  Toast.LENGTH_SHORT).show();
-            }
-          }
-        });
+    mChatRecyclerView.setAdapter(mChatsFirebaseAdapter);
+
+    mFirebaseDatabase.getReference("chats").child(mGroupKey).addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        long numChats = dataSnapshot.getChildrenCount();
+        if (numChats > 0) {
+          mEmptyChatView.setVisibility(View.INVISIBLE);
+          mChatRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+          mChatRecyclerView.setVisibility(View.INVISIBLE);
+          mEmptyChatView.setVisibility(View.VISIBLE);
+        }
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }
+    });
   }
 
   public boolean isSignedIn() {
