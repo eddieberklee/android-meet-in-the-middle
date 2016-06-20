@@ -3,11 +3,15 @@ package com.compscieddy.meetinthemiddle;
 import android.app.Application;
 import android.content.Context;
 
+import com.compscieddy.eddie_utils.Lawg;
+
 /**
  * Created by elee on 6/18/16.
  * http://stackoverflow.com/a/9445685/4326052
  */
 public class MitmApplication extends Application {
+
+  private static final Lawg lawg = Lawg.newInstance(MitmApplication.class.getSimpleName());
 
   private static MitmApplication instance;
 

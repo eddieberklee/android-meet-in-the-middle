@@ -4,10 +4,15 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
+import com.compscieddy.eddie_utils.Lawg;
+
 /**
  * Created by Darren on 12-Jun-16.
  */
 public class ResizeAnimation extends Animation {
+
+  private static final Lawg lawg = Lawg.newInstance(ResizeAnimation.class.getSimpleName());
+
   final int targetHeight;
   View view;
   int startHeight;
