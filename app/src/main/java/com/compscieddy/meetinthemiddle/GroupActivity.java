@@ -377,7 +377,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
             try {
               mMap.animateCamera(cameraUpdate);
             } catch (IllegalStateException e) {
-              Etils.logAndToast(GroupActivity.this, lawg, "Illegal State Exception - screenshot to developers");
+              lawg.e("Illegal State Exception - screenshot to developers");
             }
           }
         });
