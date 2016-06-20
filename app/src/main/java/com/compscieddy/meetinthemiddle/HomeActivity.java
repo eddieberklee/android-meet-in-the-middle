@@ -400,8 +400,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           public void onCancelled(DatabaseError databaseError) {
             lawg.e("onCancelled " + databaseError);
           }
-<<<<<<< HEAD
-=======
         });
 
         mFirebaseDatabase.getReference("groups").child(groupKey).addValueEventListener(new ValueEventListener() {
@@ -414,7 +412,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
           @Override
           public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }
->>>>>>> d878e8b9d3146296d3a120293cff45c8742547f1
         });
       }
 
