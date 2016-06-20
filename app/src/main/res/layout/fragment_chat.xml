@@ -11,8 +11,6 @@
 
     <!-- todo: Should we be using CoordinatorLayout or LinearLayout here, let's not use both -->
 
-
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/chats_recycler_view"
             android:layout_width="match_parent"
@@ -26,7 +24,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="horizontal"
-            app:layout_anchor="@id/chats_recycler_view"
+            app:layout_anchor="@+id/chats_recycler_view"
             app:layout_anchorGravity="bottom|center_horizontal"
             android:clipChildren="false"
             android:clipToPadding="false"

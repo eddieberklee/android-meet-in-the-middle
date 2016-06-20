@@ -27,13 +27,13 @@ public class ScrollAwareChatBehavior extends CoordinatorLayout.Behavior {
   @Override
   public void onNestedScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
     super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
-    if (dyConsumed > 0) {
-      // Scrolling down. Hide the layout.
+    if (dyConsumed < 0) {
+      // Scrolling up. Hide the layout.
       CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
       int layout_bottomMargin = layoutParams.bottomMargin;
       child.animate().translationY(child.getHeight() + layout_bottomMargin).setInterpolator(new LinearInterpolator()).start();
-    } else if (dyConsumed < 0) {
-      // Scrolling up. Display the layout.
+    } else {
+      // Scrolling down. Display the layout.
       child.animate().translationY(0).setInterpolator(new LinearInterpolator()).start();
     }
 
