@@ -182,7 +182,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
     setListeners();
     setupRecyclerView();
-
   }
 
   private void setListeners() {
@@ -383,16 +382,13 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
             Group group = dataSnapshot.getValue(Group.class);
             mGroupsAdapter.addGroup(group);
 
-            //TODO Need to find a better place to put this
-            int size = mGroupsAdapter.getItemCount();
-            lawg.d("Group Count: " + size);
-
-            if (size == 0) {
-              mEmptyGroupView.setVisibility(View.VISIBLE);
-              mGroupRecyclerView.setVisibility(View.GONE);
-            } else {
-              mEmptyGroupView.setVisibility(View.GONE);
+            long numGroups = dataSnapshot.getChildrenCount();
+            if (numGroups > 0) {
+              mEmptyGroupView.setVisibility(View.INVISIBLE);
               mGroupRecyclerView.setVisibility(View.VISIBLE);
+            } else {
+              mGroupRecyclerView.setVisibility(View.INVISIBLE);
+              mEmptyGroupView.setVisibility(View.VISIBLE);
             }
 
           }
@@ -411,7 +407,9 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           }
 
           @Override
-          public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }
+          public void onCancelled(DatabaseError databaseError) {
+            lawg.e("onCancelled() " + databaseError);
+          }
         });
       }
 
