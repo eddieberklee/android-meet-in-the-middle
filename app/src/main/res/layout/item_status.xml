@@ -13,8 +13,8 @@
         android:padding="6dp">
         <ImageView
             android:id="@+id/status_image_view"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center"/>
     </FrameLayout>
 

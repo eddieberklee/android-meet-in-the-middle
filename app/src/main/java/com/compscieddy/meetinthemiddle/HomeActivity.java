@@ -18,7 +18,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,13 +27,11 @@ import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.TextView;
 
-import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.model.User;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
 import com.google.android.gms.appinvite.AppInvite;
 import com.google.android.gms.appinvite.AppInviteInvitationResult;
 import com.google.android.gms.appinvite.AppInviteReferral;
@@ -86,7 +83,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
   @Bind(R.id.app_bar_layout) AppBarLayout mAppBarLayout;
   @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
-  @Bind(R.id.map_card_view) CardView mMapCardView;
   @Bind(R.id.toolbar_viewgroup) ViewGroup mToolbarLayout;
   @Bind(R.id.new_group_button) View mNewGroupButton;
   @Bind(R.id.logout_button) View mLogoutButton;
@@ -356,7 +352,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
     mStatusRecyclerView.setAdapter(mStatusAdapter);
     mStatusRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    RecyclerViewDivider.with(this).addTo(mStatusRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
+//    RecyclerViewDivider.with(this).addTo(mStatusRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
     mGroupRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
   }
 
