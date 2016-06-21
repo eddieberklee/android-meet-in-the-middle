@@ -1,7 +1,11 @@
 package com.compscieddy.meetinthemiddle;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import com.compscieddy.eddie_utils.Etils;
@@ -34,15 +38,20 @@ public class AuthenticationActivity extends Activity {
       finish();
     }
 
-    startActivityForResult(
-        AuthUI.getInstance().createSignInIntentBuilder()
-            .setLogo(R.mipmap.ic_launcher)
-            .setProviders(AuthUI.EMAIL_PROVIDER,
-                AuthUI.FACEBOOK_PROVIDER,
-                AuthUI.GOOGLE_PROVIDER)
-            .build(),
-        RC_SIGN_IN);
-    finish();
+    //User isn't logged in, so check if he has working internet
+    if (isOnline()) {
+      startActivityForResult(
+          AuthUI.getInstance().createSignInIntentBuilder()
+              .setLogo(R.mipmap.ic_launcher)
+              .setProviders(AuthUI.EMAIL_PROVIDER,
+                  AuthUI.FACEBOOK_PROVIDER,
+                  AuthUI.GOOGLE_PROVIDER)
+              .build(),
+          RC_SIGN_IN);
+      finish();
+    } else {
+      // TODO Display DialogFragment saying net is not available
+    }
   }
 
   @Override
@@ -72,6 +81,47 @@ public class AuthenticationActivity extends Activity {
       lawg.e("FAIL 2");
       lawg.e(" requestCode: " + requestCode + " resultCode: " + resultCode);
     }
+  }
+
+  private boolean isOnline() {
+    ConnectivityManager connMgr = (ConnectivityManager)
+        getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+    return (networkInfo != null && networkInfo.isConnected());
+  }
+
+  private boolean isFirstRun(){
+    final String PREF_VERSION_CODE_KEY = "version_code";
+    final int DOESNT_EXIST = -1;
+
+    // Get current version code
+    int currentVersionCode = BuildConfig.VERSION_CODE;
+
+    // Get saved version code
+    SharedPreferences prefs = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+    int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
+
+    // Check for first run or upgrade
+    if (currentVersionCode == savedVersionCode) {
+
+      // This is just a normal run
+      return false;
+
+    } else if (savedVersionCode == DOESNT_EXIST) {
+
+      // This is a new install (or the user cleared the shared preferences)
+      return true;
+
+    } else if (currentVersionCode > savedVersionCode) {
+
+      //This is an upgrade
+       return false;
+    }
+
+    // Update the shared preferences with the current version code
+    prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).commit();
+    return false;
+
   }
 
 }
