@@ -31,20 +31,25 @@
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white_transp_30"
-            android:paddingTop="3dp"
-            android:paddingBottom="3dp"
-            android:paddingLeft="6dp"
-            android:paddingRight="6dp"
+            android:background="@color/white_transp_80"
+            android:paddingTop="13dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="9dp"
+            android:paddingRight="9dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="6dp"
             android:gravity="center_horizontal"
-            android:shadowColor="@color/black"
-            android:shadowRadius="25.0"
             android:text="\@username"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="16sp"
+            app:fontface="montserrat_semibold"
             android:lineSpacingMultiplier="0.9"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/white_transp_60"
+            android:layout_alignLeft="@+id/username"
+            android:layout_alignRight="@+id/username"
+            android:layout_below="@+id/username"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/status_recycler_view"
@@ -100,7 +105,8 @@
         app:layout_anchorGravity="right|bottom"
         android:layout_gravity="right"
         android:translationX="18dp"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        app:layout_behavior="com.compscieddy.meetinthemiddle.ui.ScrollAwareNewGroupButtonBehavior"/>
 
     <com.compscieddy.meetinthemiddle.FontTextView
         android:id="@+id/temp_button"
@@ -117,7 +123,8 @@
         app:layout_anchorGravity="left|bottom"
         android:layout_gravity="left"
         android:translationX="-18dp"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="20dp"
+        app:layout_behavior="com.compscieddy.meetinthemiddle.ui.ScrollAwareNewGroupButtonBehavior"/>
 
 
 </android.support.design.widget.CoordinatorLayout>

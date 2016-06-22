@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
        android:shape="oval">
-    <stroke android:color="@color/white"
-            android:width="7dp"/>
+    <stroke android:color="@color/yellow_nav_button_stroke"
+            android:width="8dp"/>
+    <padding android:bottom="8dp"
+             android:left="8dp"
+             android:right="8dp"
+             android:top="8dp"/>
     <solid android:color="@color/colorAccent"/>
 </shape>

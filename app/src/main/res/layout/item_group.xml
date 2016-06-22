@@ -22,9 +22,9 @@
         style="@style/TextAppearance.AppCompat.Small"
         android:layout_width="@dimen/item_group_map_size"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="6dp"
         android:gravity="bottom"
-        app:fontface="montserrat_semibold"
+        app:fontface="montserrat_regular"
         android:text="Group Title"
         android:textSize="18sp"/>
 
@@ -84,20 +84,19 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="2dp"/>
+            android:layout_height="6dp"/>
 
         <LinearLayout
             android:id="@+id/message_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
             android:gravity="bottom"
             android:orientation="horizontal">
             <ImageView
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:layout_gravity="top|center_horizontal"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="top"
+                android:layout_marginTop="3dp"
                 android:layout_marginRight="2dp"
                 android:src="@drawable/ic_chat_bubble_white_48dp"
                 android:tint="@color/flatui_blue_1"/>
@@ -111,8 +110,8 @@
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:layout_marginLeft="2dp"
-                android:layout_marginBottom="-2dp"
                 app:fontface="montserrat_light"
+                android:layout_gravity="top"
                 tools:text="Some ridiculously long last message from someone in particular"/>
         </LinearLayout>
 
