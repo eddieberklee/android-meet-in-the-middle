@@ -65,8 +65,8 @@ public class InternetErrorFragment extends DialogFragment {
   }
 
   @Override
-  public void onDestroyView() {
-    super.onDestroyView();
+  public void onStop() {
+    super.onStop();
     getActivity().unregisterReceiver(netWorkChangeReceiver);
   }
 

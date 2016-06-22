@@ -12,7 +12,7 @@
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal"
         android:textColor="@color/white"
-        android:paddingTop="10dp"/>
+        android:paddingTop="64dp"/>
 
     <TextView
         android:layout_width="wrap_content"
