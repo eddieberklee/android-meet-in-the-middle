@@ -28,6 +28,7 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
 
   private static final Lawg lawg = Lawg.newInstance(AuthenticationActivity.class.getSimpleName());
   private static final int RC_SIGN_IN = 100;
+  private static final String TAG_INTERNET_ERROR = "fragment_internet_error";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
     }
 
     //User isn't logged in, so check if he has working internet
-    if (isOnline()) {
+    if (isInternetAvailable()) {
       startActivityForResult(
           AuthUI.getInstance().createSignInIntentBuilder()
               .setLogo(R.mipmap.ic_launcher)
@@ -57,7 +58,7 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
       InternetErrorFragment internetErrorFragment = InternetErrorFragment.newInstance();
       internetErrorFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppDialogTheme);
       internetErrorFragment.setCancelable(false);
-      internetErrorFragment.show(fm, "fragment_internet_error");
+      internetErrorFragment.show(fm, TAG_INTERNET_ERROR);
     }
   }
 
@@ -90,7 +91,7 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
     }
   }
 
-  private boolean isOnline() {
+  private boolean isInternetAvailable() {
     ConnectivityManager connMgr = (ConnectivityManager)
         getSystemService(Context.CONNECTIVITY_SERVICE);
     NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();

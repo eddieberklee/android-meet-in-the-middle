@@ -77,12 +77,12 @@ public class InternetErrorFragment extends DialogFragment {
     @Override
     public void onReceive(Context context, Intent intent) {
       mContext = context;
-      if (isOnline()) {
+      if (isInternetAvailable()) {
         getDialog().dismiss();
       }
     }
 
-    private boolean isOnline() {
+    private boolean isInternetAvailable() {
       ConnectivityManager connMgr = (ConnectivityManager)
           mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
       NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
