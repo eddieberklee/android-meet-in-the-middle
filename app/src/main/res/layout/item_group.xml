@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"
         android:gravity="bottom"
-        app:fontface="montserrat_regular"
+        app:fontface="montserrat_semibold"
         android:text="Group Title"
         android:textSize="18sp"/>
 
@@ -84,7 +84,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="6dp"/>
+            android:layout_height="4dp"/>
 
         <LinearLayout
             android:id="@+id/message_container"
@@ -96,7 +96,7 @@
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_gravity="top"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="2dp"
                 android:layout_marginRight="2dp"
                 android:src="@drawable/ic_chat_bubble_white_48dp"
                 android:tint="@color/flatui_blue_1"/>
