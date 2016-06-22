@@ -3,9 +3,11 @@ package com.compscieddy.meetinthemiddle.ui;
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
+
+import com.compscieddy.eddie_utils.Etils;
 
 /**
  * Created by ambar on 6/18/16.
@@ -13,6 +15,7 @@ import android.view.animation.LinearInterpolator;
 
 public class ScrollAwareNewGroupButtonBehavior extends CoordinatorLayout.Behavior {
 
+  private final static FastOutSlowInInterpolator FASTOUT_SLOWIN_INTERPOLATOR = new FastOutSlowInInterpolator();
   public ScrollAwareNewGroupButtonBehavior(Context context, AttributeSet attrs) {
     super();
   }
@@ -29,10 +32,11 @@ public class ScrollAwareNewGroupButtonBehavior extends CoordinatorLayout.Behavio
       // Scrolling down. Hide the view.
       CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
       int view_bottomMargin = layoutParams.bottomMargin;
-      child.animate().translationY(child.getHeight() + view_bottomMargin).setInterpolator(new LinearInterpolator()).start();
+      int slightPeekOffset = Etils.dpToPx(40);
+      child.animate().translationY(child.getHeight() + view_bottomMargin - slightPeekOffset).setInterpolator(FASTOUT_SLOWIN_INTERPOLATOR).start();
     } else if (dyConsumed < 0) {
       // Scrolling up. Display the view.
-      child.animate().translationY(0).setInterpolator(new LinearInterpolator()).start();
+      child.animate().translationY(0).setInterpolator(FASTOUT_SLOWIN_INTERPOLATOR).start();
     }
   }
 }

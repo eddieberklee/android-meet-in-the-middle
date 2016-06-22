@@ -15,7 +15,6 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
@@ -59,7 +58,7 @@ import butterknife.ButterKnife;
 
 
 public class HomeActivity extends BaseActivity implements OnMapReadyCallback, LocationListener,
-    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, AppBarLayout.OnOffsetChangedListener {
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
   private static final Lawg lawg = Lawg.newInstance(HomeActivity.class.getSimpleName());
   int count = 0;
@@ -81,8 +80,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
   @Bind(R.id.username) TextView mUsername;
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
-  @Bind(R.id.app_bar_layout) AppBarLayout mAppBarLayout;
-  @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
   @Bind(R.id.toolbar_viewgroup) ViewGroup mToolbarLayout;
   @Bind(R.id.new_group_button) View mNewGroupButton;
   @Bind(R.id.logout_button) View mLogoutButton;
@@ -179,13 +176,13 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   }
 
   private void setListeners() {
-    mAppBarLayout.addOnOffsetChangedListener(this);
     mNewGroupButton.setOnClickListener(this);
     mLogoutButton.setOnClickListener(this);
     mTempButton.setOnClickListener(this);
   }
 
-  @Override
+  /** No more collapsing Toolbar */
+  // @Override
   public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
     finalVerticalOffset = verticalOffset;
     if (finalVerticalOffset < initialVerticalOffset) {
@@ -424,6 +421,19 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       case R.id.new_group_button: {
         Intent intent = new Intent(HomeActivity.this, GroupActivity.class);
         DatabaseReference newGroupReference = mFirebaseDatabase.getReference("groups").push();
+        mNewGroupButton.animate()
+            .translationY(20)
+            .scaleX(1.15f)
+            .scaleY(1.1f)
+            .withEndAction(new Runnable() {
+              @Override
+              public void run() {
+                mNewGroupButton.animate()
+                    .translationY(0)
+                    .scaleX(1.0f)
+                    .scaleY(1.0f);
+              }
+            });
 
         final String newGroupKey = newGroupReference.getKey();
         Group newGroup = new Group(newGroupKey, null, null);
