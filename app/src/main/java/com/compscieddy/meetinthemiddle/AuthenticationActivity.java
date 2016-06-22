@@ -1,12 +1,14 @@
 package com.compscieddy.meetinthemiddle;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
@@ -21,7 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 /**
  * Created by ambar on 6/15/16.
  */
-public class AuthenticationActivity extends Activity {
+public class AuthenticationActivity extends AppCompatActivity {
 
   private static final Lawg lawg = Lawg.newInstance(AuthenticationActivity.class.getSimpleName());
   private static final int RC_SIGN_IN = 100;
@@ -50,7 +52,11 @@ public class AuthenticationActivity extends Activity {
           RC_SIGN_IN);
       finish();
     } else {
-      // TODO Display DialogFragment saying net is not available
+      FragmentManager fm = getSupportFragmentManager();
+      InternetErrorFragment internetErrorFragment = InternetErrorFragment.newInstance();
+      internetErrorFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppDialogTheme);
+      internetErrorFragment.setCancelable(false);
+      internetErrorFragment.show(fm, "fragment_internet_error");
     }
   }
 
