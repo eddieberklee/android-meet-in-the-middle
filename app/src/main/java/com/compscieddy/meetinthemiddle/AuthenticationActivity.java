@@ -1,6 +1,7 @@
 package com.compscieddy.meetinthemiddle;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -23,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 /**
  * Created by ambar on 6/15/16.
  */
-public class AuthenticationActivity extends AppCompatActivity {
+public class AuthenticationActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
 
   private static final Lawg lawg = Lawg.newInstance(AuthenticationActivity.class.getSimpleName());
   private static final int RC_SIGN_IN = 100;
@@ -130,4 +131,16 @@ public class AuthenticationActivity extends AppCompatActivity {
 
   }
 
+  @Override
+  public void onDismiss(DialogInterface dialog) {
+    startActivityForResult(
+          AuthUI.getInstance().createSignInIntentBuilder()
+              .setLogo(R.mipmap.ic_launcher)
+              .setProviders(AuthUI.EMAIL_PROVIDER,
+                  AuthUI.FACEBOOK_PROVIDER,
+                  AuthUI.GOOGLE_PROVIDER)
+              .build(),
+          RC_SIGN_IN);
+      finish();
+  }
 }

@@ -11,7 +11,8 @@
         android:text="Meet In The Middle"
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:paddingTop="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -20,7 +21,8 @@
         android:text="No internet connection available"
         android:id="@+id/textView2"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:paddingTop="10dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,12 +31,14 @@
         android:text="Please check your internet settings"
         android:id="@+id/textView3"
         android:layout_gravity="center_horizontal"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:paddingTop="64dp"/>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageView"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_wifi_off_white_48dp"/>
+        android:src="@drawable/ic_wifi_off_white_48dp"
+        android:paddingTop="10dp"/>
 </LinearLayout>
