@@ -22,7 +22,7 @@ import android.view.WindowManager;
 public class InternetErrorFragment extends DialogFragment {
 
   IntentFilter intentFilter;
-  NetworkChangeReceiver netWorkChangeReceiver;
+  NetworkChangeReceiver networkChangeReceiver;
 
   public static InternetErrorFragment newInstance() {
 
@@ -49,8 +49,8 @@ public class InternetErrorFragment extends DialogFragment {
     getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
 
     intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-    netWorkChangeReceiver = new NetworkChangeReceiver();
-    getActivity().registerReceiver(netWorkChangeReceiver, intentFilter);
+    networkChangeReceiver = new NetworkChangeReceiver();
+    getActivity().registerReceiver(networkChangeReceiver, intentFilter);
 
     super.onResume();
   }
@@ -58,7 +58,7 @@ public class InternetErrorFragment extends DialogFragment {
   @Override
   public void onDismiss(DialogInterface dialog) {
     super.onDismiss(dialog);
-    final Activity activity = getActivity();
+    Activity activity = getActivity();
     if (activity instanceof DialogInterface.OnDismissListener){
       ((DialogInterface.OnDismissListener) activity).onDismiss(getDialog());
     }
@@ -67,7 +67,7 @@ public class InternetErrorFragment extends DialogFragment {
   @Override
   public void onStop() {
     super.onStop();
-    getActivity().unregisterReceiver(netWorkChangeReceiver);
+    if (getActivity() != null) getActivity().unregisterReceiver(networkChangeReceiver);
   }
 
   public class NetworkChangeReceiver extends BroadcastReceiver {
