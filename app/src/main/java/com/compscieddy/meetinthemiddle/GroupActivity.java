@@ -513,8 +513,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       Util.rotateFabComplete(mExpandButton);
       resizeAnimation = new ResizeAnimation(
           mBottomSection,
-          getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
-          (int) (height * 0.2)
+          (int) (height * 0.2),
+          getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
         );
       collapsed = !collapsed;
       resizeAnimation.setDuration(400);
