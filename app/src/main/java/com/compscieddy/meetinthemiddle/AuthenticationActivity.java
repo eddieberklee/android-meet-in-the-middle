@@ -28,7 +28,7 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
 
   private static final Lawg lawg = Lawg.newInstance(AuthenticationActivity.class.getSimpleName());
   private static final int RC_SIGN_IN = 100;
-  private static final String TAG_INTERNET_ERROR = "TAG_INTERNET_ERROR";
+  private static final String TAG_INTERNET_ERROR = "tag_internet_error";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +99,7 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
   }
 
   private boolean isFirstRun(){
-    final String PREF_VERSION_CODE_KEY = "PREF_VERSION_CODE_KEY";
+    final String PREF_VERSION_CODE_KEY = "pref_version_code_key";
     final int DOESNT_EXIST = -1;
 
     // Get current version code

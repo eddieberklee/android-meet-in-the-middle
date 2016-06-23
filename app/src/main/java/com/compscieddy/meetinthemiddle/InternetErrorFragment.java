@@ -67,7 +67,8 @@ public class InternetErrorFragment extends DialogFragment {
   @Override
   public void onStop() {
     super.onStop();
-    if (getActivity() != null) getActivity().unregisterReceiver(networkChangeReceiver);
+    Activity activity = getActivity();
+    if (activity != null) activity.unregisterReceiver(networkChangeReceiver);
   }
 
   public class NetworkChangeReceiver extends BroadcastReceiver {
