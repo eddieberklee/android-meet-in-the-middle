@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Lawg;
@@ -72,7 +73,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   private boolean mIsLocationPermissionEnabled = false;
 
   private final int ANIMATE_CAMERA_REPEAT = 1500;
-  private final int INITIAL_ANIMATE_CAMERA_DELAY = 2000;
+  private final int INITIAL_ANIMATE_CAMERA_DELAY = 5000;
 
   private LocationManager mLocationManager;
   private GoogleApiClient mGoogleApiClient;
@@ -83,6 +84,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   @Bind(R.id.toolbar_viewgroup) ViewGroup mToolbarLayout;
   @Bind(R.id.new_group_button) View mNewGroupButton;
   @Bind(R.id.logout_button) View mLogoutButton;
+  @Bind(R.id.empty_group_view) LinearLayout mEmptyGroupView;
   @Bind(R.id.temp_button) View mTempButton;
 
   private SupportMapFragment mMapFragment;
@@ -334,6 +336,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   }
 
   private void setupRecyclerView() {
+
     mGroupsAdapter = new GroupsAdapter();
     mGroupRecyclerView.setAdapter(mGroupsAdapter);
     mGroupRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -351,6 +354,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     mStatusRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 //    RecyclerViewDivider.with(this).addTo(mStatusRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
     mGroupRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+
   }
 
   @Override
@@ -371,7 +375,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
             Group group = dataSnapshot.getValue(Group.class);
             mGroupsAdapter.addGroup(group);
           }
-
           @Override
           public void onCancelled(DatabaseError databaseError) {
             lawg.e("onCancelled " + databaseError);
@@ -387,7 +390,9 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           }
 
           @Override
-          public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }
+          public void onCancelled(DatabaseError databaseError) {
+            lawg.e("onCancelled() " + databaseError);
+          }
         });
       }
 
@@ -412,6 +417,22 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       }
     });
 
+    mFirebaseDatabase.getReference("groups").addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        long numGroups = dataSnapshot.getChildrenCount();
+        if (numGroups > 0) {
+          mEmptyGroupView.setVisibility(View.INVISIBLE);
+          mGroupRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+          mGroupRecyclerView.setVisibility(View.INVISIBLE);
+          mEmptyGroupView.setVisibility(View.VISIBLE);
+        }
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }
+    });
   }
 
   @Override
