@@ -62,7 +62,8 @@
         android:orientation="horizontal"
         app:layout_anchor="@+id/chats_recycler_view"
         app:layout_anchorGravity="bottom|center_horizontal"
-        app:layout_behavior="com.compscieddy.meetinthemiddle.ui.ScrollAwareChatBehavior">
+        app:layout_behavior="com.compscieddy.meetinthemiddle.ui.ScrollAwareChatBehavior"
+        android:translationZ="1dp">
 
         <com.compscieddy.meetinthemiddle.FontEditText
             android:id="@+id/message_edit_text"
@@ -76,7 +77,8 @@
             android:inputType="textCapSentences"
             android:paddingLeft="10dp"
             android:paddingRight="5dp"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:background="@color/white_transp_50"/>
 
         <ImageView
             android:id="@+id/message_send_button"
@@ -96,6 +98,7 @@
         android:layout_height="match_parent"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:paddingBottom="20dp"
         android:scrollbars="vertical"/>
 
 </android.support.design.widget.CoordinatorLayout>

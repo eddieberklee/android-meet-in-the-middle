@@ -2,6 +2,6 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
        android:shape="oval">
     <stroke android:color="@color/yellow_nav_button_stroke"
-            android:width="6dp"/>
+            android:width="8dp"/>
     <solid android:color="@color/colorAccent"/>
 </shape>

@@ -4,16 +4,14 @@
 
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">@color/mitm_yellow</color>
 
     <color name="chat_sendee">#E7E7E7</color>
     <color name="chat_sender">#087FF6</color>
 
+    <color name="mitm_yellow">#F8F159</color>
     <color name="snapchat_blue">#0D9DF5</color>
-
-
-
-
+    <color name="yellow_nav_button_stroke">@color/white_transp_80</color>
 
 
 

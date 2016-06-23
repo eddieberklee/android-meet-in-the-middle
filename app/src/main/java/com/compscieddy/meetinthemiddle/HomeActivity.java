@@ -15,10 +15,8 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,13 +27,11 @@ import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.model.User;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.fondesa.recyclerviewdivider.RecyclerViewDivider;
 import com.google.android.gms.appinvite.AppInvite;
 import com.google.android.gms.appinvite.AppInviteInvitationResult;
 import com.google.android.gms.appinvite.AppInviteReferral;
@@ -63,7 +59,7 @@ import butterknife.ButterKnife;
 
 
 public class HomeActivity extends BaseActivity implements OnMapReadyCallback, LocationListener,
-    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, AppBarLayout.OnOffsetChangedListener {
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
   private static final Lawg lawg = Lawg.newInstance(HomeActivity.class.getSimpleName());
   int count = 0;
@@ -77,7 +73,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   private boolean mIsLocationPermissionEnabled = false;
 
   private final int ANIMATE_CAMERA_REPEAT = 1500;
-  private final int INITIAL_ANIMATE_CAMERA_DELAY = 2000;
+  private final int INITIAL_ANIMATE_CAMERA_DELAY = 5000;
 
   private LocationManager mLocationManager;
   private GoogleApiClient mGoogleApiClient;
@@ -85,9 +81,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
   @Bind(R.id.username) TextView mUsername;
   @Bind(R.id.group_recycler_view) RecyclerView mGroupRecyclerView;
-  @Bind(R.id.app_bar_layout) AppBarLayout mAppBarLayout;
-  @Bind(R.id.collapsing_toolbar) CollapsingToolbarLayout mCollapsingToolbarLayout;
-  @Bind(R.id.map_card_view) CardView mMapCardView;
   @Bind(R.id.toolbar_viewgroup) ViewGroup mToolbarLayout;
   @Bind(R.id.new_group_button) View mNewGroupButton;
   @Bind(R.id.logout_button) View mLogoutButton;
@@ -185,13 +178,13 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   }
 
   private void setListeners() {
-    mAppBarLayout.addOnOffsetChangedListener(this);
     mNewGroupButton.setOnClickListener(this);
     mLogoutButton.setOnClickListener(this);
     mTempButton.setOnClickListener(this);
   }
 
-  @Override
+  /** No more collapsing Toolbar */
+  // @Override
   public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
     finalVerticalOffset = verticalOffset;
     if (finalVerticalOffset < initialVerticalOffset) {
@@ -359,7 +352,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
     mStatusRecyclerView.setAdapter(mStatusAdapter);
     mStatusRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    RecyclerViewDivider.with(this).addTo(mStatusRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
+//    RecyclerViewDivider.with(this).addTo(mStatusRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
     mGroupRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
 
   }
@@ -442,6 +435,19 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       case R.id.new_group_button: {
         Intent intent = new Intent(HomeActivity.this, GroupActivity.class);
         DatabaseReference newGroupReference = mFirebaseDatabase.getReference("groups").push();
+        mNewGroupButton.animate()
+            .translationY(20)
+            .scaleX(1.15f)
+            .scaleY(1.1f)
+            .withEndAction(new Runnable() {
+              @Override
+              public void run() {
+                mNewGroupButton.animate()
+                    .translationY(0)
+                    .scaleX(1.0f)
+                    .scaleY(1.0f);
+              }
+            });
 
         final String newGroupKey = newGroupReference.getKey();
         Group newGroup = new Group(newGroupKey, null, null);
