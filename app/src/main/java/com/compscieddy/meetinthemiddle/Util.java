@@ -40,25 +40,9 @@ public class Util {
     return output;
   }
 
-  public static void rotateFabForward(View view) {
+  public static void rotateView(View view, float angle){
     ViewCompat.animate(view)
-        .rotation(-180.0f)
-        .withLayer()
-        .setDuration(400)
-        .start();
-  }
-
-  public static void rotateFabBackward(View view) {
-    ViewCompat.animate(view)
-        .rotation(0.0f)
-        .withLayer()
-        .setDuration(400)
-        .start();
-  }
-
-  public static void rotateFabComplete(View view){
-    ViewCompat.animate(view)
-        .rotation(360.0f)
+        .rotationBy(angle)
         .withLayer()
         .setDuration(400)
         .start();

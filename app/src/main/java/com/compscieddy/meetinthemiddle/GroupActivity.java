@@ -510,12 +510,22 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       ResizeAnimation resizeAnimation;
 
       // todo: use Etils.getScreenHeight() instead
-      Util.rotateFabComplete(mExpandButton);
-      resizeAnimation = new ResizeAnimation(
+      if (expanded){
+        Util.rotateView(mExpandButton, -180.0f);
+        resizeAnimation = new ResizeAnimation(
+            mBottomSection,
+            (int) (height * 0.2),
+            (int) (height * 0.75)
+        );
+        expanded = !expanded;
+      } else {
+        Util.rotateView(mExpandButton, -360.0f);
+        resizeAnimation = new ResizeAnimation(
           mBottomSection,
           (int) (height * 0.2),
           getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
         );
+      }
       collapsed = !collapsed;
       resizeAnimation.setDuration(400);
       mBottomSection.startAnimation(resizeAnimation);
@@ -624,7 +634,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         // todo: use Etils.getScreenHeight() instead
 
         if (collapsed){
-          Util.rotateFabComplete(mExpandButton);
+          Util.rotateView(mExpandButton, 360.0f);
           resizeAnimation = new ResizeAnimation(
               mBottomSection,
               getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
@@ -632,7 +642,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
           );
           collapsed = !collapsed;
         } else if (!expanded) {
-          Util.rotateFabForward(mExpandButton);
+          Util.rotateView(mExpandButton, 180.0f);
           resizeAnimation = new ResizeAnimation(
               mBottomSection,
               (int) (height * 0.75),
@@ -640,8 +650,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
           );
           expanded = !expanded;
         } else {
-          Util.rotateFabBackward(mExpandButton);
-
+          Util.rotateView(mExpandButton, -180.0f);
           resizeAnimation = new ResizeAnimation(
               mBottomSection,
               getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
