@@ -374,16 +374,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           public void onDataChange(DataSnapshot dataSnapshot) {
             Group group = dataSnapshot.getValue(Group.class);
             mGroupsAdapter.addGroup(group);
-
-            long numGroups = dataSnapshot.getChildrenCount();
-            if (numGroups > 0) {
-              mEmptyGroupView.setVisibility(View.INVISIBLE);
-              mGroupRecyclerView.setVisibility(View.VISIBLE);
-            } else {
-              mGroupRecyclerView.setVisibility(View.INVISIBLE);
-              mEmptyGroupView.setVisibility(View.VISIBLE);
-            }
-
           }
           @Override
           public void onCancelled(DatabaseError databaseError) {
@@ -425,6 +415,23 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       public void onCancelled(DatabaseError databaseError) {
         lawg.e("onCancelled " + databaseError);
       }
+    });
+
+    mFirebaseDatabase.getReference("groups").addListenerForSingleValueEvent(new ValueEventListener() {
+      @Override
+      public void onDataChange(DataSnapshot dataSnapshot) {
+        long numGroups = dataSnapshot.getChildrenCount();
+        if (numGroups > 0) {
+          mEmptyGroupView.setVisibility(View.INVISIBLE);
+          mGroupRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+          mGroupRecyclerView.setVisibility(View.INVISIBLE);
+          mEmptyGroupView.setVisibility(View.VISIBLE);
+        }
+      }
+
+      @Override
+      public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }
     });
   }
 
