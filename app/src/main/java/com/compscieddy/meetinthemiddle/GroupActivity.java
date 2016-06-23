@@ -87,7 +87,7 @@ import retrofit2.Call;
 
 public class GroupActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, GoogleMap.OnMapClickListener,
-    TouchableWrapper.UpdateMapAfterUserInteraction{
+    TouchableWrapper.UserMapDrag{
 
   private static final Lawg lawg = Lawg.newInstance(GroupActivity.class.getSimpleName());
 
@@ -500,7 +500,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   }
 
   @Override
-  public void onUpdateMapAfterUserInteraction() {
+  public void onMapDrag() {
     if (!collapsed){
       Display display = getWindowManager().getDefaultDisplay();
       Point size = new Point();

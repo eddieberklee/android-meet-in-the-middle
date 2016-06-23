@@ -12,13 +12,13 @@ public  class TouchableWrapper extends FrameLayout {
 
   private long lastTouched = 0;
   private static final long SCROLL_TIME = 100L; // 100 Milliseconds
-  private UpdateMapAfterUserInteraction updateMapAfterUserInteraction;
+  private UserMapDrag userMapDrag;
 
   public TouchableWrapper(Context context) {
     super(context);
     // Force the host activity to implement the UpdateMapAfterUserInteraction Interface
     try {
-      updateMapAfterUserInteraction = (GroupActivity) context;
+      userMapDrag = (GroupActivity) context;
     } catch (ClassCastException e) {
       throw new ClassCastException(context.toString() + " must implement UpdateMapAfterUserInterection");
     }
@@ -34,7 +34,7 @@ public  class TouchableWrapper extends FrameLayout {
         final long now = SystemClock.uptimeMillis();
         if (now - lastTouched > SCROLL_TIME) {
           // Update the map
-          updateMapAfterUserInteraction.onUpdateMapAfterUserInteraction();
+          userMapDrag.onMapDrag();
         }
         break;
     }
@@ -42,7 +42,7 @@ public  class TouchableWrapper extends FrameLayout {
   }
 
   // Map Activity must implement this interface
-  public interface UpdateMapAfterUserInteraction {
-    void onUpdateMapAfterUserInteraction();
+  public interface UserMapDrag {
+    void onMapDrag();
   }
 }
