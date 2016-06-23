@@ -84,12 +84,13 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="4dp"/>
+            android:layout_height="3dp"/>
 
         <LinearLayout
             android:id="@+id/message_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
             android:gravity="bottom"
             android:orientation="horizontal">
             <ImageView
