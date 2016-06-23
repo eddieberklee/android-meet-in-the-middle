@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/sample_mitm_background"
+        android:scaleType="centerCrop"/>
+
+    <View
+        android:id="@+id/blackout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_transp_70"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_centerInParent="true">
+        <com.compscieddy.meetinthemiddle.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:id="@+id/app_title"
+            android:textColor="@color/white"
+            android:textSize="28sp"/>
+        <com.compscieddy.meetinthemiddle.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/internet_not_available"
+            android:id="@+id/textView2"
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:textSize="18sp"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="80dp"/>
+
+        <com.compscieddy.meetinthemiddle.FontTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/check_internet_settings"
+            android:id="@+id/textView3"
+            android:textColor="@color/white"
+            app:fontface="montserrat_light"/>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="25dp"/>
+
+        <FrameLayout
+            android:id="@+id/goto_wifi_settings_button"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/rounded_fill_grey_wireless_settings">
+            <com.compscieddy.meetinthemiddle.ui.ColorImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal|top"
+                android:id="@+id/imageView"
+                android:paddingTop="10dp"
+                android:paddingBottom="30dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:src="@drawable/ic_wifi_off_white_48dp"
+                app:customColor="@color/greyscale_8"/>
+            <com.compscieddy.meetinthemiddle.FontTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginBottom="10dp"
+                android:text="Wifi Settings"
+                android:textAllCaps="true"
+                android:textSize="11sp"
+                app:fontface="montserrat_semibold"
+                android:textColor="@color/greyscale_8"/>
+        </FrameLayout>
+    </LinearLayout>
+
+</RelativeLayout>

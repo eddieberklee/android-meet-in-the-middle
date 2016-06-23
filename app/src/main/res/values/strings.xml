@@ -29,4 +29,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <string name="internet_not_available">We require an internet connection to sync and save your data for you.</string>
+    <string name="check_internet_settings">Please check your internet settings:</string>
+
 </resources>

@@ -11,7 +11,7 @@
 
     <color name="mitm_yellow">#F8F159</color>
     <color name="snapchat_blue">#0D9DF5</color>
-    <color name="yellow_nav_button_stroke">@color/white_transp_80</color>
+    <color name="yellow_nav_button_stroke">@color/white</color>
 
 
 

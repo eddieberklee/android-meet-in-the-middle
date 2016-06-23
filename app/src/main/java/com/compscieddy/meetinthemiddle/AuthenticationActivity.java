@@ -1,8 +1,15 @@
 package com.compscieddy.meetinthemiddle;
 
-import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
@@ -17,10 +24,11 @@ import com.google.firebase.database.FirebaseDatabase;
 /**
  * Created by ambar on 6/15/16.
  */
-public class AuthenticationActivity extends Activity {
+public class AuthenticationActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
 
   private static final Lawg lawg = Lawg.newInstance(AuthenticationActivity.class.getSimpleName());
   private static final int RC_SIGN_IN = 100;
+  private static final String TAG_INTERNET_ERROR = "tag_internet_error";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -34,15 +42,24 @@ public class AuthenticationActivity extends Activity {
       finish();
     }
 
-    startActivityForResult(
-        AuthUI.getInstance().createSignInIntentBuilder()
-            .setLogo(R.mipmap.ic_launcher)
-            .setProviders(AuthUI.EMAIL_PROVIDER,
-                AuthUI.FACEBOOK_PROVIDER,
-                AuthUI.GOOGLE_PROVIDER)
-            .build(),
-        RC_SIGN_IN);
-    finish();
+    //User isn't logged in, so check if he has working internet
+    if (isInternetAvailable()) {
+      startActivityForResult(
+          AuthUI.getInstance().createSignInIntentBuilder()
+              .setLogo(R.mipmap.ic_launcher)
+              .setProviders(AuthUI.EMAIL_PROVIDER,
+                  AuthUI.FACEBOOK_PROVIDER,
+                  AuthUI.GOOGLE_PROVIDER)
+              .build(),
+          RC_SIGN_IN);
+      finish();
+    } else {
+      FragmentManager fm = getSupportFragmentManager();
+      InternetErrorFragment internetErrorFragment = InternetErrorFragment.newInstance();
+      internetErrorFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppDialogTheme);
+      internetErrorFragment.setCancelable(false);
+      internetErrorFragment.show(fm, TAG_INTERNET_ERROR);
+    }
   }
 
   @Override
@@ -74,4 +91,57 @@ public class AuthenticationActivity extends Activity {
     }
   }
 
+  private boolean isInternetAvailable() {
+    ConnectivityManager connMgr = (ConnectivityManager)
+        getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+    return (networkInfo != null && networkInfo.isConnected());
+  }
+
+  private boolean isFirstRun(){
+    final String PREF_VERSION_CODE_KEY = "pref_version_code_key";
+    final int DOESNT_EXIST = -1;
+
+    // Get current version code
+    int currentVersionCode = BuildConfig.VERSION_CODE;
+
+    // Get saved version code
+    SharedPreferences prefs = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+    int savedVersionCode = prefs.getInt(PREF_VERSION_CODE_KEY, DOESNT_EXIST);
+
+    // Check for first run or upgrade
+    if (currentVersionCode == savedVersionCode) {
+
+      // This is just a normal run
+      return false;
+
+    } else if (savedVersionCode == DOESNT_EXIST) {
+
+      // This is a new install (or the user cleared the shared preferences)
+      return true;
+
+    } else if (currentVersionCode > savedVersionCode) {
+
+      //This is an upgrade
+       return false;
+    }
+
+    // Update the shared preferences with the current version code
+    prefs.edit().putInt(PREF_VERSION_CODE_KEY, currentVersionCode).commit();
+    return false;
+
+  }
+
+  @Override
+  public void onDismiss(DialogInterface dialog) {
+    startActivityForResult(
+          AuthUI.getInstance().createSignInIntentBuilder()
+              .setLogo(R.mipmap.ic_launcher)
+              .setProviders(AuthUI.EMAIL_PROVIDER,
+                  AuthUI.FACEBOOK_PROVIDER,
+                  AuthUI.GOOGLE_PROVIDER)
+              .build(),
+          RC_SIGN_IN);
+      finish();
+  }
 }
