@@ -16,18 +16,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by ambar on 6/22/16.
  */
-public class InternetErrorFragment extends DialogFragment {
+public class InternetErrorFragment extends DialogFragment implements View.OnClickListener {
 
   IntentFilter intentFilter;
   NetworkChangeReceiver networkChangeReceiver;
 
+  @Bind(R.id.goto_wifi_settings_button) View mGotoWifiSettingsButton;
+
   public static InternetErrorFragment newInstance() {
-
     Bundle args = new Bundle();
-
     InternetErrorFragment fragment = new InternetErrorFragment();
     fragment.setArguments(args);
     return fragment;
@@ -36,7 +39,23 @@ public class InternetErrorFragment extends DialogFragment {
   @Nullable
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.fragment_internet_error, container);
+    View rootView = inflater.inflate(R.layout.fragment_internet_error, container);
+    ButterKnife.bind(InternetErrorFragment.this, rootView);
+    setListeners();
+    return rootView;
+  }
+
+  private void setListeners() {
+    mGotoWifiSettingsButton.setOnClickListener(this);
+  }
+
+  @Override
+  public void onClick(View v) {
+    switch(v.getId()) {
+      case R.id.goto_wifi_settings_button:
+        startActivity(new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS));
+        break;
+    }
   }
 
   @Override

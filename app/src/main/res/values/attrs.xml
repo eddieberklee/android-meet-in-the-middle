@@ -21,4 +21,8 @@
         <attr name="color"/>
     </declare-styleable>
 
+    <declare-styleable name="ColorImageView">
+        <attr name="customColor" format="color"/>
+    </declare-styleable>
+
 </resources>
