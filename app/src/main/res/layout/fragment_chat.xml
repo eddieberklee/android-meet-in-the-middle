@@ -98,6 +98,7 @@
         android:layout_height="match_parent"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:paddingBottom="20dp"
         android:scrollbars="vertical"/>
 
 </android.support.design.widget.CoordinatorLayout>
