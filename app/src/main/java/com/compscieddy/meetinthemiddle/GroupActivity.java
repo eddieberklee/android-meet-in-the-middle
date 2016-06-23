@@ -86,7 +86,8 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 
 public class GroupActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
-    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, GoogleMap.OnMapClickListener {
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, GoogleMap.OnMapClickListener,
+    TouchableWrapper.UpdateMapAfterUserInteraction{
 
   private static final Lawg lawg = Lawg.newInstance(GroupActivity.class.getSimpleName());
 
@@ -124,6 +125,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Bind(R.id.sliding_tabs) TabLayout mTabLayout;
 
   boolean expanded = false;
+  boolean collapsed = false;
   boolean voteLocationActive = false;
 
   Marker queenstownMarker, sydneyMarker;
@@ -498,6 +500,29 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   }
 
   @Override
+  public void onUpdateMapAfterUserInteraction() {
+    if (!collapsed){
+      Display display = getWindowManager().getDefaultDisplay();
+      Point size = new Point();
+      display.getSize(size);
+      int height = size.y;
+
+      ResizeAnimation resizeAnimation;
+
+      // todo: use Etils.getScreenHeight() instead
+      Util.rotateFabComplete(mExpandButton);
+      resizeAnimation = new ResizeAnimation(
+          mBottomSection,
+          getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
+          (int) (height * 0.2)
+        );
+      collapsed = !collapsed;
+      resizeAnimation.setDuration(400);
+      mBottomSection.startAnimation(resizeAnimation);
+    }
+  }
+
+  @Override
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.group_text_view:
@@ -598,13 +623,22 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
         // todo: use Etils.getScreenHeight() instead
 
-        if (!expanded) {
+        if (collapsed){
+          Util.rotateFabComplete(mExpandButton);
+          resizeAnimation = new ResizeAnimation(
+              mBottomSection,
+              getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
+              (int) (height * 0.2)
+          );
+          collapsed = !collapsed;
+        } else if (!expanded) {
           Util.rotateFabForward(mExpandButton);
           resizeAnimation = new ResizeAnimation(
               mBottomSection,
               (int) (height * 0.75),
               getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
           );
+          expanded = !expanded;
         } else {
           Util.rotateFabBackward(mExpandButton);
 
@@ -613,8 +647,9 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
               getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
               (int) (height * 0.75)
           );
+          expanded = !expanded;
         }
-        expanded = !expanded;
+
         resizeAnimation.setDuration(400);
         mBottomSection.startAnimation(resizeAnimation);
         break;

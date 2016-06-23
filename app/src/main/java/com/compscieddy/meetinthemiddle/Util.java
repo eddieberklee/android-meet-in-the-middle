@@ -56,6 +56,14 @@ public class Util {
         .start();
   }
 
+  public static void rotateFabComplete(View view){
+    ViewCompat.animate(view)
+        .rotation(360.0f)
+        .withLayer()
+        .setDuration(400)
+        .start();
+  }
+
   public static void rotateLocationActive(View view) {
     ViewCompat.animate(view)
         .rotation(0.0f)
