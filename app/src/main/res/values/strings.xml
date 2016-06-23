@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Meet in the Middle</string>
+    <string name="app_name">(meet)</string>
     <string name="title_activity_maps">Map</string>
 
     <string name="preference_file_key">com.compscieddy.meetinthemiddle.PREFERENCE_FILE_KEY</string>

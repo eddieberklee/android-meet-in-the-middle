@@ -72,7 +72,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   private boolean mIsLocationPermissionEnabled = false;
 
   private final int ANIMATE_CAMERA_REPEAT = 1500;
-  private final int INITIAL_ANIMATE_CAMERA_DELAY = 2000;
+  private final int INITIAL_ANIMATE_CAMERA_DELAY = 5000;
 
   private LocationManager mLocationManager;
   private GoogleApiClient mGoogleApiClient;
