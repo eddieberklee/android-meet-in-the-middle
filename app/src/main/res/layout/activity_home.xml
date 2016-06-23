@@ -90,6 +90,34 @@
         app:fontface="montserrat_semibold"
         app:layout_behavior="com.compscieddy.meetinthemiddle.ui.ScrollAwareNewGroupButtonBehavior"/>
 
+    <LinearLayout
+        android:id="@+id/empty_group_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@+id/app_bar_layout"
+        app:layout_anchorGravity="bottom|center_horizontal"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:orientation="vertical">
+
+        <ImageView
+
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="80dp"
+            android:src="@drawable/ic_group_add_black_48dp"
+            android:tint="@color/greyscale_3"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Create your first group!"
+            android:textColor="@color/greyscale_3"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
     <com.compscieddy.meetinthemiddle.FontTextView
         android:id="@+id/logout_button"
         style="@style/OvalButtonOutlineAccent"
