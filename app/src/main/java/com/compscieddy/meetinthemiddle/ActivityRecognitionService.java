@@ -3,7 +3,6 @@ package com.compscieddy.meetinthemiddle;
 import android.app.IntentService;
 import android.content.Intent;
 
-import com.compscieddy.eddie_utils.Lawg;
 import com.google.android.gms.location.ActivityRecognition;
 import com.google.android.gms.location.ActivityRecognitionResult;
 import com.google.android.gms.location.DetectedActivity;

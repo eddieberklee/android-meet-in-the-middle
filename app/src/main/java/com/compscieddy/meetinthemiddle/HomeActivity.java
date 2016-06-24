@@ -28,7 +28,6 @@ import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.model.User;
 import com.facebook.FacebookSdk;
@@ -537,7 +536,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     @Override
     public void onReceive(Context context, Intent intent) {
       mContext = context;
-      if (Util.isInternetAvailable(mContext)) {
+      if (!Util.isInternetAvailable(mContext)) {
         lawg.d("Internet" + Util.isInternetAvailable(mContext));
         mNoInternetView.setVisibility(View.VISIBLE);
       } else {

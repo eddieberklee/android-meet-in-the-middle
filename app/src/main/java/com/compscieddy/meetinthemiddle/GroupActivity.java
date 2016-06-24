@@ -43,7 +43,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Etils;
-import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.model.UserMarker;
 import com.facebook.share.model.AppInviteContent;
@@ -183,7 +182,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         public void onDataChange(DataSnapshot dataSnapshot) {
           mGroup = dataSnapshot.getValue(Group.class);
           if (mGroup == null) {
-            Etils.logAndToast(GroupActivity.this, lawg, "Group is null - shit is so wrong");
+            Etils.logAndToast(GroupActivity.this, lawg.toString(), "Group is null - shit is so wrong");
             return;
           }
           mGroupNameTextView.setText(mGroup.groupTitle);

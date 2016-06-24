@@ -12,7 +12,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.compscieddy.eddie_utils.Etils;
-import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.User;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.auth.api.Auth;

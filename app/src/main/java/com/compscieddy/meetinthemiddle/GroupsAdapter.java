@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.Chat;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.google.android.gms.maps.GoogleMap;

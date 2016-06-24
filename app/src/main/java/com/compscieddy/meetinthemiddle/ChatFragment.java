@@ -25,7 +25,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Etils;
-import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.Chat;
 import com.compscieddy.meetinthemiddle.model.User;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
