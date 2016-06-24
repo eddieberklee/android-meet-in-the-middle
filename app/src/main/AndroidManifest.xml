@@ -15,15 +15,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <receiver
-        android:name="NetworkChangeReceiver"
-        android:label="NetworkChangeReceiver" >
-        <intent-filter>
-            <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
-        </intent-filter>
-    </receiver>
-
     <application
         android:name=".MitmApplication"
         android:allowBackup="true"
@@ -31,6 +22,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
+
+        <receiver
+            android:name=".HomeActivity$NetworkChangeReceiver"
+            android:label="NetworkChangeReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

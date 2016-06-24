@@ -1,7 +1,6 @@
 package com.compscieddy.meetinthemiddle;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -86,7 +85,8 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   @Bind(R.id.logout_button) View mLogoutButton;
   @Bind(R.id.empty_group_view) LinearLayout mEmptyGroupView;
   @Bind(R.id.temp_button) View mTempButton;
-  @Bind(R.id.no_internet_popup_view) TextView mNoInternetView;
+
+  //@Bind(R.id.no_internet_popup_view) TextView mNoInternetView;
 
   private SupportMapFragment mMapFragment;
   private Location mLastLocation;
@@ -529,8 +529,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     }
   }
 
-  public class NetworkChangeReceiver extends BroadcastReceiver {
-
+  /*public class NetworkChangeReceiver extends BroadcastReceiver {
     private Context mContext;
 
     @Override
@@ -543,5 +542,5 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
         mNoInternetView.setVisibility(View.GONE);
       }
     }
-  }
+  }*/
 }
