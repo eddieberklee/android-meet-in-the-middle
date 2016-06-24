@@ -1,7 +1,6 @@
 package com.compscieddy.meetinthemiddle;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -11,8 +10,6 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -225,7 +222,17 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   public void onResume() {
     super.onResume();  // Always call the superclass method first
     intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-    networkChangeReceiver = new NetworkChangeReceiver();
+    networkChangeReceiver = new NetworkChangeReceiver() {
+      @Override
+      public void onReceive(Context context, Intent intent) {
+        mContext = context;
+        if (isInternetAvailable(mContext)) {
+          mNoInternetView.setVisibility(View.GONE);
+        } else {
+          mNoInternetView.setVisibility(View.VISIBLE);
+        }
+      }
+    };
     registerReceiver(networkChangeReceiver, intentFilter);
   }
 
@@ -535,29 +542,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
         startActivity(new Intent(this, ProfilePicture.class));
         break;
       }
-    }
-  }
-
-  public class NetworkChangeReceiver extends BroadcastReceiver {
-
-    private Context mContext;
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-      mContext = context;
-      if (isInternetAvailable(mContext)) {
-        mNoInternetView.setVisibility(View.GONE);
-      } else {
-        mNoInternetView.setVisibility(View.VISIBLE);
-      }
-
-    }
-
-    public boolean isInternetAvailable(Context context) {
-      ConnectivityManager connMgr = (ConnectivityManager)
-          context.getSystemService(Context.CONNECTIVITY_SERVICE);
-      NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-      return (networkInfo != null && networkInfo.isConnected());
     }
   }
 }
