@@ -46,6 +46,7 @@ import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.model.UserMarker;
+import com.compscieddy.meetinthemiddle.util.Util;
 import com.facebook.share.model.AppInviteContent;
 import com.facebook.share.widget.AppInviteDialog;
 import com.google.android.gms.common.ConnectionResult;

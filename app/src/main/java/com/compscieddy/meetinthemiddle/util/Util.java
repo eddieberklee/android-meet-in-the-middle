@@ -1,4 +1,4 @@
-package com.compscieddy.meetinthemiddle;
+package com.compscieddy.meetinthemiddle.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,6 +11,7 @@ import android.support.v4.view.ViewCompat;
 import android.view.View;
 
 import com.compscieddy.eddie_utils.Lawg;
+import com.compscieddy.meetinthemiddle.R;
 
 /**
  * Created by elee on 6/9/16.

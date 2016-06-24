@@ -2,6 +2,7 @@ package com.compscieddy.meetinthemiddle;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
@@ -35,48 +36,39 @@ public class BaseActivity extends FragmentActivity {
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    lawg.d("BaseActivity onCreate()");
     mFirebaseDatabase = FirebaseDatabase.getInstance();
     mFirebaseAuth = FirebaseAuth.getInstance();
     mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
-    if (mFirebaseUser == null) {
-      Intent intent = new Intent(BaseActivity.this, AuthenticationActivity.class);
-      startActivity(intent);
-      finish();
-    }
-
-    final String encodedEmail = Etils.encodeEmail(mFirebaseUser.getEmail());
-    mFirebaseDatabase.getReference("users").child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+    mFirebaseAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
       @Override
-      public void onDataChange(DataSnapshot dataSnapshot) {
-        mUser = dataSnapshot.getValue(User.class);
-        if (mUser == null) {
-          // This should only happen in developer mode since we may arbitrarily delete from the database - resulting in inconsistency between database and logged in status
-          User.createUser(mFirebaseDatabase, mFirebaseUser);
+      public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        final FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user == null) {
+          Intent intent = new Intent(BaseActivity.this, AuthenticationActivity.class);
+          startActivity(intent);
+          finish();
+        } else {
+          final String encodedEmail = Etils.encodeEmail(mFirebaseUser.getEmail());
           mFirebaseDatabase.getReference("users").child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
               mUser = dataSnapshot.getValue(User.class);
-              userIsReady();
               if (mUser == null) {
-                // Assume shit's gone to hell, try to sign out the user and send them to the AuthenticationActivity
-                mFirebaseAuth.signOut();
-                Intent intent = new Intent(BaseActivity.this, AuthenticationActivity.class);
-                startActivity(intent);
-                finish();
+                User.createUser(mFirebaseDatabase, user);
+                userIsReady();
+              } else { // Successful Sign-In
+                lawg.d("mUser obtained email: " + mUser.email + " name: " + mUser.name);
+                userIsReady();
               }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled " + databaseError); }
           });
-        } else {
-          lawg.d("mUser obtained email: " + mUser.email + " name: " + mUser.name);
-          userIsReady();
         }
       }
-
-      @Override
-      public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled " + databaseError); }
     });
 
   }

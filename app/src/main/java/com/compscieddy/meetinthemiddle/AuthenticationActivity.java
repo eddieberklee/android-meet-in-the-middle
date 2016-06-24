@@ -52,33 +52,41 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    lawg.d("AuthenticationActivity onCreate()");
 
     //Checking if the user is already logged in
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    if (auth.getCurrentUser() != null) {
-      Intent intent = new Intent(this, HomeActivity.class);
-      startActivity(intent);
-      finish();
-    }
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    firebaseAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+      @Override
+      public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+          Intent intent = new Intent(AuthenticationActivity.this, HomeActivity.class);
+          startActivity(intent);
+          finish();
+        }
 
-    //User isn't logged in, so check if he has working internet
-    if (isInternetAvailable()) {
-      startActivityForResult(
-          AuthUI.getInstance().createSignInIntentBuilder()
-              .setLogo(R.mipmap.ic_launcher)
-              .setProviders(AuthUI.EMAIL_PROVIDER,
-                  AuthUI.FACEBOOK_PROVIDER,
-                  AuthUI.GOOGLE_PROVIDER)
-              .build(),
-          RC_SIGN_IN);
-      finish();
-    } else {
-      FragmentManager fm = getSupportFragmentManager();
-      InternetErrorFragment internetErrorFragment = InternetErrorFragment.newInstance();
-      internetErrorFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppDialogTheme);
-      internetErrorFragment.setCancelable(false);
-      internetErrorFragment.show(fm, TAG_INTERNET_ERROR);
-    }
+        //User isn't logged in, so check if he has working internet
+        if (isInternetAvailable()) {
+          startActivityForResult(
+              AuthUI.getInstance().createSignInIntentBuilder()
+                  .setLogo(R.mipmap.ic_launcher)
+                  .setProviders(AuthUI.EMAIL_PROVIDER,
+                      AuthUI.FACEBOOK_PROVIDER,
+                      AuthUI.GOOGLE_PROVIDER)
+                  .build(),
+              RC_SIGN_IN);
+          finish();
+        } else {
+          FragmentManager fm = getSupportFragmentManager();
+          InternetErrorFragment internetErrorFragment = InternetErrorFragment.newInstance();
+          internetErrorFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppDialogTheme);
+          internetErrorFragment.setCancelable(false);
+          internetErrorFragment.show(fm, TAG_INTERNET_ERROR);
+        }
+      }
+    });
+
   }
 
   @Override

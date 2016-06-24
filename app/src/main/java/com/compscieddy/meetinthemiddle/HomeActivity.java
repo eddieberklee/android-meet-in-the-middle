@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.model.User;
+import com.compscieddy.meetinthemiddle.util.Util;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.appinvite.AppInvite;
