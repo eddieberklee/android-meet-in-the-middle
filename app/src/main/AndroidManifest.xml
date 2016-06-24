@@ -15,6 +15,15 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <receiver
+        android:name="NetworkChangeReceiver"
+        android:label="NetworkChangeReceiver" >
+        <intent-filter>
+            <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+        </intent-filter>
+    </receiver>
+
     <application
         android:name=".MitmApplication"
         android:allowBackup="true"
@@ -51,9 +60,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".HomeActivity" >
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-            </intent-filter>
         </activity>
         <activity android:name=".GroupActivity" >
             <intent-filter>

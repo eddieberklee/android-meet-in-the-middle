@@ -1,9 +1,9 @@
 package com.compscieddy.meetinthemiddle;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -178,11 +178,14 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     setListeners();
     setupRecyclerView();
 
-    new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
-    if(!Util.isInternetAvailable(this)) {
+    //NetworkChangeReceiver mNetworkChange = new NetworkChangeReceiver();
+
+/*    if(!mNetworkChange.isInternetAvailable(this)) {
+      lawg.d("Internet" +mNetworkChange.isInternetAvailable(this));
       mNoInternetView.setVisibility(View.VISIBLE);
-    }
-    mNoInternetView.setVisibility(View.GONE);
+    } else {
+      mNoInternetView.setVisibility(View.GONE);
+    }*/
   }
 
   private void setListeners() {
@@ -526,20 +529,20 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       }
     }
   }
-/*  private boolean haveNetworkConnection() {
-    boolean haveConnectedWifi = false;
-    boolean haveConnectedMobile = false;
 
-    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-    NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-    for (NetworkInfo ni : netInfo) {
-      if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-        if (ni.isConnected())
-          haveConnectedWifi = true;
-      if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-        if (ni.isConnected())
-          haveConnectedMobile = true;
+  public class NetworkChangeReceiver extends BroadcastReceiver {
+
+    private Context mContext;
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+      mContext = context;
+      if (Util.isInternetAvailable(mContext)) {
+        lawg.d("Internet" + Util.isInternetAvailable(mContext));
+        mNoInternetView.setVisibility(View.VISIBLE);
+      } else {
+        mNoInternetView.setVisibility(View.GONE);
+      }
     }
-    return haveConnectedWifi || haveConnectedMobile;
-  }*/
+  }
 }
