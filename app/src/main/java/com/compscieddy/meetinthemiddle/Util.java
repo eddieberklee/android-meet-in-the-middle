@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 
@@ -70,6 +72,13 @@ public class Util {
         .withLayer()
         .setDuration(400)
         .start();
+  }
+
+  public static boolean isInternetAvailable(Context context) {
+    ConnectivityManager connMgr = (ConnectivityManager)
+        context.getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+    return (networkInfo != null && networkInfo.isConnected());
   }
 
 }

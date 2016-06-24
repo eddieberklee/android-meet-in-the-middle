@@ -3,6 +3,7 @@ package com.compscieddy.meetinthemiddle;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -86,6 +87,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   @Bind(R.id.logout_button) View mLogoutButton;
   @Bind(R.id.empty_group_view) LinearLayout mEmptyGroupView;
   @Bind(R.id.temp_button) View mTempButton;
+  @Bind(R.id.no_internet_popup_view) TextView mNoInternetView;
 
   private SupportMapFragment mMapFragment;
   private Location mLastLocation;
@@ -175,6 +177,12 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
     setListeners();
     setupRecyclerView();
+
+    new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+    if(!Util.isInternetAvailable(this)) {
+      mNoInternetView.setVisibility(View.VISIBLE);
+    }
+    mNoInternetView.setVisibility(View.GONE);
   }
 
   private void setListeners() {
@@ -375,6 +383,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
             Group group = dataSnapshot.getValue(Group.class);
             mGroupsAdapter.addGroup(group);
           }
+
           @Override
           public void onCancelled(DatabaseError databaseError) {
             lawg.e("onCancelled " + databaseError);
@@ -431,7 +440,9 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       }
 
       @Override
-      public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }
+      public void onCancelled(DatabaseError databaseError) {
+        lawg.e("onCancelled() " + databaseError);
+      }
     });
   }
 
@@ -515,4 +526,20 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       }
     }
   }
+/*  private boolean haveNetworkConnection() {
+    boolean haveConnectedWifi = false;
+    boolean haveConnectedMobile = false;
+
+    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+    NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+    for (NetworkInfo ni : netInfo) {
+      if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+        if (ni.isConnected())
+          haveConnectedWifi = true;
+      if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+        if (ni.isConnected())
+          haveConnectedMobile = true;
+    }
+    return haveConnectedWifi || haveConnectedMobile;
+  }*/
 }

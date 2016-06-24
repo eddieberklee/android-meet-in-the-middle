@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -97,16 +95,9 @@ public class InternetErrorFragment extends DialogFragment implements View.OnClic
     @Override
     public void onReceive(Context context, Intent intent) {
       mContext = context;
-      if (isInternetAvailable()) {
+      if (Util.isInternetAvailable(mContext)) {
         getDialog().dismiss();
       }
-    }
-
-    private boolean isInternetAvailable() {
-      ConnectivityManager connMgr = (ConnectivityManager)
-          mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-      NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-      return (networkInfo != null && networkInfo.isConnected());
     }
   }
 }
