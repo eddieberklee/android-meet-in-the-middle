@@ -79,8 +79,7 @@
         android:textStyle="bold"
         android:textColor="@color/white"
         android:visibility="gone"
-        android:animateLayoutChanges="true"
-        />
+        android:animateLayoutChanges="true"/>
 
 </FrameLayout>
 

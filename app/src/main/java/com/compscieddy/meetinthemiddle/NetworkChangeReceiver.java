@@ -1,3 +1,6 @@
+//http://stackoverflow.com/questions/8412714/broadcastreceiver-receives-multiple-identical-messages-for-one-event
+//possible solution for the double onRecieve call
+
 package com.compscieddy.meetinthemiddle;
 
 import android.content.BroadcastReceiver;
@@ -17,10 +20,11 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
   @Override
   public void onReceive(Context context, Intent intent) {
     mContext = context;
-    if(intent.getAction() != null && intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+    if(intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
       Log.d("Internet connected = ", "" + isInternetAvailable(mContext));
     }
     isInternetAvailable(context);
+
   }
 
   public boolean isInternetAvailable(Context context) {

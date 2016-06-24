@@ -179,19 +179,14 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     setListeners();
     setupRecyclerView();
 
-/*    if(!mNetworkChange.isInternetAvailable(this)) {
-      lawg.d("Internet" +mNetworkChange.isInternetAvailable(this));
+    registerReceiver(new NetworkChangeReceiver(),
+        new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+/*    if (isInternetAvailable(this)) {
       mNoInternetView.setVisibility(View.VISIBLE);
     } else {
       mNoInternetView.setVisibility(View.GONE);
     }*/
-    registerReceiver(new NetworkChangeReceiver(),
-        new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-    if (!Util.isInternetAvailable(this)) {
-      mNoInternetView.setVisibility(View.VISIBLE);
-    } else {
-      mNoInternetView.setVisibility(View.GONE);
-    }
+
   }
 
   private void setListeners() {
@@ -535,4 +530,17 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       }
     }
   }
+
+/*  @Override
+  public void onResume() {
+    super.onResume();  // Always call the superclass method first
+    registerReceiver(new NetworkChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+  }
+
+  @Override
+  public void onPause() {
+    super.onPause();  // Always call the superclass method first
+
+    unregisterReceiver(new NetworkChangeReceiver());
+  }*/
 }

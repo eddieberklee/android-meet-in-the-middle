@@ -1,9 +1,13 @@
 package com.compscieddy.meetinthemiddle;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -86,14 +90,16 @@ public class InternetErrorFragment extends DialogFragment implements View.OnClic
     if (activity != null) activity.unregisterReceiver(networkChangeReceiver);
   }
 
-/*  public class NetworkChangeReceiver extends BroadcastReceiver {
+
+  //TODO: USE THE NETWORKCHANGERECEIVER CLASS
+  public class NetworkChangeReceiver extends BroadcastReceiver {
 
     private Context mContext;
 
     @Override
     public void onReceive(Context context, Intent intent) {
       mContext = context;
-      if (Util.isInternetAvailable(mContext)) {
+      if (isInternetAvailable(mContext)) {
         getDialog().dismiss();
       }
     }
@@ -104,5 +110,5 @@ public class InternetErrorFragment extends DialogFragment implements View.OnClic
     NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
     return (networkInfo != null && networkInfo.isConnected());
     }
-  }*/
+  }
 }
