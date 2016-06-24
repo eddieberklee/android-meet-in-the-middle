@@ -1,6 +1,7 @@
 package com.compscieddy.meetinthemiddle;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -11,6 +12,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -97,6 +99,9 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   @Bind(R.id.status_recycler_view) RecyclerView mStatusRecyclerView;
   private StatusAdapter mStatusAdapter;
 
+  IntentFilter intentFilter;
+  NetworkChangeReceiver networkChangeReceiver;
+
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
     public void run() {
@@ -178,15 +183,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
     setListeners();
     setupRecyclerView();
-
-    registerReceiver(new NetworkChangeReceiver(),
-        new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
-/*    if (isInternetAvailable(this)) {
-      mNoInternetView.setVisibility(View.VISIBLE);
-    } else {
-      mNoInternetView.setVisibility(View.GONE);
-    }*/
-
   }
 
   private void setListeners() {
@@ -195,7 +191,9 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     mTempButton.setOnClickListener(this);
   }
 
-  /** No more collapsing Toolbar */
+  /**
+   * No more collapsing Toolbar
+   */
   // @Override
   public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
     finalVerticalOffset = verticalOffset;
@@ -224,6 +222,14 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   }
 
   @Override
+  public void onResume() {
+    super.onResume();  // Always call the superclass method first
+    intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+    networkChangeReceiver = new NetworkChangeReceiver();
+    registerReceiver(networkChangeReceiver, intentFilter);
+  }
+
+  @Override
   protected void onStart() {
     mGoogleApiClient.connect();
     super.onStart();
@@ -233,6 +239,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   protected void onStop() {
     mGoogleApiClient.disconnect();
     super.onStop();
+    unregisterReceiver(networkChangeReceiver);
   }
 
   private void initLocationPermissionGranted() {
@@ -531,16 +538,26 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     }
   }
 
-/*  @Override
-  public void onResume() {
-    super.onResume();  // Always call the superclass method first
-    registerReceiver(new NetworkChangeReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+  public class NetworkChangeReceiver extends BroadcastReceiver {
+
+    private Context mContext;
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+      mContext = context;
+      if (isInternetAvailable(mContext)) {
+        mNoInternetView.setVisibility(View.GONE);
+      } else {
+        mNoInternetView.setVisibility(View.VISIBLE);
+      }
+
+    }
+
+    public boolean isInternetAvailable(Context context) {
+      ConnectivityManager connMgr = (ConnectivityManager)
+          context.getSystemService(Context.CONNECTIVITY_SERVICE);
+      NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+      return (networkInfo != null && networkInfo.isConnected());
+    }
   }
-
-  @Override
-  public void onPause() {
-    super.onPause();  // Always call the superclass method first
-
-    unregisterReceiver(new NetworkChangeReceiver());
-  }*/
 }
