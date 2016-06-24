@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 /**
  * Created by Darren on 24-Jun-16.
@@ -16,10 +17,12 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
   @Override
   public void onReceive(Context context, Intent intent) {
     mContext = context;
-    if (isInternetAvailable(mContext)) {
-
+    if(intent.getAction() != null && intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+      Log.d("Internet connected = ", "" + isInternetAvailable(mContext));
     }
+    isInternetAvailable(context);
   }
+
   public boolean isInternetAvailable(Context context) {
     ConnectivityManager connMgr = (ConnectivityManager)
         context.getSystemService(Context.CONNECTIVITY_SERVICE);

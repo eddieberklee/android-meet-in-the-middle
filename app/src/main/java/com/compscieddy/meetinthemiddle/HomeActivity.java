@@ -3,12 +3,14 @@ package com.compscieddy.meetinthemiddle;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -86,7 +88,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   @Bind(R.id.empty_group_view) LinearLayout mEmptyGroupView;
   @Bind(R.id.temp_button) View mTempButton;
 
-  //@Bind(R.id.no_internet_popup_view) TextView mNoInternetView;
+  @Bind(R.id.no_internet_popup_view) TextView mNoInternetView;
 
   private SupportMapFragment mMapFragment;
   private Location mLastLocation;
@@ -177,14 +179,19 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     setListeners();
     setupRecyclerView();
 
-    //NetworkChangeReceiver mNetworkChange = new NetworkChangeReceiver();
-
 /*    if(!mNetworkChange.isInternetAvailable(this)) {
       lawg.d("Internet" +mNetworkChange.isInternetAvailable(this));
       mNoInternetView.setVisibility(View.VISIBLE);
     } else {
       mNoInternetView.setVisibility(View.GONE);
     }*/
+    registerReceiver(new NetworkChangeReceiver(),
+        new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+    if (!Util.isInternetAvailable(this)) {
+      mNoInternetView.setVisibility(View.VISIBLE);
+    } else {
+      mNoInternetView.setVisibility(View.GONE);
+    }
   }
 
   private void setListeners() {
@@ -528,19 +535,4 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       }
     }
   }
-
-  /*public class NetworkChangeReceiver extends BroadcastReceiver {
-    private Context mContext;
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-      mContext = context;
-      if (!Util.isInternetAvailable(mContext)) {
-        lawg.d("Internet" + Util.isInternetAvailable(mContext));
-        mNoInternetView.setVisibility(View.VISIBLE);
-      } else {
-        mNoInternetView.setVisibility(View.GONE);
-      }
-    }
-  }*/
 }
