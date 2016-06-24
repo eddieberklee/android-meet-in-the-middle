@@ -57,14 +57,22 @@ public class BaseActivity extends FragmentActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
               mUser = dataSnapshot.getValue(User.class);
+              userIsReady();
+              if (mUser == null) {
+                // Assume shit's gone to hell, try to sign out the user and send them to the AuthenticationActivity
+                mFirebaseAuth.signOut();
+                Intent intent = new Intent(BaseActivity.this, AuthenticationActivity.class);
+                startActivity(intent);
+                finish();
+              }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled " + databaseError); }
           });
         } else {
-          lawg.d("email: " + mUser.email + " name: " + mUser.name);
+          lawg.d("mUser obtained email: " + mUser.email + " name: " + mUser.name);
+          userIsReady();
         }
-        userIsReady();
       }
 
       @Override

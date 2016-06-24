@@ -31,5 +31,6 @@
 
     <string name="internet_not_available">We require an internet connection to sync and save your data for you.</string>
     <string name="check_internet_settings">Please check your internet settings:</string>
+    <string name="create_first_group">Create your first group!</string>
 
 </resources>
