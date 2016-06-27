@@ -61,9 +61,9 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
       public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
-          Intent intent = new Intent(AuthenticationActivity.this, HomeActivity.class);
-          startActivity(intent);
-          finish();
+//          Intent intent = new Intent(AuthenticationActivity.this, HomeActivity.class);
+//          startActivity(intent);
+//          finish();
         }
 
         //User isn't logged in, so check if he has working internet

@@ -1,6 +1,5 @@
 package com.compscieddy.meetinthemiddle;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -45,10 +44,11 @@ public class BaseActivity extends FragmentActivity {
       @Override
       public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         final FirebaseUser user = firebaseAuth.getCurrentUser();
+        lawg.d("user " + user + " user2 " + mFirebaseUser);
         if (user == null) {
-          Intent intent = new Intent(BaseActivity.this, AuthenticationActivity.class);
-          startActivity(intent);
-          finish();
+//          Intent intent = new Intent(BaseActivity.this, AuthenticationActivity.class);
+//          startActivity(intent);
+//          finish();
         } else {
           final String encodedEmail = Etils.encodeEmail(mFirebaseUser.getEmail());
           mFirebaseDatabase.getReference("users").child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {

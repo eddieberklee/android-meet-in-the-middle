@@ -119,6 +119,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    lawg.d("HomeActivity onCreate()");
     setContentView(R.layout.activity_home);
     ButterKnife.bind(HomeActivity.this);
     MapsInitializer.initialize(this);
