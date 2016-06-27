@@ -10,7 +10,7 @@ import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import com.compscieddy.eddie_utils.Lawg;
+import com.compscieddy.meetinthemiddle.Lawg;
 
 /**
  * Created by elee on 6/8/16.

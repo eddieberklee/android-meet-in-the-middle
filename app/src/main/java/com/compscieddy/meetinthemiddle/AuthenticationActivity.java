@@ -11,8 +11,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-import com.compscieddy.eddie_utils.Etils;
-import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.User;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.auth.api.Auth;
@@ -83,7 +81,6 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
         lawg.e("FAIL 1");
         lawg.e(" requestCode: " + requestCode + " resultCode: " + resultCode);
         lawg.e(" result: " + result);
-        Etils.showToast(AuthenticationActivity.this, "Failed to Sign-In");
       }
     } else {
       lawg.e("FAIL 2");

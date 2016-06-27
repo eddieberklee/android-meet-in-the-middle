@@ -3,6 +3,7 @@ package com.compscieddy.meetinthemiddle;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,7 +28,6 @@ import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.model.User;
 import com.facebook.FacebookSdk;
@@ -87,12 +87,17 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   @Bind(R.id.empty_group_view) LinearLayout mEmptyGroupView;
   @Bind(R.id.temp_button) View mTempButton;
 
+  @Bind(R.id.no_internet_popup_view) TextView mNoInternetView;
+
   private SupportMapFragment mMapFragment;
   private Location mLastLocation;
   private GroupsAdapter mGroupsAdapter;
 
   @Bind(R.id.status_recycler_view) RecyclerView mStatusRecyclerView;
   private StatusAdapter mStatusAdapter;
+
+  IntentFilter intentFilter;
+  NetworkChangeReceiver networkChangeReceiver;
 
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
@@ -183,7 +188,9 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     mTempButton.setOnClickListener(this);
   }
 
-  /** No more collapsing Toolbar */
+  /**
+   * No more collapsing Toolbar
+   */
   // @Override
   public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
     finalVerticalOffset = verticalOffset;
@@ -212,6 +219,24 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   }
 
   @Override
+  public void onResume() {
+    super.onResume();  // Always call the superclass method first
+    intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+    networkChangeReceiver = new NetworkChangeReceiver() {
+      @Override
+      public void onReceive(Context context, Intent intent) {
+        mContext = context;
+        if (isInternetAvailable(mContext)) {
+          mNoInternetView.setVisibility(View.GONE);
+        } else {
+          mNoInternetView.setVisibility(View.VISIBLE);
+        }
+      }
+    };
+    registerReceiver(networkChangeReceiver, intentFilter);
+  }
+
+  @Override
   protected void onStart() {
     mGoogleApiClient.connect();
     super.onStart();
@@ -221,6 +246,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   protected void onStop() {
     mGoogleApiClient.disconnect();
     super.onStop();
+    unregisterReceiver(networkChangeReceiver);
   }
 
   private void initLocationPermissionGranted() {
@@ -375,6 +401,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
             Group group = dataSnapshot.getValue(Group.class);
             mGroupsAdapter.addGroup(group);
           }
+
           @Override
           public void onCancelled(DatabaseError databaseError) {
             lawg.e("onCancelled " + databaseError);
@@ -431,7 +458,9 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       }
 
       @Override
-      public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }
+      public void onCancelled(DatabaseError databaseError) {
+        lawg.e("onCancelled() " + databaseError);
+      }
     });
   }
 

@@ -3,7 +3,6 @@ package com.compscieddy.meetinthemiddle;
 import android.app.Application;
 import android.content.Context;
 
-import com.compscieddy.eddie_utils.Lawg;
 
 /**
  * Created by elee on 6/18/16.

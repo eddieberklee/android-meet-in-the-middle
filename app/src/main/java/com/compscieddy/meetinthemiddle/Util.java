@@ -10,8 +10,6 @@ import android.graphics.Rect;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 
-import com.compscieddy.eddie_utils.Lawg;
-
 /**
  * Created by elee on 6/9/16.
  */

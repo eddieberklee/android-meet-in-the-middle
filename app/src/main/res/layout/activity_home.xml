@@ -8,13 +8,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_viewgroup_height"
+    android:orientation="vertical"
+    android:paddingBottom="3dp">
+
 
     <RelativeLayout
         android:id="@+id/toolbar_viewgroup"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_viewgroup_height"
-        android:orientation="vertical"
-        android:paddingBottom="3dp">
+        android:layout_height="match_parent">
 
         <!-- different height allows us to set a "lower center" -->
         <fragment
@@ -64,6 +68,20 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/no_internet_popup_view"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:text="NO INTERNET CONNECTION"
+        android:gravity="center"
+        android:layout_gravity="bottom"
+        android:background="@color/flatui_red_2"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:animateLayoutChanges="true"/>
+
+</FrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/group_recycler_view"

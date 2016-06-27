@@ -1,7 +1,7 @@
 package com.compscieddy.meetinthemiddle.model;
 
 import com.compscieddy.eddie_utils.Etils;
-import com.compscieddy.eddie_utils.Lawg;
+import com.compscieddy.meetinthemiddle.Lawg;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
