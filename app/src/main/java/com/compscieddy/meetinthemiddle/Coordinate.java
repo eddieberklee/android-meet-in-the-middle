@@ -3,10 +3,12 @@ package com.compscieddy.meetinthemiddle;
 import com.compscieddy.meetinthemiddle.util.Lawg;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.Serializable;
+
 /**
  * Created by elee on 6/6/16.
  */
-public class Coordinate {
+public class Coordinate implements Serializable {
 
   private static final Lawg lawg = Lawg.newInstance(Coordinate.class.getSimpleName());
 

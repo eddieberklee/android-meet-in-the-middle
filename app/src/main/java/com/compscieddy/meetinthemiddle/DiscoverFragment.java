@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.compscieddy.meetinthemiddle.util.Lawg;
-import com.google.android.gms.maps.model.LatLng;
 import com.yelp.clientlib.connection.YelpAPI;
 import com.yelp.clientlib.connection.YelpAPIFactory;
 import com.yelp.clientlib.entities.Business;
@@ -16,6 +15,7 @@ import com.yelp.clientlib.entities.SearchResponse;
 import com.yelp.clientlib.entities.options.CoordinateOptions;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,12 +29,13 @@ public class DiscoverFragment extends Fragment {
 
   private static final Lawg lawg = Lawg.newInstance(DiscoverFragment.class.getSimpleName());
 
-  private LatLng mLastKnownCoord;
+  private static final String ARG_LAST_KNOWN_COORD = "arg_last_known_coord";
+  public WeakReference<GroupActivity> mGroupActivityWeakReference;
 
-  public static DiscoverFragment newInstance() {
+  public static DiscoverFragment newInstance(GroupActivity groupActivity) {
     Bundle args = new Bundle();
-    //For future arguments, add here
     DiscoverFragment fragment = new DiscoverFragment();
+    fragment.mGroupActivityWeakReference = new WeakReference<GroupActivity>(groupActivity);
     fragment.setArguments(args);
     return fragment;
   }
@@ -43,8 +44,6 @@ public class DiscoverFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_discover, container, false);
-
-    Bundle args = getArguments();
 
     initYelp();
 
@@ -83,9 +82,13 @@ public class DiscoverFragment extends Fragment {
               Call<SearchResponse> call = yelpAPI.search(bounds, params);*/
 
         // coordinates
+        if (mGroupActivityWeakReference.get() == null) {
+          lawg.e("GroupActivity WeakReference.get() is null");
+          return;
+        }
         CoordinateOptions coordinate = CoordinateOptions.builder()
-            .latitude(mLastKnownCoord.lat)
-            .longitude(mLastKnownCoord.lon).build();
+            .latitude(mGroupActivityWeakReference.get().getLastKnownCoord().lat)
+            .longitude(mGroupActivityWeakReference.get().getLastKnownCoord().lon).build();
         Call<SearchResponse> call = yelpAPI.search(coordinate, params);
 
         try {

@@ -683,7 +683,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         case CHAT_FRAGMENT:
           return ChatFragment.newInstance(mGroupKey);
         case SEARCH_FRAGMENT:
-          return DiscoverFragment.newInstance();
+          return DiscoverFragment.newInstance(GroupActivity.this);
       }
       return null;
     }
@@ -708,6 +708,10 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         }
       }
     });
+  }
+
+  public Coordinate getLastKnownCoord() {
+    return mLastKnownCoord;
   }
 
 }

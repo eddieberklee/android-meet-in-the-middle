@@ -3,6 +3,7 @@ package com.compscieddy.meetinthemiddle;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -87,6 +88,10 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   @Bind(R.id.logout_button) View mLogoutButton;
   @Bind(R.id.empty_group_view) LinearLayout mEmptyGroupView;
   @Bind(R.id.temp_button) View mTempButton;
+  @Bind(R.id.no_internet_popup_view) TextView mNoInternetView;
+
+  IntentFilter intentFilter;
+  NetworkChangeReceiver networkChangeReceiver;
 
   private SupportMapFragment mMapFragment;
   private Location mLastLocation;
@@ -215,14 +220,33 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
   @Override
   protected void onStart() {
-    mGoogleApiClient.connect();
     super.onStart();
+    mGoogleApiClient.connect();
   }
 
   @Override
   protected void onStop() {
-    mGoogleApiClient.disconnect();
     super.onStop();
+    mGoogleApiClient.disconnect();
+    unregisterReceiver(networkChangeReceiver);
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();  // Always call the superclass method first
+    intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+    networkChangeReceiver = new NetworkChangeReceiver() {
+      @Override
+      public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+        if (this.isInternetAvailable()) {
+          mNoInternetView.setVisibility(View.GONE);
+        } else {
+          mNoInternetView.setVisibility(View.VISIBLE);
+        }
+      }
+    };
+    registerReceiver(networkChangeReceiver, intentFilter);
   }
 
   private void initLocationPermissionGranted() {
