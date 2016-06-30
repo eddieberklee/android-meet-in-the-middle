@@ -590,34 +590,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         break;
 
       case R.id.expand_chat_fab:
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int height = size.y;
-
-        ResizeAnimation resizeAnimation;
-
-        // todo: use Etils.getScreenHeight() instead
-
-        if (!expanded) {
-          Util.rotateFabForward(mExpandButton);
-          resizeAnimation = new ResizeAnimation(
-              mBottomSection,
-              (int) (height * 0.75),
-              getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
-          );
-        } else {
-          Util.rotateFabBackward(mExpandButton);
-
-          resizeAnimation = new ResizeAnimation(
-              mBottomSection,
-              getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
-              (int) (height * 0.75)
-          );
-        }
-        expanded = !expanded;
-        resizeAnimation.setDuration(400);
-        mBottomSection.startAnimation(resizeAnimation);
+        expandChat();
         break;
 
       case R.id.invite_button_two:
@@ -779,6 +752,37 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         }
       }
     });
+  }
+
+  public void expandChat() {
+    Display display = getWindowManager().getDefaultDisplay();
+    Point size = new Point();
+    display.getSize(size);
+    int height = size.y;
+
+    ResizeAnimation resizeAnimation;
+
+    // todo: use Etils.getScreenHeight() instead
+
+    if (!expanded) {
+      Util.rotateFabForward(mExpandButton);
+      resizeAnimation = new ResizeAnimation(
+          mBottomSection,
+          (int) (height * 0.75),
+          getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
+      );
+    } else {
+      Util.rotateFabBackward(mExpandButton);
+
+      resizeAnimation = new ResizeAnimation(
+          mBottomSection,
+          getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
+          (int) (height * 0.75)
+      );
+    }
+    expanded = !expanded;
+    resizeAnimation.setDuration(400);
+    mBottomSection.startAnimation(resizeAnimation);
   }
 
 }

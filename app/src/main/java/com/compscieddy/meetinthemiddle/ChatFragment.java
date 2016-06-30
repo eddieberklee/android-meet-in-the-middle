@@ -190,6 +190,16 @@ public class ChatFragment extends Fragment {
 
     mChatRecyclerView.setAdapter(mChatsFirebaseAdapter);
 
+    mChatRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+      @Override
+      public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        super.onScrollStateChanged(recyclerView, newState);
+        //TODO here is where we expand the group activity bottom_view
+/*        GroupActivity groupActivity = new GroupActivity();
+        groupActivity.expandChat();*/
+      }
+    });
+
     mFirebaseDatabase.getReference("chats").child(mGroupKey).addListenerForSingleValueEvent(new ValueEventListener() {
       @Override
       public void onDataChange(DataSnapshot dataSnapshot) {
@@ -263,6 +273,4 @@ public class ChatFragment extends Fragment {
       field.setText(text);
     }
   }
-
-
 }
