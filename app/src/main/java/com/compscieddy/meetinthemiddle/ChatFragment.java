@@ -195,8 +195,7 @@ public class ChatFragment extends Fragment {
       public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
         //TODO here is where we expand the group activity bottom_view
-/*        GroupActivity groupActivity = new GroupActivity();
-        groupActivity.expandChat();*/
+        lawg.e("Chat view scrolled");
       }
     });
 
