@@ -4,7 +4,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
-import com.compscieddy.eddie_utils.Lawg;
+import com.compscieddy.meetinthemiddle.util.Lawg;
 
 /**
  * Created by Darren on 12-Jun-16.

@@ -1,6 +1,6 @@
 package com.compscieddy.meetinthemiddle;
 
-import com.compscieddy.eddie_utils.Lawg;
+import com.compscieddy.meetinthemiddle.util.Lawg;
 import com.google.android.gms.maps.model.LatLng;
 
 /**

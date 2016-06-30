@@ -8,7 +8,7 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.compscieddy.eddie_utils.Etils;
-import com.compscieddy.eddie_utils.Lawg;
+import com.compscieddy.meetinthemiddle.util.Lawg;
 
 /**
  * Created by elee on 1/7/16.

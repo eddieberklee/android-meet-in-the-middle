@@ -1,13 +1,13 @@
 package com.compscieddy.meetinthemiddle;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
 import com.compscieddy.eddie_utils.Etils;
-import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.User;
+import com.compscieddy.meetinthemiddle.util.Lawg;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,40 +35,45 @@ public class BaseActivity extends FragmentActivity {
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    lawg.d("BaseActivity onCreate()");
     mFirebaseDatabase = FirebaseDatabase.getInstance();
     mFirebaseAuth = FirebaseAuth.getInstance();
     mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
-    if (mFirebaseUser == null) {
-      Intent intent = new Intent(BaseActivity.this, AuthenticationActivity.class);
-      startActivity(intent);
-      finish();
-    }
-
-    final String encodedEmail = Etils.encodeEmail(mFirebaseUser.getEmail());
-    mFirebaseDatabase.getReference("users").child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
+    mFirebaseAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
       @Override
-      public void onDataChange(DataSnapshot dataSnapshot) {
-        mUser = dataSnapshot.getValue(User.class);
-        if (mUser == null) {
-          // This should only happen in developer mode since we may arbitrarily delete from the database - resulting in inconsistency between database and logged in status
+      public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        final FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != mFirebaseUser) {
+          lawg.e("WHAT HAVE WE FOUND HERE");
+          Etils.showToast(BaseActivity.this, "We have found a unicorn");
+        }
+        lawg.d("user " + user + " user2 " + mFirebaseUser);
+        if (user == null) {
+          // Firebase has deemed them auth-worthy so just recreate the user object for them
+          lawg.d("user is null and firebase says auth worthy so creating a user");
           User.createUser(mFirebaseDatabase, mFirebaseUser);
+        } else {
+          final String encodedEmail = Etils.encodeEmail(mFirebaseUser.getEmail());
           mFirebaseDatabase.getReference("users").child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
               mUser = dataSnapshot.getValue(User.class);
+              if (mUser == null) {
+                lawg.d("Safety Check: mUser is null so creating a user");
+                  User.createUser(mFirebaseDatabase, user);
+                userIsReady();
+              } else { // Successful Sign-In
+                lawg.d("mUser obtained email: " + mUser.email + " name: " + mUser.name);
+                userIsReady();
+              }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled " + databaseError); }
           });
-        } else {
-          lawg.d("email: " + mUser.email + " name: " + mUser.name);
         }
-        userIsReady();
       }
-
-      @Override
-      public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled " + databaseError); }
     });
 
   }
