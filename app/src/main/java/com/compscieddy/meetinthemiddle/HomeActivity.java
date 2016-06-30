@@ -375,6 +375,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             Group group = dataSnapshot.getValue(Group.class);
+            lawg.e("poop " + mGroupsAdapter.getItemCount() + "title: " + group.getGroupTitle());
             mGroupsAdapter.addGroup(group);
           }
           @Override
@@ -387,6 +388,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             Group updatedGroup = dataSnapshot.getValue(Group.class);
+            lawg.e("poop " + mGroupsAdapter.getItemCount() + "title: " + updatedGroup.getGroupTitle());
             mGroupsAdapter.updateGroup(updatedGroup);
             lawg.d("onDataChange() " + " updatedGroup.getKey(): " + updatedGroup.getKey() + " " + updatedGroup.getGroupTitle());
           }
@@ -501,6 +503,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
         intent.putExtra(GroupActivity.ARG_GROUP_KEY, newGroupKey);
         startActivity(intent);
+        finish();
         break;
       }
       case R.id.logout_button: {
@@ -513,6 +516,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
       case R.id.temp_button: {
         startActivity(new Intent(this, ProfilePicture.class));
+        finish();
         break;
       }
     }
