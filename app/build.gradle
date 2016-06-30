@@ -47,12 +47,13 @@ dependencies {
     compile 'com.google.firebase:firebase-core:9.0.2'
     compile 'com.google.firebase:firebase-database:9.0.2'
     compile 'com.google.firebase:firebase-invites:9.0.2'
+    compile 'com.google.firebase:firebase-storage:9.0.2'
     compile 'com.firebaseui:firebase-ui:0.4.1'
 
     compile 'com.google.android.gms:play-services-auth:9.0.2'
     compile 'com.google.firebase:firebase-auth:9.0.2'
 
-    compile 'com.compscieddy:eddie-utils:0.8.+'
+    compile 'com.compscieddy:eddie-utils:0.8.10'
 
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.github.fondesa:recycler-view-divider:1.1.3'

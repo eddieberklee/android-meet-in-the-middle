@@ -5,7 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.compscieddy.eddie_utils.Lawg;
+import com.compscieddy.meetinthemiddle.util.Lawg;
 
 /**
  * Created by elee on 1/6/16.

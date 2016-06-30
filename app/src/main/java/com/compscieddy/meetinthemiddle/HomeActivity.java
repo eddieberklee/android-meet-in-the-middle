@@ -27,9 +27,10 @@ import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.model.User;
+import com.compscieddy.meetinthemiddle.util.Lawg;
+import com.compscieddy.meetinthemiddle.util.Util;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.appinvite.AppInvite;
@@ -118,6 +119,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    lawg.d("HomeActivity onCreate()");
     setContentView(R.layout.activity_home);
     ButterKnife.bind(HomeActivity.this);
     MapsInitializer.initialize(this);
@@ -373,6 +375,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             Group group = dataSnapshot.getValue(Group.class);
+            lawg.e("poop " + mGroupsAdapter.getItemCount() + "title: " + group.getGroupTitle());
             mGroupsAdapter.addGroup(group);
           }
           @Override
@@ -385,6 +388,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             Group updatedGroup = dataSnapshot.getValue(Group.class);
+            lawg.e("poop " + mGroupsAdapter.getItemCount() + "title: " + updatedGroup.getGroupTitle());
             mGroupsAdapter.updateGroup(updatedGroup);
             lawg.d("onDataChange() " + " updatedGroup.getKey(): " + updatedGroup.getKey() + " " + updatedGroup.getGroupTitle());
           }
@@ -499,6 +503,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
         intent.putExtra(GroupActivity.ARG_GROUP_KEY, newGroupKey);
         startActivity(intent);
+        finish();
         break;
       }
       case R.id.logout_button: {
@@ -511,6 +516,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
       case R.id.temp_button: {
         startActivity(new Intent(this, ProfilePicture.class));
+        finish();
         break;
       }
     }
