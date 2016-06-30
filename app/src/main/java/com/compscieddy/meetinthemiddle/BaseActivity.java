@@ -6,8 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
 import com.compscieddy.eddie_utils.Etils;
-import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.User;
+import com.compscieddy.meetinthemiddle.util.Lawg;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,11 +44,15 @@ public class BaseActivity extends FragmentActivity {
       @Override
       public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         final FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != mFirebaseUser) {
+          lawg.e("WHAT HAVE WE FOUND HERE");
+          Etils.showToast(BaseActivity.this, "We have found a unicorn");
+        }
         lawg.d("user " + user + " user2 " + mFirebaseUser);
         if (user == null) {
-//          Intent intent = new Intent(BaseActivity.this, AuthenticationActivity.class);
-//          startActivity(intent);
-//          finish();
+          // Firebase has deemed them auth-worthy so just recreate the user object for them
+          lawg.d("user is null and firebase says auth worthy so creating a user");
+          User.createUser(mFirebaseDatabase, mFirebaseUser);
         } else {
           final String encodedEmail = Etils.encodeEmail(mFirebaseUser.getEmail());
           mFirebaseDatabase.getReference("users").child(encodedEmail).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -56,7 +60,8 @@ public class BaseActivity extends FragmentActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
               mUser = dataSnapshot.getValue(User.class);
               if (mUser == null) {
-                User.createUser(mFirebaseDatabase, user);
+                lawg.d("Safety Check: mUser is null so creating a user");
+                  User.createUser(mFirebaseDatabase, user);
                 userIsReady();
               } else { // Successful Sign-In
                 lawg.d("mUser obtained email: " + mUser.email + " name: " + mUser.name);

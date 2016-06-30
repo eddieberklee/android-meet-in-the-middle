@@ -18,9 +18,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.compscieddy.eddie_utils.Etils;
-import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.User;
 import com.compscieddy.meetinthemiddle.util.FirebaseUtil;
+import com.compscieddy.meetinthemiddle.util.Lawg;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -52,40 +52,41 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    lawg.d("AuthenticationActivity onCreate()");
+    lawg.d("\nAuthenticationActivity onCreate()\n");
 
     //Checking if the user is already logged in
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     firebaseAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
       @Override
       public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        lawg.d("\nAuthenticationActivity onAuthStateChanged()\n");
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
-//          Intent intent = new Intent(AuthenticationActivity.this, HomeActivity.class);
-//          startActivity(intent);
-//          finish();
-        }
-
-        //User isn't logged in, so check if he has working internet
-        if (isInternetAvailable()) {
-          startActivityForResult(
-              AuthUI.getInstance().createSignInIntentBuilder()
-                  .setLogo(R.mipmap.ic_launcher)
-                  .setProviders(AuthUI.EMAIL_PROVIDER,
-                      AuthUI.FACEBOOK_PROVIDER,
-                      AuthUI.GOOGLE_PROVIDER)
-                  .build(),
-              RC_SIGN_IN);
+          Intent intent = new Intent(AuthenticationActivity.this, HomeActivity.class);
+          startActivity(intent);
           finish();
-        } else {
-          FragmentManager fm = getSupportFragmentManager();
-          InternetErrorFragment internetErrorFragment = InternetErrorFragment.newInstance();
-          internetErrorFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppDialogTheme);
-          internetErrorFragment.setCancelable(false);
-          internetErrorFragment.show(fm, TAG_INTERNET_ERROR);
         }
       }
     });
+
+    //User isn't logged in, so check if he has working internet
+    if (isInternetAvailable()) {
+      startActivityForResult(
+          AuthUI.getInstance().createSignInIntentBuilder()
+              .setLogo(R.mipmap.ic_launcher)
+              .setProviders(AuthUI.EMAIL_PROVIDER,
+                  AuthUI.FACEBOOK_PROVIDER,
+                  AuthUI.GOOGLE_PROVIDER)
+              .build(),
+          RC_SIGN_IN);
+      finish();
+    } else {
+      FragmentManager fm = getSupportFragmentManager();
+      InternetErrorFragment internetErrorFragment = InternetErrorFragment.newInstance();
+      internetErrorFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.AppDialogTheme);
+      internetErrorFragment.setCancelable(false);
+      internetErrorFragment.show(fm, TAG_INTERNET_ERROR);
+    }
 
   }
 

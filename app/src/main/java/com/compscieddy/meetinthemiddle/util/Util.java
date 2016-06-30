@@ -9,8 +9,6 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
-
-import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.R;
 
 /**

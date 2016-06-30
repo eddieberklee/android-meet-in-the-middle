@@ -27,9 +27,9 @@ import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.model.User;
+import com.compscieddy.meetinthemiddle.util.Lawg;
 import com.compscieddy.meetinthemiddle.util.Util;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;

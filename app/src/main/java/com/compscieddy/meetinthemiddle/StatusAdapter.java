@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.compscieddy.eddie_utils.Lawg;
+import com.compscieddy.meetinthemiddle.util.Lawg;
 
 /**
  * Created by Darren on 11-Jun-16.
