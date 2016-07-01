@@ -60,9 +60,13 @@ public class BaseActivity extends FragmentActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
               mUser = dataSnapshot.getValue(User.class);
               if (mUser == null) {
+                /*TODO: java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.String com.compscieddy.meetinthemiddle.model.User.getKey()' on a null object reference
+                at com.compscieddy.meetinthemiddle.HomeActivity.initFirebaseData(HomeActivity.java:370)
+                at com.compscieddy.meetinthemiddle.HomeActivity.userIsReady(HomeActivity.java:365)
+                at com.compscieddy.meetinthemiddle.BaseActivity$1$1.onDataChange(BaseActivity.java:65)*/
                 lawg.d("Safety Check: mUser is null so creating a user");
                   User.createUser(mFirebaseDatabase, user);
-                userIsReady();
+//                userIsReady();
               } else { // Successful Sign-In
                 lawg.d("mUser obtained email: " + mUser.email + " name: " + mUser.name);
                 userIsReady();
