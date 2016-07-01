@@ -94,8 +94,10 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == RC_SIGN_IN) {
+      lawg.e("signed in");
       GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
       if (resultCode == RESULT_OK) {
+        lawg.e("signed in. result_ok");
         // User creation is occurring! Tada! Welcome to being trapped to the most addictive map app ever
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = auth.getCurrentUser();
