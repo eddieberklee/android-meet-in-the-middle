@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.Bind;
@@ -48,9 +49,11 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
     //at java.util.ArrayList$ArrayListIterator.next(ArrayList.java:573)
     //at com.compscieddy.meetinthemiddle.GroupsAdapter.removeGroup(GroupsAdapter.java:47)
     //at com.compscieddy.meetinthemiddle.HomeActivity$4.onChildRemoved(HomeActivity.java:411)
-    for (Group group : groups) {
-      if (TextUtils.equals(group.key, deleteGroupKey)) {
-        groups.remove(group);
+
+    for (Iterator<Group> it = groups.iterator(); it.hasNext();){
+      Group group = it.next();
+      if (TextUtils.equals(group.key, deleteGroupKey)){
+        it.remove();
         notifyDataSetChanged();
       }
     }
