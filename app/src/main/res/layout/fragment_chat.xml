@@ -71,14 +71,17 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="7dp"
             android:layout_weight="1"
-            android:gravity="bottom"
+            android:gravity="center_vertical"
+            android:layout_gravity="center_vertical"
             android:hint="Message.."
             android:imeOptions="actionSend"
             android:inputType="textCapSentences"
+            android:paddingTop="7dp"
+            android:paddingBottom="7dp"
             android:paddingLeft="10dp"
             android:paddingRight="5dp"
             android:textSize="16sp"
-            android:background="@color/white_transp_50"/>
+            android:background="@color/black_transp_50"/>
 
         <ImageView
             android:id="@+id/message_send_button"
@@ -89,6 +92,7 @@
             android:paddingLeft="6dp"
             android:paddingRight="3dp"
             android:paddingTop="5dp"
+            android:layout_marginBottom="4dp"
             android:src="@drawable/ic_send_white_48dp"/>
     </LinearLayout>
 
