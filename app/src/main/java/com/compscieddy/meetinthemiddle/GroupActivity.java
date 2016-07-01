@@ -50,7 +50,6 @@ import com.facebook.share.model.AppInviteContent;
 import com.facebook.share.widget.AppInviteDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.ActivityRecognition;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -213,7 +212,6 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
           .addConnectionCallbacks(GroupActivity.this)
           .addOnConnectionFailedListener(GroupActivity.this)
           .addApi(LocationServices.API)
-          .addApi(ActivityRecognition.API)
           .build();
     }
 

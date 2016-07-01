@@ -149,6 +149,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           .addOnConnectionFailedListener(HomeActivity.this)
           .addApi(LocationServices.API)
           .addApi(AppInvite.API)
+          .addApi(ActivityRecognition.API)
           .enableAutoManage(this, this)
           .build();
     }
@@ -329,7 +330,6 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   @Override
   public void onConnected(@Nullable Bundle bundle) {
     try {
-
       Intent intent = new Intent(this, ActivityRecognitionService.class);
       PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
       ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mGoogleApiClient, ACTIVITY_REFRESH_MILLIS, pendingIntent);

@@ -31,17 +31,20 @@
         android:gravity="bottom"
         android:layout_marginRight="10dp"
         app:fontface="montserrat_semibold"
+        android:maxLines="1"
         android:text="Group Title"
         android:textSize="18sp"/>
 
         <TextView
-            android:layout_width="@dimen/badge_diameter"
-            android:layout_height="@dimen/badge_diameter"
+            android:layout_width="@dimen/notification_badge_diameter"
+            android:layout_height="@dimen/notification_badge_diameter"
             android:background="@drawable/badge_circle"
+            android:textSize="11sp"
             android:text="0"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            android:gravity="center"/>
+            android:padding="2dp"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"/>
 
     </LinearLayout>
 
