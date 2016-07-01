@@ -25,28 +25,29 @@
             map:mapType="normal"
             map:uiCompass="false"
             map:uiZoomControls="false"
-            tools:context=".HomeActivity"/>
+            tools:context=".HomeActivity"
+            tools:layout="@layout/messenger_button_send_blue_small"/>
 
         <com.compscieddy.meetinthemiddle.FontTextView
             android:id="@+id/username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/white_transp_80"
-            android:paddingTop="10dp"
+            android:background="@drawable/rounded_fill_white_transp"
+            android:paddingTop="7dp"
             android:paddingBottom="5dp"
             android:paddingLeft="9dp"
             android:paddingRight="9dp"
             android:layout_centerHorizontal="true"
             android:gravity="center_horizontal"
             android:text="\@username"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:fontface="montserrat_semibold"
+            android:textColor="@color/greyscale_10"
+            android:textSize="15sp"
+            app:fontface="montserrat_regular"
             android:lineSpacingMultiplier="0.9"/>
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/white_transp_60"
+            android:layout_height="1dp"
+            android:background="@color/white_transp_40"
             android:layout_alignLeft="@+id/username"
             android:layout_alignRight="@+id/username"
             android:layout_below="@+id/username"/>
@@ -71,8 +72,7 @@
         android:paddingTop="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="20dp"
-        android:layout_marginTop="@dimen/toolbar_viewgroup_height"
-        android:layout_below="@+id/toolbar_viewgroup"/>
+        android:layout_marginTop="@dimen/toolbar_viewgroup_height"/>
 
     <com.compscieddy.meetinthemiddle.FontTextView
         android:id="@+id/new_group_button"
@@ -89,6 +89,28 @@
         android:text="@string/new_crew_button_text"
         app:fontface="montserrat_semibold"
         app:layout_behavior="com.compscieddy.meetinthemiddle.ui.ScrollAwareNewGroupButtonBehavior"/>
+
+    <LinearLayout
+        android:id="@+id/empty_group_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/toolbar_viewgroup_height"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_group_add_black_48dp"
+            android:tint="@color/greyscale_3"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create your first group!"
+            android:textColor="@color/greyscale_3"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
 
     <com.compscieddy.meetinthemiddle.FontTextView
         android:id="@+id/logout_button"
