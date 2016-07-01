@@ -54,8 +54,8 @@ public class ActivityRecognitionService extends IntentService {
   }
 
   private void init() {
-    lawg.d("init " + getApplicationContext().getFilesDir() + " filename: " + mFilename);
-    mFile = new File(getApplicationContext().getFilesDir(), mFilename);
+    lawg.d("init " + getApplicationContext().getExternalFilesDir(null) + " filename: " + mFilename);
+    mFile = new File(getApplicationContext().getExternalFilesDir(null), mFilename);
   }
 
   private void handleDetectedActivities(List<DetectedActivity> probableActivities) {
