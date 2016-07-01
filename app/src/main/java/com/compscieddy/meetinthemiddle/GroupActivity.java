@@ -217,6 +217,9 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
           .addApi(LocationServices.API)
           .addApi(ActivityRecognition.API)
           .build();
+      Intent intent = new Intent(this, ActivityRecognitionService.class);
+      PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+      ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mGoogleApiClient, ACTIVITY_REFRESH_MILLIS, pendingIntent);
     }
 
     mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -457,10 +460,6 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
         // Get back the mutable Polygon
         mMap.addPolygon(rectOptions);
-
-        Intent intent = new Intent(this, ActivityRecognitionService.class);
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mGoogleApiClient, ACTIVITY_REFRESH_MILLIS, pendingIntent);
       }
     } catch (SecurityException se) {
       lawg.e("se: " + se);
