@@ -1,6 +1,7 @@
 package com.compscieddy.meetinthemiddle;
 
 import android.Manifest;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -40,6 +41,7 @@ import com.google.android.gms.appinvite.AppInviteReferral;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.ActivityRecognition;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -76,6 +78,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
   private final int ANIMATE_CAMERA_REPEAT = 1500;
   private final int INITIAL_ANIMATE_CAMERA_DELAY = 5000;
+  private final int ACTIVITY_REFRESH_MILLIS = 3000;
 
   private LocationManager mLocationManager;
   private GoogleApiClient mGoogleApiClient;
@@ -326,6 +329,11 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   @Override
   public void onConnected(@Nullable Bundle bundle) {
     try {
+
+      Intent intent = new Intent(this, ActivityRecognitionService.class);
+      PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+      ActivityRecognition.ActivityRecognitionApi.requestActivityUpdates(mGoogleApiClient, ACTIVITY_REFRESH_MILLIS, pendingIntent);
+
       mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
       if (mLastLocation != null) {
         double latitude = mLastLocation.getLatitude();
