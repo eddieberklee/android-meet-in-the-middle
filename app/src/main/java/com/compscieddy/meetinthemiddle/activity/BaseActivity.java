@@ -29,6 +29,7 @@ public class BaseActivity extends FragmentActivity {
 
   /** This is when the mUser object has been correctly populated from Firebase */
   public void userIsReady() {
+    lawg.d("BaseActivity's userIsReady() fired");
     // no-op, implement this in the activity you extend
   }
 
@@ -65,8 +66,8 @@ public class BaseActivity extends FragmentActivity {
                 at com.compscieddy.meetinthemiddle.activity.HomeActivity.userIsReady(HomeActivity.java:365)
                 at com.compscieddy.meetinthemiddle.activity.BaseActivity$1$1.onDataChange(BaseActivity.java:65)*/
                 lawg.d("Safety Check: mUser is null so creating a user");
-                  User.createUser(mFirebaseDatabase, user);
-//                userIsReady();
+                mUser = User.createUser(mFirebaseDatabase, user);
+                userIsReady();
               } else { // Successful Sign-In
                 lawg.d("mUser obtained email: " + mUser.email + " name: " + mUser.name);
                 userIsReady();

@@ -404,6 +404,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   public void userIsReady() {
     super.userIsReady();
     initFirebaseData();
+    lawg.d("Trying to increment user loyalty points");
     incrementUser();
   }
 

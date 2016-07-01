@@ -69,12 +69,13 @@ public class User {
 
   /********************* STATIC METHODS **************************/
 
-  public static void createUser(FirebaseDatabase firebaseDatabase, FirebaseUser firebaseUser) {
+  public static User createUser(FirebaseDatabase firebaseDatabase, FirebaseUser firebaseUser) {
     String encodedEmail = Etils.encodeEmail(firebaseUser.getEmail());
     String name = firebaseUser.getDisplayName();
     DatabaseReference userReference = firebaseDatabase.getReference("users").child(encodedEmail);
     User user = new User(encodedEmail, name);
     userReference.setValue(user);
+    return user;
   }
 
 }
