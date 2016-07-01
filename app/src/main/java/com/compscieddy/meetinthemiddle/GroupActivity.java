@@ -79,7 +79,7 @@ import butterknife.ButterKnife;
 
 public class GroupActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, GoogleMap.OnMapClickListener,
-    TouchableWrapper.UserMapDrag{
+    TouchableWrapper.UserMapDrag {
 
   private static final Lawg lawg = Lawg.newInstance(GroupActivity.class.getSimpleName());
 
@@ -191,7 +191,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
     mGroupNameEditText.addTextChangedListener(new TextWatcher() {
       @Override
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      }
 
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -203,7 +204,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       }
 
       @Override
-      public void afterTextChanged(Editable s) {}
+      public void afterTextChanged(Editable s) {
+      }
     });
 
     mHandler = new Handler(Looper.getMainLooper());
@@ -488,35 +490,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
   @Override
   public void onMapDrag() {
-    if (!collapsed){
-      Display display = getWindowManager().getDefaultDisplay();
-      Point size = new Point();
-      display.getSize(size);
-      int height = size.y;
-
-      ResizeAnimation resizeAnimation;
-
-      // todo: use Etils.getScreenHeight() instead
-      if (expanded){
-        Util.rotateView(mExpandButton, -180.0f);
-        resizeAnimation = new ResizeAnimation(
-            mBottomSection,
-            (int) (height * 0.2),
-            (int) (height * 0.75)
-        );
-        expanded = !expanded;
-      } else {
-        Util.rotateView(mExpandButton, -360.0f);
-        resizeAnimation = new ResizeAnimation(
-          mBottomSection,
-          (int) (height * 0.2),
-          getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
-        );
-      }
-      collapsed = !collapsed;
-      resizeAnimation.setDuration(400);
-      mBottomSection.startAnimation(resizeAnimation);
-    }
+    resizeViewPager(false);
   }
 
   @Override
@@ -574,11 +548,11 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
           @Override
           public boolean onMenuItemClick(MenuItem item) {
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
               case R.id.invite_members:
                 return true;
               case R.id.share_facebook:
-               // TODO HANDLE SHARING GROUP URL VIA FACEBOOK
+                // TODO HANDLE SHARING GROUP URL VIA FACEBOOK
                 //Invites through Facebook Messenger
 /*        ShareLinkContent content = new ShareLinkContent.Builder()
             .setContentUrl(Uri.parse("https://developers.facebook.com"))
@@ -611,43 +585,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         break;
 
       case R.id.expand_chat_fab:
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int height = size.y;
-
-        ResizeAnimation resizeAnimation;
-
-        // todo: use Etils.getScreenHeight() instead
-
-        if (collapsed){
-          Util.rotateView(mExpandButton, 360.0f);
-          resizeAnimation = new ResizeAnimation(
-              mBottomSection,
-              getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
-              (int) (height * 0.2)
-          );
-          collapsed = !collapsed;
-        } else if (!expanded) {
-          Util.rotateView(mExpandButton, 180.0f);
-          resizeAnimation = new ResizeAnimation(
-              mBottomSection,
-              (int) (height * 0.75),
-              getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
-          );
-          expanded = !expanded;
-        } else {
-          Util.rotateView(mExpandButton, -180.0f);
-          resizeAnimation = new ResizeAnimation(
-              mBottomSection,
-              getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
-              (int) (height * 0.75)
-          );
-          expanded = !expanded;
-        }
-
-        resizeAnimation.setDuration(400);
-        mBottomSection.startAnimation(resizeAnimation);
+        resizeViewPager(true);
         break;
 
       case R.id.invite_button_two:
@@ -680,7 +618,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
   }
 
-  private void shareLinkClicked(){
+  private void shareLinkClicked() {
     Intent shareLinkIntent = new Intent(Intent.ACTION_SEND);
     shareLinkIntent.setType("text/plain");
     shareLinkIntent.putExtra(Intent.EXTRA_TEXT, "Testing");
@@ -736,7 +674,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       @Override
       public void run() {
         long elapsed = SystemClock.uptimeMillis() - startTime;
-        float t = Math.max(1 - interpolator.getInterpolation((float) elapsed/duration), 0);
+        float t = Math.max(1 - interpolator.getInterpolation((float) elapsed / duration), 0);
         marker.setAnchor(0.5f, 1.0f + t);
 
         if (t > 0.0) {
@@ -746,6 +684,68 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         }
       }
     });
+  }
+
+  private void resizeViewPager(boolean isFABClick) {
+    Display display = getWindowManager().getDefaultDisplay();
+    Point size = new Point();
+    display.getSize(size);
+    int height = size.y;
+
+    ResizeAnimation resizeAnimation;
+
+    if (isFABClick) {
+      if (collapsed) {
+        Util.rotateView(mExpandButton, 360.0f);
+        resizeAnimation = new ResizeAnimation(
+            mBottomSection,
+            getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
+            (int) (height * 0.2)
+        );
+        collapsed = !collapsed;
+      } else if (!expanded) {
+        Util.rotateView(mExpandButton, 180.0f);
+        resizeAnimation = new ResizeAnimation(
+            mBottomSection,
+            (int) (height * 0.75),
+            getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
+        );
+        expanded = !expanded;
+      } else {
+        Util.rotateView(mExpandButton, -180.0f);
+        resizeAnimation = new ResizeAnimation(
+            mBottomSection,
+            getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
+            (int) (height * 0.75)
+        );
+        expanded = !expanded;
+      }
+      resizeAnimation.setDuration(400);
+      mBottomSection.startAnimation(resizeAnimation);
+    } else {
+      if (!collapsed) {
+        // todo: use Etils.getScreenHeight() instead
+        if (expanded) {
+          Util.rotateView(mExpandButton, -180.0f);
+          resizeAnimation = new ResizeAnimation(
+              mBottomSection,
+              (int) (height * 0.2),
+              (int) (height * 0.75)
+          );
+          expanded = !expanded;
+        } else {
+          Util.rotateView(mExpandButton, -360.0f);
+          resizeAnimation = new ResizeAnimation(
+              mBottomSection,
+              (int) (height * 0.2),
+              getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
+          );
+        }
+        collapsed = !collapsed;
+        resizeAnimation.setDuration(400);
+        mBottomSection.startAnimation(resizeAnimation);
+      }
+    }
   }
 
   public Coordinate getLastKnownCoord() {
