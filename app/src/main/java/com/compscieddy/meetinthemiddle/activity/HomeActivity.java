@@ -404,6 +404,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   public void userIsReady() {
     super.userIsReady();
     initFirebaseData();
+    incrementUser();
   }
 
   private void initFirebaseData() {
@@ -478,6 +479,12 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       @Override
       public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }
     });
+  }
+
+  private void incrementUser() {
+    lawg.d("Trying to increment user loyalty points");
+    mUser.incrementLoyaltyPoints();
+    mUser.update();
   }
 
   @Override
