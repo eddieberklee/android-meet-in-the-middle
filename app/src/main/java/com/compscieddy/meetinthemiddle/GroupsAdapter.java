@@ -44,6 +44,10 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
   }
 
   public void removeGroup(String deleteGroupKey) {
+    //TODO: java.util.ConcurrentModificationException
+    //at java.util.ArrayList$ArrayListIterator.next(ArrayList.java:573)
+    //at com.compscieddy.meetinthemiddle.GroupsAdapter.removeGroup(GroupsAdapter.java:47)
+    //at com.compscieddy.meetinthemiddle.HomeActivity$4.onChildRemoved(HomeActivity.java:411)
     for (Group group : groups) {
       if (TextUtils.equals(group.key, deleteGroupKey)) {
         groups.remove(group);
