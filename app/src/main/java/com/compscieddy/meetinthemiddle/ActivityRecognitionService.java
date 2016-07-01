@@ -30,11 +30,6 @@ public class ActivityRecognitionService extends IntentService {
 
   public ActivityRecognitionService(String name) {
     super(name);
-    init();
-  }
-
-  private void init() {
-    mFile = new File(getApplicationContext().getFilesDir(), mFilename);
   }
 
   private void appendToFile(String line) {
@@ -51,10 +46,15 @@ public class ActivityRecognitionService extends IntentService {
 
   @Override
   protected void onHandleIntent(Intent intent) {
+    init();
     if (ActivityRecognitionResult.hasResult(intent)) {
       ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
       handleDetectedActivities(result.getProbableActivities());
     }
+  }
+
+  private void init() {
+    mFile = new File(getApplicationContext().getFilesDir(), mFilename);
   }
 
   private void handleDetectedActivities(List<DetectedActivity> probableActivities) {
