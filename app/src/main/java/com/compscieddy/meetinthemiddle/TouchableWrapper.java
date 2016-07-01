@@ -10,8 +10,8 @@ import android.widget.FrameLayout;
  */
 public  class TouchableWrapper extends FrameLayout {
 
-  private long lastTouched = 0;
-  private static final long SCROLL_TIME = 100L; // 100 Milliseconds
+  private long lastTouchedMillis = 0L;
+  private static final long MIN_SCROLL_THRESHOLD_MILLIS = 100L; // 100 Milliseconds
   private UserMapDrag userMapDrag;
 
   public TouchableWrapper(Context context) {
@@ -28,12 +28,12 @@ public  class TouchableWrapper extends FrameLayout {
   public boolean dispatchTouchEvent(MotionEvent ev) {
     switch (ev.getAction()) {
       case MotionEvent.ACTION_DOWN:
-        lastTouched = SystemClock.uptimeMillis();
+        lastTouchedMillis = SystemClock.uptimeMillis();
         break;
       case MotionEvent.ACTION_UP:
-        final long now = SystemClock.uptimeMillis();
-        if (now - lastTouched > SCROLL_TIME) {
-          // Update the map
+        long nowMillis = SystemClock.uptimeMillis();
+        if (nowMillis - lastTouchedMillis > MIN_SCROLL_THRESHOLD_MILLIS) {
+          // User dragged the map, perform the action
           userMapDrag.onMapDrag();
         }
         break;
