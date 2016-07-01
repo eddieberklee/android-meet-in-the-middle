@@ -22,7 +22,7 @@ public class ActivityRecognitionService extends IntentService {
 
   private static final Lawg lawg = Lawg.newInstance(ActivityRecognition.class.getSimpleName());
   private File mFile;
-  final String mFilename = "activity_log.txt";
+  final String mFilename = "activity_log";
 
   public ActivityRecognitionService() {
     this("ActivityRecognitionService");
