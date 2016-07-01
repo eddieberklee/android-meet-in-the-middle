@@ -115,8 +115,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Bind(R.id.viewpager) ViewPager mViewPager;
   @Bind(R.id.sliding_tabs) TabLayout mTabLayout;
 
-  boolean expanded = false;
-  boolean collapsed = false;
+  boolean isViewPagerExpanded = false;
+  boolean isViewPagerCollapsed = false;
   boolean voteLocationActive = false;
 
   Marker queenstownMarker, sydneyMarker;
@@ -695,22 +695,22 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     ResizeAnimation resizeAnimation;
 
     if (isFABClick) {
-      if (collapsed) {
+      if (isViewPagerCollapsed) {
         Util.rotateView(mExpandButton, 360.0f);
         resizeAnimation = new ResizeAnimation(
             mBottomSection,
             getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
             (int) (height * 0.2)
         );
-        collapsed = !collapsed;
-      } else if (!expanded) {
+        isViewPagerCollapsed = !isViewPagerCollapsed;
+      } else if (!isViewPagerExpanded) {
         Util.rotateView(mExpandButton, 180.0f);
         resizeAnimation = new ResizeAnimation(
             mBottomSection,
             (int) (height * 0.75),
             getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
         );
-        expanded = !expanded;
+        isViewPagerExpanded = !isViewPagerExpanded;
       } else {
         Util.rotateView(mExpandButton, -180.0f);
         resizeAnimation = new ResizeAnimation(
@@ -718,21 +718,21 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
             getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
             (int) (height * 0.75)
         );
-        expanded = !expanded;
+        isViewPagerExpanded = !isViewPagerExpanded;
       }
       resizeAnimation.setDuration(400);
       mBottomSection.startAnimation(resizeAnimation);
     } else {
-      if (!collapsed) {
+      if (!isViewPagerCollapsed) {
         // todo: use Etils.getScreenHeight() instead
-        if (expanded) {
+        if (isViewPagerExpanded) {
           Util.rotateView(mExpandButton, -180.0f);
           resizeAnimation = new ResizeAnimation(
               mBottomSection,
               (int) (height * 0.2),
               (int) (height * 0.75)
           );
-          expanded = !expanded;
+          isViewPagerExpanded = !isViewPagerExpanded;
         } else {
           Util.rotateView(mExpandButton, -360.0f);
           resizeAnimation = new ResizeAnimation(
@@ -741,7 +741,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
               getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
           );
         }
-        collapsed = !collapsed;
+        isViewPagerCollapsed = !isViewPagerCollapsed;
         resizeAnimation.setDuration(400);
         mBottomSection.startAnimation(resizeAnimation);
       }
