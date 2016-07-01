@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-    <com.compscieddy.meetinthemiddle.FontTextView
+    <com.compscieddy.meetinthemiddle.ui.FontTextView
         android:id="@+id/group_title_text_view"
         style="@style/TextAppearance.AppCompat.Small"
         android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
                     android:layout_gravity="bottom|center_horizontal"
                     android:background="@drawable/oval_black_transp_20"/>
             </FrameLayout>
-            <com.compscieddy.meetinthemiddle.FontTextView
+            <com.compscieddy.meetinthemiddle.ui.FontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:fontface="montserrat_regular"
@@ -122,7 +122,7 @@
                 android:src="@drawable/ic_chat_bubble_white_48dp"
                 android:tint="@color/flatui_blue_1"/>
             <!-- Turn this into italics if possible - probably need the font asset though :( -->
-            <com.compscieddy.meetinthemiddle.FontTextView
+            <com.compscieddy.meetinthemiddle.ui.FontTextView
                 android:id="@+id/group_last_message_text_view"
                 style="@style/TextAppearance.AppCompat.Small"
                 android:maxLines="2"

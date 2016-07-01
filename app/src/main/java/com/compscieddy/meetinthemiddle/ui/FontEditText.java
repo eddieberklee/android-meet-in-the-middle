@@ -1,4 +1,4 @@
-package com.compscieddy.meetinthemiddle;
+package com.compscieddy.meetinthemiddle.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,6 +8,8 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.compscieddy.eddie_utils.Etils;
+import com.compscieddy.meetinthemiddle.FontCache;
+import com.compscieddy.meetinthemiddle.R;
 import com.compscieddy.meetinthemiddle.util.Lawg;
 
 /**

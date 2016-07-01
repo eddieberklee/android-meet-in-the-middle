@@ -1,4 +1,4 @@
-package com.compscieddy.meetinthemiddle;
+package com.compscieddy.meetinthemiddle.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+
+import com.compscieddy.meetinthemiddle.R;
 import com.compscieddy.meetinthemiddle.util.Lawg;
 
 import java.io.IOException;
@@ -17,9 +19,9 @@ import java.net.URL;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ProfilePicture extends AppCompatActivity {
+public class ProfilePictureActivity extends AppCompatActivity {
 
-  private static final Lawg lawg = Lawg.newInstance(ProfilePicture.class.getSimpleName());
+  private static final Lawg lawg = Lawg.newInstance(ProfilePictureActivity.class.getSimpleName());
 
   //ImageView profilePictureView;
 
@@ -32,7 +34,7 @@ public class ProfilePicture extends AppCompatActivity {
     setContentView(R.layout.activity_profile_picture);
 
     //profilePictureView = (ImageView) findViewById(R.id.profile_picture);
-    ButterKnife.bind(ProfilePicture.this);
+    ButterKnife.bind(ProfilePictureActivity.this);
 
     downloadAvatar();
 

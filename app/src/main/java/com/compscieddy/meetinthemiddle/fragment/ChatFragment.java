@@ -1,4 +1,4 @@
-package com.compscieddy.meetinthemiddle;
+package com.compscieddy.meetinthemiddle.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,6 +25,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Etils;
+import com.compscieddy.meetinthemiddle.R;
+import com.compscieddy.meetinthemiddle.activity.AuthenticationActivity;
 import com.compscieddy.meetinthemiddle.model.Chat;
 import com.compscieddy.meetinthemiddle.model.User;
 import com.compscieddy.meetinthemiddle.util.Lawg;

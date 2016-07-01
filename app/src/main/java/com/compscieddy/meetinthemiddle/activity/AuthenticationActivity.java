@@ -1,4 +1,4 @@
-package com.compscieddy.meetinthemiddle;
+package com.compscieddy.meetinthemiddle.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,6 +18,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 
 import com.compscieddy.eddie_utils.Etils;
+import com.compscieddy.meetinthemiddle.BuildConfig;
+import com.compscieddy.meetinthemiddle.fragment.InternetErrorFragment;
+import com.compscieddy.meetinthemiddle.R;
 import com.compscieddy.meetinthemiddle.model.User;
 import com.compscieddy.meetinthemiddle.util.FirebaseUtil;
 import com.compscieddy.meetinthemiddle.util.Lawg;

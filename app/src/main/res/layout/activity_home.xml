@@ -28,10 +28,10 @@
                 map:mapType="normal"
                 map:uiCompass="false"
                 map:uiZoomControls="false"
-                tools:context=".HomeActivity"
+                tools:context=".activity.HomeActivity"
                 tools:layout="@layout/messenger_button_send_blue_small"/>
 
-            <com.compscieddy.meetinthemiddle.FontTextView
+            <com.compscieddy.meetinthemiddle.ui.FontTextView
                 android:id="@+id/username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -92,7 +92,7 @@
         android:paddingRight="20dp"
         android:layout_marginTop="@dimen/toolbar_viewgroup_height"/>
 
-    <com.compscieddy.meetinthemiddle.FontTextView
+    <com.compscieddy.meetinthemiddle.ui.FontTextView
         android:id="@+id/new_group_button"
         style="@style/ThickOvalButtonOutlineAccent"
         android:layout_width="85dp"
@@ -130,7 +130,7 @@
             android:textStyle="bold"/>
     </LinearLayout>
 
-    <com.compscieddy.meetinthemiddle.FontTextView
+    <com.compscieddy.meetinthemiddle.ui.FontTextView
         android:id="@+id/logout_button"
         style="@style/OvalButtonOutlineAccent"
         app:fontface="montserrat_light"
@@ -148,7 +148,7 @@
         android:layout_marginBottom="20dp"
         app:layout_behavior="com.compscieddy.meetinthemiddle.ui.ScrollAwareNewGroupButtonBehavior"/>
 
-    <com.compscieddy.meetinthemiddle.FontTextView
+    <com.compscieddy.meetinthemiddle.ui.FontTextView
         android:id="@+id/temp_button"
         style="@style/OvalButtonOutlineAccent"
         app:fontface="montserrat_light"

@@ -54,12 +54,13 @@ public class ActivityRecognitionService extends IntentService {
   }
 
   private void init() {
+    lawg.d("init " + getApplicationContext().getFilesDir() + " filename: " + mFilename);
     mFile = new File(getApplicationContext().getFilesDir(), mFilename);
   }
 
   private void handleDetectedActivities(List<DetectedActivity> probableActivities) {
     Date date = new Date();
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd at HH:mm:ss ");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
     String timestampLogTitle = dateFormat.format(date);
 
     for( DetectedActivity activity : probableActivities ) {

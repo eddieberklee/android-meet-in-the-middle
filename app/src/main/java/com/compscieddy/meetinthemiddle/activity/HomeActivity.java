@@ -1,4 +1,4 @@
-package com.compscieddy.meetinthemiddle;
+package com.compscieddy.meetinthemiddle.activity;
 
 import android.Manifest;
 import android.app.PendingIntent;
@@ -29,6 +29,12 @@ import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.compscieddy.meetinthemiddle.ActivityRecognitionService;
+import com.compscieddy.meetinthemiddle.adapter.GroupsAdapter;
+import com.compscieddy.meetinthemiddle.util.Coordinate;
+import com.compscieddy.meetinthemiddle.NetworkChangeReceiver;
+import com.compscieddy.meetinthemiddle.R;
+import com.compscieddy.meetinthemiddle.adapter.StatusAdapter;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.model.User;
 import com.compscieddy.meetinthemiddle.util.Lawg;
@@ -176,7 +182,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
             });
 
 
-    mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
     int locationPermissionCheck = ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.ACCESS_FINE_LOCATION);
     if (locationPermissionCheck == PackageManager.PERMISSION_GRANTED) {
       initLocationPermissionGranted();
@@ -186,6 +192,11 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
     setListeners();
     setupRecyclerView();
+    sendSimpleMessage();
+  }
+
+  public static void sendSimpleMessage() {
+
   }
 
   private void setListeners() {
@@ -547,7 +558,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       }
 
       case R.id.temp_button: {
-        startActivity(new Intent(this, ProfilePicture.class));
+        startActivity(new Intent(this, ProfilePictureActivity.class));
         finish();
         break;
       }

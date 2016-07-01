@@ -1,4 +1,4 @@
-package com.compscieddy.meetinthemiddle;
+package com.compscieddy.meetinthemiddle.activity;
 
 import android.Manifest;
 import android.content.Context;
@@ -42,6 +42,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Etils;
+import com.compscieddy.meetinthemiddle.fragment.ChatFragment;
+import com.compscieddy.meetinthemiddle.util.Coordinate;
+import com.compscieddy.meetinthemiddle.fragment.DiscoverFragment;
+import com.compscieddy.meetinthemiddle.R;
+import com.compscieddy.meetinthemiddle.animation.ResizeAnimation;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.model.UserMarker;
 import com.compscieddy.meetinthemiddle.util.Lawg;

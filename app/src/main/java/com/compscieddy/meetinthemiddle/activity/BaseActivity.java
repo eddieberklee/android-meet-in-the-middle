@@ -1,4 +1,4 @@
-package com.compscieddy.meetinthemiddle;
+package com.compscieddy.meetinthemiddle.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -61,9 +61,9 @@ public class BaseActivity extends FragmentActivity {
               mUser = dataSnapshot.getValue(User.class);
               if (mUser == null) {
                 /*TODO: java.lang.NullPointerException: Attempt to invoke virtual method 'java.lang.String com.compscieddy.meetinthemiddle.model.User.getKey()' on a null object reference
-                at com.compscieddy.meetinthemiddle.HomeActivity.initFirebaseData(HomeActivity.java:370)
-                at com.compscieddy.meetinthemiddle.HomeActivity.userIsReady(HomeActivity.java:365)
-                at com.compscieddy.meetinthemiddle.BaseActivity$1$1.onDataChange(BaseActivity.java:65)*/
+                at com.compscieddy.meetinthemiddle.activity.HomeActivity.initFirebaseData(HomeActivity.java:370)
+                at com.compscieddy.meetinthemiddle.activity.HomeActivity.userIsReady(HomeActivity.java:365)
+                at com.compscieddy.meetinthemiddle.activity.BaseActivity$1$1.onDataChange(BaseActivity.java:65)*/
                 lawg.d("Safety Check: mUser is null so creating a user");
                   User.createUser(mFirebaseDatabase, user);
 //                userIsReady();

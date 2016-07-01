@@ -1,6 +1,5 @@
-package com.compscieddy.meetinthemiddle;
+package com.compscieddy.meetinthemiddle.util;
 
-import com.compscieddy.meetinthemiddle.util.Lawg;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.Serializable;

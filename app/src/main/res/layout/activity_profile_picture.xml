@@ -9,7 +9,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    tools:context="com.compscieddy.meetinthemiddle.ProfilePicture"
+    tools:context="com.compscieddy.meetinthemiddle.activity.ProfilePictureActivity"
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
@@ -23,28 +23,28 @@
         tools:layout_height="50dp"
         tools:background="@color/greyscale_4"/>
 
-    <com.compscieddy.meetinthemiddle.FontTextView
+    <com.compscieddy.meetinthemiddle.ui.FontTextView
         android:id="@+id/take_new_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Take New Photo"
         style="@style/NewPhotoButton"/>
 
-    <com.compscieddy.meetinthemiddle.FontTextView
+    <com.compscieddy.meetinthemiddle.ui.FontTextView
         android:id="@+id/choose_from_gallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Choose From Gallery"
         style="@style/NewPhotoButton"/>
 
-    <com.compscieddy.meetinthemiddle.FontTextView
+    <com.compscieddy.meetinthemiddle.ui.FontTextView
         android:id="@+id/choose_facebook_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Import from Facebook"
         style="@style/NewPhotoButton"/>
 
-    <com.compscieddy.meetinthemiddle.FontTextView
+    <com.compscieddy.meetinthemiddle.ui.FontTextView
         android:id="@+id/choose_google_photo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
