@@ -7,8 +7,6 @@ import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.compscieddy.eddie_utils.Etils;
-
 /**
  * Created by ambar on 6/18/16.
  */
@@ -32,8 +30,9 @@ public class ScrollAwareNewGroupButtonBehavior extends CoordinatorLayout.Behavio
       // Scrolling down. Hide the view.
       CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) child.getLayoutParams();
       int view_bottomMargin = layoutParams.bottomMargin;
-      int slightPeekOffset = Etils.dpToPx(40);
-      child.animate().translationY(child.getHeight() + view_bottomMargin - slightPeekOffset).setInterpolator(FASTOUT_SLOWIN_INTERPOLATOR).start();
+      int childHeight = child.getHeight();
+      int slightPeekOffset = (int) Math.round(childHeight * 0.4);
+      child.animate().translationY(childHeight + view_bottomMargin - slightPeekOffset).setInterpolator(FASTOUT_SLOWIN_INTERPOLATOR).start();
     } else if (dyConsumed < 0) {
       // Scrolling up. Display the view.
       child.animate().translationY(0).setInterpolator(FASTOUT_SLOWIN_INTERPOLATOR).start();

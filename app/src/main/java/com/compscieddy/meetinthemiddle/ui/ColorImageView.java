@@ -29,11 +29,9 @@ public class ColorImageView extends ImageView {
     TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ColorImageView);
     mColor = ta.getColor(R.styleable.ColorImageView_customColor, -1);
 
-    if (mColor != -1) {
-      Drawable drawable = getDrawable();
-      if (drawable != null) {
-        Etils.applyColorFilter(drawable, mColor, true);
-      }
+    Drawable drawable = getDrawable();
+    if (mColor != -1 && drawable != null) {
+      Etils.applyColorFilter(drawable, mColor, true);
     }
 
     ta.recycle();
@@ -42,7 +40,7 @@ public class ColorImageView extends ImageView {
   @Override
   public void setImageDrawable(Drawable drawable) {
     super.setImageDrawable(drawable);
-    
+
     if (mColor != -1) {
       Etils.applyColorFilter(getDrawable(), mColor, true);
     }

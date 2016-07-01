@@ -4,8 +4,8 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.compscieddy.eddie_utils.Etils;
-import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.MitmApplication;
+import com.compscieddy.meetinthemiddle.util.Lawg;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
@@ -71,7 +71,7 @@ public class Group {
 
   public void updateWith(Group updatedGroup) {
     if (!TextUtils.equals(this.key, updatedGroup.getKey())) {
-      Etils.logAndToast(MitmApplication.getContext(), lawg, "Group being updated doesn't have same key " + key + " vs " + updatedGroup.getKey());
+      Etils.logAndToast(MitmApplication.getContext(), "Group being updated doesn't have same key " + key + " vs " + updatedGroup.getKey());
     }
     init(updatedGroup);
   }

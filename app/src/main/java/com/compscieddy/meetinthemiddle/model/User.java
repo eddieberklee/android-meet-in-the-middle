@@ -1,7 +1,9 @@
 package com.compscieddy.meetinthemiddle.model;
 
+import android.graphics.Bitmap;
+
 import com.compscieddy.eddie_utils.Etils;
-import com.compscieddy.eddie_utils.Lawg;
+import com.compscieddy.meetinthemiddle.util.Lawg;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
@@ -22,6 +24,8 @@ public class User {
   public String email;
   public String name;
   public Map<String, Boolean> groups = new HashMap<>();
+  @Exclude
+  public Bitmap profilePictureBitmap;
 
   public User() {}
 
@@ -30,10 +34,12 @@ public class User {
     this.name = name;
   }
 
-  @Exclude
   public String getKey() {
     return Etils.encodeEmail(email);
   }
+
+  public Bitmap getProfilePictureBitmap() { return profilePictureBitmap; }
+  public void setProfilePictureBitmap(Bitmap bitmap) { profilePictureBitmap = bitmap; }
 
   public void addGroup(String groupKey) {
     groups.put(groupKey, true);

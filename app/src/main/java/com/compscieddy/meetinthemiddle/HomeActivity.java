@@ -3,6 +3,7 @@ package com.compscieddy.meetinthemiddle;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,9 +28,10 @@ import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.compscieddy.eddie_utils.Lawg;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.model.User;
+import com.compscieddy.meetinthemiddle.util.Lawg;
+import com.compscieddy.meetinthemiddle.util.Util;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.appinvite.AppInvite;
@@ -86,6 +88,10 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   @Bind(R.id.logout_button) View mLogoutButton;
   @Bind(R.id.empty_group_view) LinearLayout mEmptyGroupView;
   @Bind(R.id.temp_button) View mTempButton;
+  @Bind(R.id.no_internet_popup_view) TextView mNoInternetView;
+
+  IntentFilter intentFilter;
+  NetworkChangeReceiver networkChangeReceiver;
 
   private SupportMapFragment mMapFragment;
   private Location mLastLocation;
@@ -118,6 +124,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    lawg.d("HomeActivity onCreate()");
     setContentView(R.layout.activity_home);
     ButterKnife.bind(HomeActivity.this);
     MapsInitializer.initialize(this);
@@ -213,14 +220,33 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
   @Override
   protected void onStart() {
-    mGoogleApiClient.connect();
     super.onStart();
+    mGoogleApiClient.connect();
   }
 
   @Override
   protected void onStop() {
-    mGoogleApiClient.disconnect();
     super.onStop();
+    mGoogleApiClient.disconnect();
+    unregisterReceiver(networkChangeReceiver);
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();  // Always call the superclass method first
+    intentFilter = new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE");
+    networkChangeReceiver = new NetworkChangeReceiver() {
+      @Override
+      public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+        if (this.isInternetAvailable()) {
+          mNoInternetView.setVisibility(View.GONE);
+        } else {
+          mNoInternetView.setVisibility(View.VISIBLE);
+        }
+      }
+    };
+    registerReceiver(networkChangeReceiver, intentFilter);
   }
 
   private void initLocationPermissionGranted() {
@@ -373,6 +399,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             Group group = dataSnapshot.getValue(Group.class);
+            lawg.e("poop " + mGroupsAdapter.getItemCount() + "title: " + group.getGroupTitle());
             mGroupsAdapter.addGroup(group);
           }
           @Override
@@ -385,6 +412,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             Group updatedGroup = dataSnapshot.getValue(Group.class);
+            lawg.e("poop " + mGroupsAdapter.getItemCount() + "title: " + updatedGroup.getGroupTitle());
             mGroupsAdapter.updateGroup(updatedGroup);
             lawg.d("onDataChange() " + " updatedGroup.getKey(): " + updatedGroup.getKey() + " " + updatedGroup.getGroupTitle());
           }
@@ -499,6 +527,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
         intent.putExtra(GroupActivity.ARG_GROUP_KEY, newGroupKey);
         startActivity(intent);
+        finish();
         break;
       }
       case R.id.logout_button: {
@@ -511,6 +540,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
       case R.id.temp_button: {
         startActivity(new Intent(this, ProfilePicture.class));
+        finish();
         break;
       }
     }
