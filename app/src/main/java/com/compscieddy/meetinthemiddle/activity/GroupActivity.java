@@ -544,6 +544,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
           public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()){
               case R.id.invite_members:
+
                 return true;
               case R.id.share_facebook:
                // TODO HANDLE SHARING GROUP URL VIA FACEBOOK
