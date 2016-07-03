@@ -11,3 +11,4 @@
 
 app/src/debug/res/values/google_maps_api.xml
 /gradle.properties
+app/src/main/res/values/google_maps_api.xml
