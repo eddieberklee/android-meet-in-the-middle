@@ -43,6 +43,7 @@ import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.meetinthemiddle.fragment.ChatFragment;
+import com.compscieddy.meetinthemiddle.ui.InviteMembersDialog;
 import com.compscieddy.meetinthemiddle.util.Coordinate;
 import com.compscieddy.meetinthemiddle.fragment.DiscoverFragment;
 import com.compscieddy.meetinthemiddle.R;
@@ -544,7 +545,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
           public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()){
               case R.id.invite_members:
-
+                InviteMembersDialog dialog = InviteMembersDialog.newInstance();
+                dialog.show(getSupportFragmentManager(), "invite_dialog");
                 return true;
               case R.id.share_facebook:
                // TODO HANDLE SHARING GROUP URL VIA FACEBOOK
