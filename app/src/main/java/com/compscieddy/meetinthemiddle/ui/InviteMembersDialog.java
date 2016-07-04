@@ -9,13 +9,14 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.dragselectrecyclerview.DragSelectRecyclerView;
+import com.afollestad.dragselectrecyclerview.DragSelectRecyclerViewAdapter;
 import com.compscieddy.meetinthemiddle.R;
 import com.compscieddy.meetinthemiddle.adapter.InviteRvAdapter;
 
@@ -26,9 +27,9 @@ import butterknife.OnClick;
 /**
  * Created by SEELE on 2016/7/4.
  */
-public class InviteMembersDialog extends DialogFragment {
+public class InviteMembersDialog extends DialogFragment implements InviteRvAdapter.ClickListener, DragSelectRecyclerViewAdapter.SelectionListener{
 
-    @Bind(R.id.rv_invite_members) RecyclerView mRvInviteMembers;
+    @Bind(R.id.rv_invite_members) DragSelectRecyclerView mRvInviteMembers;
     @Bind(R.id.btn_close) ImageButton mBtnClose;
     @Bind(R.id.invite_url) TextView mInviteUrl;
 
@@ -53,7 +54,10 @@ public class InviteMembersDialog extends DialogFragment {
         ButterKnife.bind(this, v);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 4);
-        mAdapter = new InviteRvAdapter();
+        mAdapter = new InviteRvAdapter(this);
+        mAdapter.setSelectionListener(this);
+        mAdapter.restoreInstanceState(savedInstanceState);
+
         mRvInviteMembers.hasFixedSize();
         mRvInviteMembers.setLayoutManager(gridLayoutManager);
         mRvInviteMembers.setAdapter(mAdapter);
@@ -80,24 +84,25 @@ public class InviteMembersDialog extends DialogFragment {
 
     }
 
-    /*@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = inflater.inflate(R.layout.dialog_invite_members, container);
-        ButterKnife.bind(this, rootView);
-
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 4);
-        mAdapter = new InviteRvAdapter();
-        mRvInviteMembers.hasFixedSize();
-        mRvInviteMembers.setLayoutManager(gridLayoutManager);
-        mRvInviteMembers.setAdapter(mAdapter);
-
-        return rootView;
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mAdapter.saveInstanceState(outState);
     }
-*/
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onClick(int index) {
+        mAdapter.toggleSelected(index);
+    }
+
+    @Override
+    public void onDragSelectionChanged(int count) {
+        Toast.makeText(getActivity(), ""+count, Toast.LENGTH_SHORT).show();
     }
 }

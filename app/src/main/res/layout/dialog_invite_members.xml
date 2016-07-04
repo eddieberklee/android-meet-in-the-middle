@@ -76,13 +76,12 @@
         android:textAllCaps="true"
         android:textColor="@color/light_text_grey"/>
 
-    <android.support.v7.widget.RecyclerView
+    <com.afollestad.dragselectrecyclerview.DragSelectRecyclerView
         android:id="@+id/rv_invite_members"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:scrollbars="vertical"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbarAlwaysDrawVerticalTrack="true"/>
+        android:scrollbarStyle="outsideOverlay"/>
 
     <Button
         android:id="@+id/btn_add"

@@ -63,6 +63,8 @@ dependencies {
 
     compile 'com.yelp.clientlib:yelp-android:2.0.0'
 
+    compile 'com.afollestad:drag-select-recyclerview:0.3.6'
+
 //  Learn how to use this library later:
 //  https://github.com/Karumi/Dexter
 }
