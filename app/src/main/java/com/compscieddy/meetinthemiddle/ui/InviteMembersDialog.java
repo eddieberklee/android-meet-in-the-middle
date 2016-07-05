@@ -11,7 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +29,6 @@ import butterknife.OnClick;
 public class InviteMembersDialog extends DialogFragment implements InviteRvAdapter.ClickListener, DragSelectRecyclerViewAdapter.SelectionListener{
 
     @Bind(R.id.rv_invite_members) DragSelectRecyclerView mRvInviteMembers;
-    @Bind(R.id.btn_close) ImageButton mBtnClose;
     @Bind(R.id.invite_url) TextView mInviteUrl;
 
 
@@ -66,10 +64,6 @@ public class InviteMembersDialog extends DialogFragment implements InviteRvAdapt
         return builder.create();
     }
 
-    @OnClick(R.id.btn_close)
-    void onCloseBtnClick(){
-        InviteMembersDialog.this.dismiss();
-    }
 
     @OnClick(R.id.btn_copy)
     void onCopyBtnClick(){
