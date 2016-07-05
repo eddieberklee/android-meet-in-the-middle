@@ -22,7 +22,8 @@ public class ActivityRecognitionService extends IntentService {
 
   private static final Lawg lawg = Lawg.newInstance(ActivityRecognition.class.getSimpleName());
   private File mFile;
-  final String mFilename = "activity_log";
+  final String mFilename = "activity_log.txt";
+  private String mFilePath;
 
   public ActivityRecognitionService() {
     this("ActivityRecognitionService");
@@ -35,7 +36,7 @@ public class ActivityRecognitionService extends IntentService {
   private void appendToFile(String line) {
     FileOutputStream outputStream;
     try {
-      outputStream = openFileOutput(mFilename, Context.MODE_APPEND);
+      outputStream = openFileOutput(mFilePath, Context.MODE_APPEND);
       outputStream.write(line.getBytes());
       outputStream.close();
     } catch (Exception e) {
@@ -54,6 +55,8 @@ public class ActivityRecognitionService extends IntentService {
   }
 
   private void init() {
+    mFilePath = getApplicationContext().getExternalFilesDir(null) + mFilename;
+    lawg.d("mFilePath: " + mFilePath);
     lawg.d("init " + getApplicationContext().getExternalFilesDir(null) + " filename: " + mFilename);
     mFile = new File(getApplicationContext().getExternalFilesDir(null), mFilename);
   }

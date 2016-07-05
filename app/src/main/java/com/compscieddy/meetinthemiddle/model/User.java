@@ -25,6 +25,7 @@ public class User {
   public String name;
   public Map<String, Boolean> groups = new HashMap<>();
   public int loyaltyPoints;
+  // TODO: don't forget to update toMap() for new fields
   @Exclude
   public Bitmap profilePictureBitmap;
 
@@ -64,6 +65,7 @@ public class User {
     result.put("email", email);
     result.put("name", name);
     result.put("groups", groups);
+    result.put("loyaltyPoints", loyaltyPoints);
     return result;
   }
 
