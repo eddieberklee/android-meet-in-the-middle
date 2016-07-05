@@ -2,9 +2,7 @@ package com.compscieddy.meetinthemiddle.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.RotateDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,7 +16,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -222,8 +219,6 @@ public class ChatFragment extends Fragment {
 
   public static class ChatHolder extends RecyclerView.ViewHolder {
 
-    @Bind(R.id.left_arrow) FrameLayout leftArrow;
-    @Bind(R.id.right_arrow) FrameLayout rightArrow;
     @Bind(R.id.message_container) RelativeLayout messageContainer;
     @Bind(R.id.message_box) LinearLayout messageBox;
     @Bind(R.id.name_text) TextView userName;
@@ -244,26 +239,16 @@ public class ChatFragment extends Fragment {
       if (isSender) {
         bg_color = ContextCompat.getColor(rootView.getContext(), R.color.chat_sender);
         text_color = ContextCompat.getColor(rootView.getContext(), R.color.chat_sender_text);
-        leftArrow.setVisibility(View.GONE);
-        rightArrow.setVisibility(View.VISIBLE);
         messageContainer.setGravity(Gravity.RIGHT);
         userName.setVisibility(View.GONE);
       } else {
         bg_color = ContextCompat.getColor(rootView.getContext(), R.color.chat_sendee);
         text_color = ContextCompat.getColor(rootView.getContext(), R.color.chat_sendee_text);
-        leftArrow.setVisibility(View.VISIBLE);
-        rightArrow.setVisibility(View.GONE);
         messageContainer.setGravity(Gravity.LEFT);
       }
 
       ((GradientDrawable) messageBox.getBackground()).setColor(bg_color);
       messageText.setTextColor(text_color);
-      userName.setTextColor(text_color
-      );
-      ((RotateDrawable) leftArrow.getBackground()).getDrawable()
-          .setColorFilter(bg_color, PorterDuff.Mode.SRC);
-      ((RotateDrawable) rightArrow.getBackground()).getDrawable()
-          .setColorFilter(bg_color, PorterDuff.Mode.SRC);
     }
 
     public void setName(String name) {
