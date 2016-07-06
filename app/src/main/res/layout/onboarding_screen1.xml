@@ -1,0 +1,18 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.compscieddy.meetinthemiddle.fragment.OnboardingFragment1"
+    android:background="#4CAF50">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:text="Welcome to Meet In The Middle"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textColor="#212121"
+        android:textSize="30dp" />
+
+</FrameLayout>
