@@ -12,6 +12,15 @@
         <enum name="montserrat_black"      value="7"/>
     </attr>
 
+    <attr name="emotion" format="enum">
+        <enum name="happy" value="0"/>
+        <enum name="sad" value="1"/>
+        <enum name="shy" value="2"/>
+        <enum name="angry" value="3"/>
+        <enum name="astonished" value="4"/>
+        <enum name="ecstatic" value="5"/>
+    </attr>
+
     <declare-styleable name="FontTextView">
         <attr name="fontface"/>
     </declare-styleable>
@@ -23,6 +32,10 @@
 
     <declare-styleable name="ColorImageView">
         <attr name="customColor" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="CustomEmoticonView">
+        <attr name="emotion" />
     </declare-styleable>
 
 </resources>

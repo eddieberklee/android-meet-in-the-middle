@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
     android:gravity="center">
 
-    <ImageView
+    <com.compscieddy.meetinthemiddle.ui.CustomEmoticonView
         android:id="@+id/avatar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_tag_faces_white_48dp"
+        app:emotion="ecstatic"
         android:padding="4dp"
-        android:tint="@color/shell_grey"
         android:background="@drawable/bg_item_members_circle"/>
 
     <TextView
