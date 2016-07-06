@@ -5,6 +5,8 @@ import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 
+import com.compscieddy.meetinthemiddle.activity.GroupActivity;
+
 /**
  * Created by ambar on 6/23/16.
  */

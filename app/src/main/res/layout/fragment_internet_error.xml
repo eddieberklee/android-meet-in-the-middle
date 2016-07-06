@@ -23,14 +23,14 @@
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:layout_centerInParent="true">
-        <com.compscieddy.meetinthemiddle.FontTextView
+        <com.compscieddy.meetinthemiddle.ui.FontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/app_name"
             android:id="@+id/app_title"
             android:textColor="@color/white"
             android:textSize="28sp"/>
-        <com.compscieddy.meetinthemiddle.FontTextView
+        <com.compscieddy.meetinthemiddle.ui.FontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"/>
 
-        <com.compscieddy.meetinthemiddle.FontTextView
+        <com.compscieddy.meetinthemiddle.ui.FontTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
@@ -75,7 +75,7 @@
                 android:paddingRight="20dp"
                 android:src="@drawable/ic_wifi_off_white_48dp"
                 app:customColor="@color/greyscale_8"/>
-            <com.compscieddy.meetinthemiddle.FontTextView
+            <com.compscieddy.meetinthemiddle.ui.FontTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|bottom"

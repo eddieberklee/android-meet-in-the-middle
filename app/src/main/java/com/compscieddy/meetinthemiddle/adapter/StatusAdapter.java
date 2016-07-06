@@ -1,4 +1,4 @@
-package com.compscieddy.meetinthemiddle;
+package com.compscieddy.meetinthemiddle.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.compscieddy.meetinthemiddle.R;
 import com.compscieddy.meetinthemiddle.util.Lawg;
 
 /**

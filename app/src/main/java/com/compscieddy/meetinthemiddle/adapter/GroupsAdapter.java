@@ -1,4 +1,4 @@
-package com.compscieddy.meetinthemiddle;
+package com.compscieddy.meetinthemiddle.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.compscieddy.meetinthemiddle.R;
+import com.compscieddy.meetinthemiddle.activity.GroupActivity;
 import com.compscieddy.meetinthemiddle.model.Chat;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.util.Lawg;
@@ -47,8 +49,8 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
   public void removeGroup(String deleteGroupKey) {
     //TODO: java.util.ConcurrentModificationException
     //at java.util.ArrayList$ArrayListIterator.next(ArrayList.java:573)
-    //at com.compscieddy.meetinthemiddle.GroupsAdapter.removeGroup(GroupsAdapter.java:47)
-    //at com.compscieddy.meetinthemiddle.HomeActivity$4.onChildRemoved(HomeActivity.java:411)
+    //at com.compscieddy.meetinthemiddle.adapter.GroupsAdapter.removeGroup(GroupsAdapter.java:47)
+    //at com.compscieddy.meetinthemiddle.activity.HomeActivity$4.onChildRemoved(HomeActivity.java:411)
 
     for (Iterator<Group> it = groups.iterator(); it.hasNext();){
       Group group = it.next();

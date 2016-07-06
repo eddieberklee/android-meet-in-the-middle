@@ -22,7 +22,7 @@ public class ActivityRecognitionService extends IntentService {
 
   private static final Lawg lawg = Lawg.newInstance(ActivityRecognition.class.getSimpleName());
   private File mFile;
-  final String mFilename = "activity_log.txt";
+  final String mFilename = "activity_log";
 
   public ActivityRecognitionService() {
     this("ActivityRecognitionService");
@@ -30,11 +30,6 @@ public class ActivityRecognitionService extends IntentService {
 
   public ActivityRecognitionService(String name) {
     super(name);
-    init();
-  }
-
-  private void init() {
-    mFile = new File(getApplicationContext().getFilesDir(), mFilename);
   }
 
   private void appendToFile(String line) {
@@ -51,15 +46,21 @@ public class ActivityRecognitionService extends IntentService {
 
   @Override
   protected void onHandleIntent(Intent intent) {
+    init();
     if (ActivityRecognitionResult.hasResult(intent)) {
       ActivityRecognitionResult result = ActivityRecognitionResult.extractResult(intent);
       handleDetectedActivities(result.getProbableActivities());
     }
   }
 
+  private void init() {
+    lawg.d("init " + getApplicationContext().getExternalFilesDir(null) + " filename: " + mFilename);
+    mFile = new File(getApplicationContext().getExternalFilesDir(null), mFilename);
+  }
+
   private void handleDetectedActivities(List<DetectedActivity> probableActivities) {
     Date date = new Date();
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd at HH:mm:ss ");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ");
     String timestampLogTitle = dateFormat.format(date);
 
     for( DetectedActivity activity : probableActivities ) {

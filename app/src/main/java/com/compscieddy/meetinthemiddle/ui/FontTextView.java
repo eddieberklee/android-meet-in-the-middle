@@ -1,10 +1,12 @@
-package com.compscieddy.meetinthemiddle;
+package com.compscieddy.meetinthemiddle.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import com.compscieddy.meetinthemiddle.FontCache;
+import com.compscieddy.meetinthemiddle.R;
 import com.compscieddy.meetinthemiddle.util.Lawg;
 
 /**

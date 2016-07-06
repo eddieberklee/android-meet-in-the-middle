@@ -24,6 +24,7 @@ public class User {
   public String email;
   public String name;
   public Map<String, Boolean> groups = new HashMap<>();
+  public int loyaltyPoints;
   @Exclude
   public Bitmap profilePictureBitmap;
 
@@ -32,14 +33,20 @@ public class User {
   public User(String email, String name) {
     this.email = email;
     this.name = name;
+    this.loyaltyPoints = 0;
   }
 
   public String getKey() {
     return Etils.encodeEmail(email);
   }
 
+  public int getLoyaltyPoints() { return loyaltyPoints; }
+  public void setLoyaltyPoints(int loyaltyPoints) { this.loyaltyPoints = loyaltyPoints; }
   public Bitmap getProfilePictureBitmap() { return profilePictureBitmap; }
   public void setProfilePictureBitmap(Bitmap bitmap) { profilePictureBitmap = bitmap; }
+  public void incrementLoyaltyPoints() {
+    loyaltyPoints += 1;
+  }
 
   public void addGroup(String groupKey) {
     groups.put(groupKey, true);
@@ -62,12 +69,13 @@ public class User {
 
   /********************* STATIC METHODS **************************/
 
-  public static void createUser(FirebaseDatabase firebaseDatabase, FirebaseUser firebaseUser) {
+  public static User createUser(FirebaseDatabase firebaseDatabase, FirebaseUser firebaseUser) {
     String encodedEmail = Etils.encodeEmail(firebaseUser.getEmail());
     String name = firebaseUser.getDisplayName();
     DatabaseReference userReference = firebaseDatabase.getReference("users").child(encodedEmail);
     User user = new User(encodedEmail, name);
     userReference.setValue(user);
+    return user;
   }
 
 }

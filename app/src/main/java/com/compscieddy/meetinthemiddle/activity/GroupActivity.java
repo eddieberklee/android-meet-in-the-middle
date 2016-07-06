@@ -1,4 +1,4 @@
-package com.compscieddy.meetinthemiddle;
+package com.compscieddy.meetinthemiddle.activity;
 
 import android.Manifest;
 import android.content.Context;
@@ -42,15 +42,21 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Etils;
+import com.compscieddy.meetinthemiddle.R;
+import com.compscieddy.meetinthemiddle.TouchableWrapper;
+import com.compscieddy.meetinthemiddle.animation.ResizeAnimation;
+import com.compscieddy.meetinthemiddle.fragment.ChatFragment;
+import com.compscieddy.meetinthemiddle.fragment.DiscoverFragment;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.model.UserMarker;
+import com.compscieddy.meetinthemiddle.ui.InviteMembersDialog;
+import com.compscieddy.meetinthemiddle.util.Coordinate;
 import com.compscieddy.meetinthemiddle.util.Lawg;
 import com.compscieddy.meetinthemiddle.util.Util;
 import com.facebook.share.model.AppInviteContent;
 import com.facebook.share.widget.AppInviteDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.ActivityRecognition;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -217,7 +223,6 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
           .addConnectionCallbacks(GroupActivity.this)
           .addOnConnectionFailedListener(GroupActivity.this)
           .addApi(LocationServices.API)
-          .addApi(ActivityRecognition.API)
           .build();
     }
 
@@ -550,6 +555,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
           public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
               case R.id.invite_members:
+                InviteMembersDialog dialog = InviteMembersDialog.newInstance();
+                dialog.show(getSupportFragmentManager(), "invite_dialog");
                 return true;
               case R.id.share_facebook:
                 // TODO HANDLE SHARING GROUP URL VIA FACEBOOK

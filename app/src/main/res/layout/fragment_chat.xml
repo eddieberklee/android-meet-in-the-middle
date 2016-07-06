@@ -65,7 +65,7 @@
         app:layout_behavior="com.compscieddy.meetinthemiddle.ui.ScrollAwareChatBehavior"
         android:translationZ="1dp">
 
-        <com.compscieddy.meetinthemiddle.FontEditText
+        <com.compscieddy.meetinthemiddle.ui.FontEditText
             android:id="@+id/message_edit_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
