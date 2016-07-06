@@ -67,8 +67,6 @@ import com.google.firebase.database.ValueEventListener;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static com.compscieddy.meetinthemiddle.mail.Mailgun.sendSimpleMessage;
-
 
 public class HomeActivity extends BaseActivity implements OnMapReadyCallback, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
@@ -194,7 +192,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
     setListeners();
     setupRecyclerView();
-    sendSimpleMessage();
+//    sendSimpleMessage();
   }
 
   private void setListeners() {
@@ -484,7 +482,9 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
   private void incrementUser() {
     lawg.d("Trying to increment user loyalty points");
+    lawg.d(" mUser.getLoyaltyPoints(): " + mUser.getLoyaltyPoints());
     mUser.incrementLoyaltyPoints();
+    lawg.d(" mUser.getLoyaltyPoints(): " + mUser.getLoyaltyPoints());
     mUser.update();
   }
 

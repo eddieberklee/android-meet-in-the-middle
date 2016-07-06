@@ -19,6 +19,7 @@ public class Chat {
   String groupKey;
   String userKey;
   String chatMessage;
+  // TODO: don't forget to update toMap() for new fields
 
   public Chat() {}
 

@@ -25,6 +25,7 @@ public class Group {
   public String key;
   public String groupTitle;
   public Set<String> groupUserIds; // this could just be phone numbers, that would be so convenient - guaranteed user uniqueness
+  // TODO: don't forget to update toMap() for new fields
 
   public Group() {}
 
