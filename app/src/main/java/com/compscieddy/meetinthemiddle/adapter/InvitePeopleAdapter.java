@@ -5,19 +5,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.dragselectrecyclerview.DragSelectRecyclerViewAdapter;
 import com.compscieddy.meetinthemiddle.R;
+import com.compscieddy.meetinthemiddle.ui.CustomEmoticonView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Created by Administrator on 2016/7/4.
+ * Created by Jet Wang on 2016/7/4.
  */
-public class InviteRvAdapter extends DragSelectRecyclerViewAdapter<InviteRvAdapter.ViewHolder> {
+public class InvitePeopleAdapter extends DragSelectRecyclerViewAdapter<InvitePeopleAdapter.ViewHolder> {
 
     public interface ClickListener{
         void onClick(int index);
@@ -26,7 +26,7 @@ public class InviteRvAdapter extends DragSelectRecyclerViewAdapter<InviteRvAdapt
     private final ClickListener mCallback;
     private Context mContext;
 
-    public InviteRvAdapter(ClickListener callback){
+    public InvitePeopleAdapter(ClickListener callback){
         super();
         mCallback = callback;
     }
@@ -68,10 +68,8 @@ public class InviteRvAdapter extends DragSelectRecyclerViewAdapter<InviteRvAdapt
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.avatar)
-        ImageView mAvatar;
-        @Bind(R.id.username)
-        TextView mUsername;
+        @Bind(R.id.avatar) CustomEmoticonView mAvatar;
+        @Bind(R.id.username) TextView mUsername;
 
         public ViewHolder(View itemView) {
             super(itemView);

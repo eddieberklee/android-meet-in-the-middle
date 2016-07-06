@@ -15,6 +15,7 @@ public class UserMarker {
   public String userUUID;
   public double latitude;
   public double longitude;
+  // TODO: don't forget to update toMap() for new fields
 
   public UserMarker() {}
 
