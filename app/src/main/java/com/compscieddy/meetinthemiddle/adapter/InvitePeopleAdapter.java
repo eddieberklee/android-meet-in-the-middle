@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Administrator on 2016/7/4.
  */
-public class InviteRvAdapter extends DragSelectRecyclerViewAdapter<InviteRvAdapter.ViewHolder> {
+public class InvitePeopleAdapter extends DragSelectRecyclerViewAdapter<InvitePeopleAdapter.ViewHolder> {
 
     public interface ClickListener{
         void onClick(int index);
@@ -26,7 +26,7 @@ public class InviteRvAdapter extends DragSelectRecyclerViewAdapter<InviteRvAdapt
     private final ClickListener mCallback;
     private Context mContext;
 
-    public InviteRvAdapter(ClickListener callback){
+    public InvitePeopleAdapter(ClickListener callback){
         super();
         mCallback = callback;
     }
@@ -68,10 +68,8 @@ public class InviteRvAdapter extends DragSelectRecyclerViewAdapter<InviteRvAdapt
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.avatar)
-        ImageView mAvatar;
-        @Bind(R.id.username)
-        TextView mUsername;
+        @Bind(R.id.avatar) ImageView mAvatar;
+        @Bind(R.id.username) TextView mUsername;
 
         public ViewHolder(View itemView) {
             super(itemView);
