@@ -142,7 +142,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
     String displayName = mFirebaseUser.getDisplayName();
     String email = mFirebaseUser.getEmail();
-    mUsername.setText(displayName + "\n" + email);
+    mUsername.setText(displayName + " (" + email + ")");
 
     FacebookSdk.sdkInitialize(getApplicationContext());
     AppEventsLogger.activateApp(this);
@@ -287,7 +287,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
   @Override
   public void onLocationChanged(Location location) {
-    L.e("onLocationChanged");
+    L.d("onLocationChanged");
     /*
     double latitude = location.getLatitude();
     double longitude = location.getLongitude();
