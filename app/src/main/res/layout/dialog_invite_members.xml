@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Invite Your Squad"
+        android:text="@string/title_invite_members_dialog"
         android:textColor="@color/bright_pink"
         android:textAppearance="?android:textAppearanceLarge"
         android:textStyle="bold"
@@ -19,7 +19,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="anyone"
+        android:text="@string/anyone"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:textAllCaps="true"
@@ -56,7 +56,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="friends"
+        android:text="@string/friends"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:textAllCaps="true"
@@ -81,7 +81,7 @@
         android:paddingRight="32dp"
         android:layout_marginTop="16dp"
         android:layout_gravity="center_horizontal"
-        android:text="add"
+        android:text="@string/add_btn_text"
         android:textColor="@color/white"
         android:textAllCaps="true"
         android:textStyle="bold"

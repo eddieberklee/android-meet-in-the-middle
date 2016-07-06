@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.afollestad.dragselectrecyclerview.DragSelectRecyclerView;
 import com.afollestad.dragselectrecyclerview.DragSelectRecyclerViewAdapter;
 import com.compscieddy.meetinthemiddle.R;
-import com.compscieddy.meetinthemiddle.adapter.InviteRvAdapter;
+import com.compscieddy.meetinthemiddle.adapter.InvitePeopleAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,13 +26,13 @@ import butterknife.OnClick;
 /**
  * Created by SEELE on 2016/7/4.
  */
-public class InviteMembersDialog extends DialogFragment implements InviteRvAdapter.ClickListener, DragSelectRecyclerViewAdapter.SelectionListener{
+public class InviteMembersDialog extends DialogFragment implements InvitePeopleAdapter.ClickListener, DragSelectRecyclerViewAdapter.SelectionListener{
 
     @Bind(R.id.rv_invite_members) DragSelectRecyclerView mRvInviteMembers;
     @Bind(R.id.invite_url) TextView mInviteUrl;
 
 
-    private InviteRvAdapter mAdapter;
+    private InvitePeopleAdapter mAdapter;
 
 
     public static InviteMembersDialog newInstance() {
@@ -48,11 +48,11 @@ public class InviteMembersDialog extends DialogFragment implements InviteRvAdapt
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        View v = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_invite_members, null);
-        ButterKnife.bind(this, v);
+        View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_invite_members, null);
+        ButterKnife.bind(this, rootView);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 4);
-        mAdapter = new InviteRvAdapter(this);
+        mAdapter = new InvitePeopleAdapter(this);
         mAdapter.setSelectionListener(this);
         mAdapter.restoreInstanceState(savedInstanceState);
 
@@ -60,7 +60,7 @@ public class InviteMembersDialog extends DialogFragment implements InviteRvAdapt
         mRvInviteMembers.setLayoutManager(gridLayoutManager);
         mRvInviteMembers.setAdapter(mAdapter);
 
-        builder.setView(v);
+        builder.setView(rootView);
         return builder.create();
     }
 
