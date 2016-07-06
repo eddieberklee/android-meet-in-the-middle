@@ -19,7 +19,7 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class User {
 
-  private static final Lawg lawg = Lawg.newInstance(User.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(User.class.getSimpleName());
 
   public String email;
   public String name;

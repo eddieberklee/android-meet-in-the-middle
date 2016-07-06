@@ -14,7 +14,7 @@ import com.compscieddy.meetinthemiddle.util.Lawg;
  */
 public class FontTextView extends TextView {
 
-  private static final Lawg lawg = Lawg.newInstance(FontTextView.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(FontTextView.class.getSimpleName());
 
   private final Context mContext;
 

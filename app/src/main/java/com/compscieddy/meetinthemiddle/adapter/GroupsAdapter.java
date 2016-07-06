@@ -36,7 +36,7 @@ import butterknife.ButterKnife;
  */
 public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolder> {
 
-  private static final Lawg lawg = Lawg.newInstance(GroupsAdapter.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(GroupsAdapter.class.getSimpleName());
   private static Context mContext;
   public List<Group> groups = new ArrayList<>();
   private FirebaseDatabase mFirebaseDatabase;
@@ -69,7 +69,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
         return;
       }
     }
-    lawg.e("No matching group was found");
+    L.e("No matching group was found");
   }
 
   @Override
@@ -127,7 +127,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
 
       @Override
       public void onCancelled(DatabaseError databaseError) {
-        lawg.e("onCancelled() " + databaseError);
+        L.e("onCancelled() " + databaseError);
       }
     });
   }

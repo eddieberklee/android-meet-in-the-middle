@@ -47,7 +47,7 @@ import butterknife.ButterKnife;
  */
 public class ChatFragment extends Fragment {
 
-  private static final Lawg lawg = Lawg.newInstance(ChatFragment.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(ChatFragment.class.getSimpleName());
 
   @Bind(R.id.message_send_button) ImageView mSendButton;
   @Bind(R.id.message_edit_text) EditText mMessageEdit;
@@ -167,7 +167,7 @@ public class ChatFragment extends Fragment {
             FirebaseUser currentUser = mFirebaseAuth.getCurrentUser();
             String currentUserKey = Etils.encodeEmail(currentUser.getEmail());
             if (currentUser != null && chat.getUserKey().equals(currentUserKey)) {
-              lawg.d(" user.getKey(): " + user.getKey() + " chat.getUserKey(): " + chat.getUserKey());
+              L.d(" user.getKey(): " + user.getKey() + " chat.getUserKey(): " + chat.getUserKey());
               chatView.setIsSender(true);
             } else {
               chatView.setIsSender(false);
@@ -176,7 +176,7 @@ public class ChatFragment extends Fragment {
 
           @Override
           public void onCancelled(DatabaseError databaseError) {
-            lawg.e("onCancelled " + databaseError);
+            L.e("onCancelled " + databaseError);
           }
         });
       }
@@ -206,7 +206,7 @@ public class ChatFragment extends Fragment {
       }
 
       @Override
-      public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }
+      public void onCancelled(DatabaseError databaseError) { L.e("onCancelled() " + databaseError); }
     });
   }
 

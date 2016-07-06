@@ -15,7 +15,7 @@ import com.compscieddy.meetinthemiddle.util.Lawg;
  */
 public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHolder> {
 
-  private final static Lawg lawg = Lawg.newInstance(StatusAdapter.class.getSimpleName());
+  private final static Lawg L = Lawg.newInstance(StatusAdapter.class.getSimpleName());
   private Context mContext;
   private static ClickListener mClickListener;
 

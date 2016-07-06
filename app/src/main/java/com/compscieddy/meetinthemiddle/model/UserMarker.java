@@ -10,7 +10,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class UserMarker {
 
-  private static final Lawg lawg = Lawg.newInstance(UserMarker.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(UserMarker.class.getSimpleName());
 
   public String userUUID;
   public double latitude;

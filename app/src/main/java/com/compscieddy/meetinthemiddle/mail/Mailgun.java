@@ -23,7 +23,7 @@ import okhttp3.Response;
 
 public class Mailgun {
 
-  private static final Lawg lawg = Lawg.newInstance(Mailgun.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(Mailgun.class.getSimpleName());
 
   // TODO - RETROFIT WITH MAILGUN HERE TOO
   // https://gist.github.com/hpsaturn/5fd39a4e7d6ffb156197
@@ -58,19 +58,19 @@ public class Mailgun {
           response.body().close();
           throw new IOException("Unexpected code " + response);
         } else {
-          lawg.d("Call " + call + " response " + response);
+          L.d("Call " + call + " response " + response);
         }
 
         Headers responseHeaders = response.headers();
         for (int i = 0; i < responseHeaders.size(); i++) {
-          lawg.d(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+          L.d(responseHeaders.name(i) + ": " + responseHeaders.value(i));
         }
 
         String responseData = response.body().string();
         try {
           JSONObject json = new JSONObject(responseData);
         } catch (JSONException e) {
-          lawg.e("JSONException " + e);
+          L.e("JSONException " + e);
           e.printStackTrace();
         }
 

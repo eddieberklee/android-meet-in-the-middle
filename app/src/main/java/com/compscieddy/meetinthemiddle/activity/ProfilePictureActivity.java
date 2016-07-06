@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 
 public class ProfilePictureActivity extends AppCompatActivity {
 
-  private static final Lawg lawg = Lawg.newInstance(ProfilePictureActivity.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(ProfilePictureActivity.class.getSimpleName());
 
   //ImageView profilePictureView;
 

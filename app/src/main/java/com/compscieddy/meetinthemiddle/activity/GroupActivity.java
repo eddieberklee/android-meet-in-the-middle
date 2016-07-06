@@ -85,7 +85,7 @@ import butterknife.ButterKnife;
 public class GroupActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, GoogleMap.OnMapClickListener {
 
-  private static final Lawg lawg = Lawg.newInstance(GroupActivity.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(GroupActivity.class.getSimpleName());
 
   private GoogleMap mMap;
   private final int LOCATION_REQUEST_CODE = 1;
@@ -127,14 +127,14 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
     public void run() {
-      if (false) lawg.d("mAnimateCameraRunnable");
+      if (false) L.d("mAnimateCameraRunnable");
 
       if (!mIsLocationPermissionEnabled) {
         return;
       }
 
       float zoom = mMap.getCameraPosition().zoom;
-      if (false) lawg.d(" zoom: " + zoom);
+      if (false) L.d(" zoom: " + zoom);
 
       LatLng latLng = mLastKnownCoord.getLatLng();
       if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 13) {
@@ -187,7 +187,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
         @Override
         public void onCancelled(DatabaseError databaseError) {
-          lawg.e("onCancelled() " + databaseError);
+          L.e("onCancelled() " + databaseError);
         }
       });
     }
@@ -256,7 +256,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       mIsLocationPermissionEnabled = true;
       mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 10, GroupActivity.this);
     } catch (SecurityException se) {
-      lawg.e("se: " + se);
+      L.e("se: " + se);
     }
   }
 
@@ -278,7 +278,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
   @Override
   public void onLocationChanged(Location location) {
-    lawg.e("onLocationChanged");
+    L.e("onLocationChanged");
     /*
     double latitude = location.getLatitude();
     double longitude = location.getLongitude();
@@ -321,7 +321,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       // "MyLocation" is the "blue dot" feature for showing the current location and jumping to the location
 //      mMap.setMyLocationEnabled(true);
     } catch (SecurityException se) {
-      lawg.e("se: " + se);
+      L.e("se: " + se);
     }
 
     LatLng sydney = new LatLng(-34, 151);
@@ -347,7 +347,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       @Override
       public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         UserMarker userMarker = dataSnapshot.getValue(UserMarker.class);
-        lawg.d("initMarkers() onChildAdded() " + " dataSnapshot: " + dataSnapshot + " userMarker: " + userMarker);
+        L.d("initMarkers() onChildAdded() " + " dataSnapshot: " + dataSnapshot + " userMarker: " + userMarker);
         String userUUID = userMarker.userUUID;
         LatLng latLng = userMarker.getLatLng();
         if (mMarkers.containsKey(userUUID)) {
@@ -372,7 +372,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
             try {
               mMap.animateCamera(cameraUpdate);
             } catch (IllegalStateException e) {
-              lawg.e("Illegal State Exception - screenshot to developers");
+              L.e("Illegal State Exception - screenshot to developers");
             }
           }
         });
@@ -395,7 +395,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
       @Override
       public void onCancelled(DatabaseError databaseError) {
-        lawg.e("Firebase Error onCancelled() [" + databaseError.getCode() + "] " + databaseError.getMessage() + databaseError.getDetails());
+        L.e("Firebase Error onCancelled() [" + databaseError.getCode() + "] " + databaseError.getMessage() + databaseError.getDetails());
       }
     });
 
@@ -420,7 +420,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
   @Override
   public void onConnected(@Nullable Bundle bundle) {
-    lawg.d("GoogleApiClient onConnected()");
+    L.d("GoogleApiClient onConnected()");
     try {
       mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
       if (mLastLocation != null) {
@@ -461,7 +461,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         mMap.addPolygon(rectOptions);
       }
     } catch (SecurityException se) {
-      lawg.e("se: " + se);
+      L.e("se: " + se);
     }
   }
 
@@ -484,7 +484,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     LatLng upperLeft = vRegion.farLeft;
     LatLng lowerRight = vRegion.nearRight;
     //Logs the visible area of the map
-    lawg.d("Top left = " + upperLeft + " and Bottom right = " + lowerRight);
+    L.d("Top left = " + upperLeft + " and Bottom right = " + lowerRight);
 
   }
 
@@ -525,14 +525,14 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             mGroup = dataSnapshot.getValue(Group.class);
-            lawg.e(" mGroup: " + mGroup + " mGroup.getKey(): " + mGroup.getKey() + " newGroupTitle: " + newGroupTitle);
+            L.e(" mGroup: " + mGroup + " mGroup.getKey(): " + mGroup.getKey() + " newGroupTitle: " + newGroupTitle);
             mGroup.setGroupTitle(newGroupTitle);
             mGroup.update();
           }
 
           @Override
           public void onCancelled(DatabaseError databaseError) {
-            lawg.e("onCancelled " + databaseError);
+            L.e("onCancelled " + databaseError);
           }
         });
         break;
@@ -636,7 +636,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
       @Override
       public void onCancelled(DatabaseError databaseError) {
-        lawg.e("onCancelled() " + databaseError);
+        L.e("onCancelled() " + databaseError);
       }
     });
 

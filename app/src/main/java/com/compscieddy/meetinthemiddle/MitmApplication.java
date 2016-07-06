@@ -10,7 +10,7 @@ import com.compscieddy.meetinthemiddle.util.Lawg;
  */
 public class MitmApplication extends Application {
 
-  private static final Lawg lawg = Lawg.newInstance(MitmApplication.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(MitmApplication.class.getSimpleName());
 
   private static MitmApplication instance;
 

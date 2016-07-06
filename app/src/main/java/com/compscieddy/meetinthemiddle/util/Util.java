@@ -16,7 +16,7 @@ import com.compscieddy.meetinthemiddle.R;
  */
 public class Util {
 
-  private static final Lawg lawg = Lawg.newInstance(Util.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(Util.class.getSimpleName());
 
   public static Bitmap getCroppedBitmap(Context context, Bitmap bitmap) {
     Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),

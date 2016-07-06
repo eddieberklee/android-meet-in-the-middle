@@ -29,7 +29,7 @@ import retrofit2.Call;
  */
 public class DiscoverFragment extends Fragment {
 
-  private static final Lawg lawg = Lawg.newInstance(DiscoverFragment.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(DiscoverFragment.class.getSimpleName());
 
   private static final String ARG_LAST_KNOWN_COORD = "arg_last_known_coord";
   public WeakReference<GroupActivity> mGroupActivityWeakReference;
@@ -85,7 +85,7 @@ public class DiscoverFragment extends Fragment {
 
         // coordinates
         if (mGroupActivityWeakReference.get() == null) {
-          lawg.e("GroupActivity WeakReference.get() is null");
+          L.e("GroupActivity WeakReference.get() is null");
           return;
         }
         CoordinateOptions coordinate = CoordinateOptions.builder()
@@ -95,7 +95,7 @@ public class DiscoverFragment extends Fragment {
 
         try {
           //Response<SearchResponse> response = call.execute();
-          //lawg.d("Yelp Response: " + response.body());
+          //L.d("Yelp Response: " + response.body());
 
           SearchResponse searchResponse = call.execute().body();
 
@@ -105,13 +105,13 @@ public class DiscoverFragment extends Fragment {
             ArrayList<Business> businesses = searchResponse.businesses();
             String businessName = businesses.get(i).name();  // "JapaCurry Truck"
             Double rating = businesses.get(i).rating();  // 4.0
-            lawg.d("Yelp Business: " + businessName);
-            lawg.d("Yelp Rating: " + rating);
+            L.d("Yelp Business: " + businessName);
+            L.d("Yelp Rating: " + rating);
           }
 
 
         } catch (IOException e) {
-          lawg.e(e.toString());
+          L.e(e.toString());
         }
       }
     });

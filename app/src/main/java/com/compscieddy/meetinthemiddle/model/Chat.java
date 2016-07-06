@@ -13,7 +13,7 @@ import java.util.Map;
  */
 @IgnoreExtraProperties
 public class Chat {
-  private static final Lawg lawg = Lawg.newInstance(Chat.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(Chat.class.getSimpleName());
 
   String key;
   String groupKey;

@@ -47,7 +47,7 @@ import java.net.URL;
  */
 public class AuthenticationActivity extends AppCompatActivity implements DialogInterface.OnDismissListener {
 
-  private static final Lawg lawg = Lawg.newInstance(AuthenticationActivity.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(AuthenticationActivity.class.getSimpleName());
   private static final int RC_SIGN_IN = 100;
   private static final String TAG_INTERNET_ERROR = "tag_internet_error";
   private String encodedEmail = null;
@@ -55,14 +55,14 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    lawg.d("\nAuthenticationActivity onCreate()\n");
+    L.d("\nAuthenticationActivity onCreate()\n");
 
     //Checking if the user is already logged in
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     firebaseAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
       @Override
       public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-        lawg.d("\nAuthenticationActivity onAuthStateChanged()\n");
+        L.d("\nAuthenticationActivity onAuthStateChanged()\n");
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
           Intent intent = new Intent(AuthenticationActivity.this, HomeActivity.class);
@@ -97,10 +97,10 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == RC_SIGN_IN) {
-      lawg.e("signed in");
+      L.e("signed in");
       GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
       if (resultCode == RESULT_OK) {
-        lawg.e("signed in. result_ok");
+        L.e("signed in. result_ok");
         // User creation is occurring! Tada! Welcome to being trapped to the most addictive map app ever
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = auth.getCurrentUser();
@@ -111,7 +111,7 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
 
         GoogleSignInAccount signInAccount = result.getSignInAccount();
         if (signInAccount == null) {
-          lawg.e("Sign-in account couldn't be retrieved");
+          L.e("Sign-in account couldn't be retrieved");
         } else {
           Uri photoUri = signInAccount.getPhotoUrl();
           new DownloadProfilePictureTask().execute(photoUri);
@@ -122,14 +122,14 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
       } else {
         // user is not signed in. Maybe just wait for the user to press
         // "sign in" again, or show a message
-        lawg.e("FAIL 1");
-        lawg.e(" requestCode: " + requestCode + " resultCode: " + resultCode);
-        lawg.e(" result: " + result);
+        L.e("FAIL 1");
+        L.e(" requestCode: " + requestCode + " resultCode: " + resultCode);
+        L.e(" result: " + result);
         Etils.showToast(AuthenticationActivity.this, "Failed to Sign-In");
       }
     } else {
-      lawg.e("FAIL 2");
-      lawg.e(" requestCode: " + requestCode + " resultCode: " + resultCode);
+      L.e("FAIL 2");
+      L.e(" requestCode: " + requestCode + " resultCode: " + resultCode);
     }
   }
 
@@ -142,9 +142,9 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
         InputStream inputStream = new URL(photoUri.toString()).openStream();
         profileBitmap = BitmapFactory.decodeStream(inputStream);
       } catch (MalformedURLException e) {
-        lawg.e("Bad url " + e); e.printStackTrace();
+        L.e("Bad url " + e); e.printStackTrace();
       } catch (IOException e) {
-        lawg.e("IOException " + e); e.printStackTrace();
+        L.e("IOException " + e); e.printStackTrace();
       }
       return profileBitmap;
     }
@@ -159,7 +159,7 @@ public class AuthenticationActivity extends AppCompatActivity implements DialogI
   private void uploadBitmapToFirebase(Bitmap bitmap) {
     StorageReference storageReference = FirebaseUtil.getFirebaseStorageReference();
     if (TextUtils.isEmpty(encodedEmail)) {
-      lawg.e("Yo the email is empty, what's going on");
+      L.e("Yo the email is empty, what's going on");
     }
     ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteOutputStream);

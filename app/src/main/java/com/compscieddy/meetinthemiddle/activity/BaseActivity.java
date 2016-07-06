@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class BaseActivity extends FragmentActivity {
 
-  private static final Lawg lawg = Lawg.newInstance(BaseActivity.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(BaseActivity.class.getSimpleName());
 
   FirebaseUser mFirebaseUser;
   FirebaseDatabase mFirebaseDatabase;
@@ -29,14 +29,14 @@ public class BaseActivity extends FragmentActivity {
 
   /** This is when the mUser object has been correctly populated from Firebase */
   public void userIsReady() {
-    lawg.d("BaseActivity's userIsReady() fired");
+    L.d("BaseActivity's userIsReady() fired");
     // no-op, implement this in the activity you extend
   }
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    lawg.d("BaseActivity onCreate()");
+    L.d("BaseActivity onCreate()");
     mFirebaseDatabase = FirebaseDatabase.getInstance();
     mFirebaseAuth = FirebaseAuth.getInstance();
     mFirebaseUser = mFirebaseAuth.getCurrentUser();
@@ -46,13 +46,13 @@ public class BaseActivity extends FragmentActivity {
       public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         final FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != mFirebaseUser) {
-          lawg.e("WHAT HAVE WE FOUND HERE");
+          L.e("WHAT HAVE WE FOUND HERE");
           Etils.showToast(BaseActivity.this, "We have found a unicorn");
         }
-        lawg.d("user " + user + " user2 " + mFirebaseUser);
+        L.d("user " + user + " user2 " + mFirebaseUser);
         if (user == null) {
           // Firebase has deemed them auth-worthy so just recreate the user object for them
-          lawg.d("user is null and firebase says auth worthy so creating a user");
+          L.d("user is null and firebase says auth worthy so creating a user");
           User.createUser(mFirebaseDatabase, mFirebaseUser);
         } else {
           final String encodedEmail = Etils.encodeEmail(mFirebaseUser.getEmail());
@@ -65,17 +65,17 @@ public class BaseActivity extends FragmentActivity {
                 at com.compscieddy.meetinthemiddle.activity.HomeActivity.initFirebaseData(HomeActivity.java:370)
                 at com.compscieddy.meetinthemiddle.activity.HomeActivity.userIsReady(HomeActivity.java:365)
                 at com.compscieddy.meetinthemiddle.activity.BaseActivity$1$1.onDataChange(BaseActivity.java:65)*/
-                lawg.d("Safety Check: mUser is null so creating a user");
+                L.d("Safety Check: mUser is null so creating a user");
                 mUser = User.createUser(mFirebaseDatabase, user);
                 userIsReady();
               } else { // Successful Sign-In
-                lawg.d("mUser obtained email: " + mUser.email + " name: " + mUser.name);
+                L.d("mUser obtained email: " + mUser.email + " name: " + mUser.name);
                 userIsReady();
               }
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled " + databaseError); }
+            public void onCancelled(DatabaseError databaseError) { L.e("onCancelled " + databaseError); }
           });
         }
       }

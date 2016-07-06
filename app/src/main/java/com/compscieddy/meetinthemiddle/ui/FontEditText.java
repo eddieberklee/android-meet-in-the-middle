@@ -17,7 +17,7 @@ import com.compscieddy.meetinthemiddle.util.Lawg;
  */
 public class FontEditText extends EditText {
 
-  private static final Lawg lawg = Lawg.newInstance(FontEditText.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(FontEditText.class.getSimpleName());
 
   public FontEditText(Context context, AttributeSet attrs) {
     super(context, attrs);

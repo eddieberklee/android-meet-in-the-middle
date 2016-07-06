@@ -11,7 +11,7 @@ import com.compscieddy.meetinthemiddle.util.Lawg;
  */
 public class ResizeAnimation extends Animation {
 
-  private static final Lawg lawg = Lawg.newInstance(ResizeAnimation.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(ResizeAnimation.class.getSimpleName());
 
   final int targetHeight;
   View view;

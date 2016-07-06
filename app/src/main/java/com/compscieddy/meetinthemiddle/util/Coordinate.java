@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class Coordinate implements Serializable {
 
-  private static final Lawg lawg = Lawg.newInstance(Coordinate.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(Coordinate.class.getSimpleName());
 
   public double lat;
   public double lon;

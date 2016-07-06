@@ -71,7 +71,7 @@ import butterknife.ButterKnife;
 public class HomeActivity extends BaseActivity implements OnMapReadyCallback, LocationListener,
     GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
-  private static final Lawg lawg = Lawg.newInstance(HomeActivity.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(HomeActivity.class.getSimpleName());
   int count = 0;
   int initialVerticalOffset = 0;
   int finalVerticalOffset;
@@ -112,14 +112,14 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   private Runnable mAnimateCameraRunnable = new Runnable() {
     @Override
     public void run() {
-      if (false) lawg.d("mAnimateCameraRunnable");
+      if (false) L.d("mAnimateCameraRunnable");
 
       if (!mIsLocationPermissionEnabled) {
         return;
       }
 
       float zoom = mMap.getCameraPosition().zoom;
-      if (false) lawg.d(" zoom: " + zoom);
+      if (false) L.d(" zoom: " + zoom);
 
       LatLng latLng = mLastKnownCoord.getLatLng();
       if (latLng.latitude != -1 && latLng.longitude != -1 && zoom < 9) {
@@ -133,7 +133,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    lawg.d("HomeActivity onCreate()");
+    L.d("HomeActivity onCreate()");
     setContentView(R.layout.activity_home);
     ButterKnife.bind(HomeActivity.this);
     MapsInitializer.initialize(this);
@@ -265,7 +265,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       mIsLocationPermissionEnabled = true;
       mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 10, HomeActivity.this);
     } catch (SecurityException se) {
-      lawg.e("se: " + se);
+      L.e("se: " + se);
     }
   }
 
@@ -287,7 +287,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
   @Override
   public void onLocationChanged(Location location) {
-    lawg.e("onLocationChanged");
+    L.e("onLocationChanged");
     /*
     double latitude = location.getLatitude();
     double longitude = location.getLongitude();
@@ -330,7 +330,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       // "MyLocation" is the "blue dot" feature for showing the current location and jumping to the location
 //      mMap.setMyLocationEnabled(true);
     } catch (SecurityException se) {
-      lawg.e("se: " + se);
+      L.e("se: " + se);
     }
   }
 
@@ -362,7 +362,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
         mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
       }
     } catch (SecurityException se) {
-      lawg.e("se: " + se);
+      L.e("se: " + se);
     }
   }
 
@@ -402,7 +402,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
   public void userIsReady() {
     super.userIsReady();
     initFirebaseData();
-    lawg.d("Trying to increment user loyalty points");
+    L.d("Trying to increment user loyalty points");
     incrementUser();
   }
 
@@ -416,12 +416,12 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             Group group = dataSnapshot.getValue(Group.class);
-            lawg.e("poop " + mGroupsAdapter.getItemCount() + "title: " + group.getGroupTitle());
+            L.e("poop " + mGroupsAdapter.getItemCount() + "title: " + group.getGroupTitle());
             mGroupsAdapter.addGroup(group);
           }
           @Override
           public void onCancelled(DatabaseError databaseError) {
-            lawg.e("onCancelled " + databaseError);
+            L.e("onCancelled " + databaseError);
           }
         });
 
@@ -429,14 +429,14 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             Group updatedGroup = dataSnapshot.getValue(Group.class);
-            lawg.e("poop " + mGroupsAdapter.getItemCount() + "title: " + updatedGroup.getGroupTitle());
+            L.e("poop " + mGroupsAdapter.getItemCount() + "title: " + updatedGroup.getGroupTitle());
             mGroupsAdapter.updateGroup(updatedGroup);
-            lawg.d("onDataChange() " + " updatedGroup.getKey(): " + updatedGroup.getKey() + " " + updatedGroup.getGroupTitle());
+            L.d("onDataChange() " + " updatedGroup.getKey(): " + updatedGroup.getKey() + " " + updatedGroup.getGroupTitle());
           }
 
           @Override
           public void onCancelled(DatabaseError databaseError) {
-            lawg.e("onCancelled() " + databaseError);
+            L.e("onCancelled() " + databaseError);
           }
         });
       }
@@ -447,7 +447,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
       @Override
       public void onChildRemoved(DataSnapshot dataSnapshot) {
-        lawg.e(" dataSnapshot: " + dataSnapshot);
+        L.e(" dataSnapshot: " + dataSnapshot);
         String groupKey = dataSnapshot.getKey();
         mGroupsAdapter.removeGroup(groupKey);
       }
@@ -458,7 +458,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 
       @Override
       public void onCancelled(DatabaseError databaseError) {
-        lawg.e("onCancelled " + databaseError);
+        L.e("onCancelled " + databaseError);
       }
     });
 
@@ -476,15 +476,15 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       }
 
       @Override
-      public void onCancelled(DatabaseError databaseError) { lawg.e("onCancelled() " + databaseError); }
+      public void onCancelled(DatabaseError databaseError) { L.e("onCancelled() " + databaseError); }
     });
   }
 
   private void incrementUser() {
-    lawg.d("Trying to increment user loyalty points");
-    lawg.d(" mUser.getLoyaltyPoints(): " + mUser.getLoyaltyPoints());
+    L.d("Trying to increment user loyalty points");
+    L.d(" mUser.getLoyaltyPoints(): " + mUser.getLoyaltyPoints());
     mUser.incrementLoyaltyPoints();
-    lawg.d(" mUser.getLoyaltyPoints(): " + mUser.getLoyaltyPoints());
+    L.d(" mUser.getLoyaltyPoints(): " + mUser.getLoyaltyPoints());
     mUser.update();
   }
 
@@ -519,9 +519,9 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           @Override
           public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             User user = dataSnapshot.getValue(User.class);
-            lawg.e("onChildAdded " + " user: " + user);
+            L.e("onChildAdded " + " user: " + user);
             if (user != null) {
-              lawg.e("name: " + user.name);
+              L.e("name: " + user.name);
             }
             if (!user.getKey().equals(mUser.getKey())) {
               user.addGroup(newGroupKey);
