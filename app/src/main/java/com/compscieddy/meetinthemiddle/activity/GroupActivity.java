@@ -42,14 +42,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.compscieddy.eddie_utils.Etils;
-import com.compscieddy.meetinthemiddle.fragment.ChatFragment;
-import com.compscieddy.meetinthemiddle.ui.InviteMembersDialog;
-import com.compscieddy.meetinthemiddle.util.Coordinate;
-import com.compscieddy.meetinthemiddle.fragment.DiscoverFragment;
 import com.compscieddy.meetinthemiddle.R;
+import com.compscieddy.meetinthemiddle.TouchableWrapper;
 import com.compscieddy.meetinthemiddle.animation.ResizeAnimation;
+import com.compscieddy.meetinthemiddle.fragment.ChatFragment;
+import com.compscieddy.meetinthemiddle.fragment.DiscoverFragment;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.model.UserMarker;
+import com.compscieddy.meetinthemiddle.ui.InviteMembersDialog;
+import com.compscieddy.meetinthemiddle.util.Coordinate;
 import com.compscieddy.meetinthemiddle.util.Lawg;
 import com.compscieddy.meetinthemiddle.util.Util;
 import com.facebook.share.model.AppInviteContent;
@@ -83,7 +84,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class GroupActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener,
-    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, GoogleMap.OnMapClickListener {
+    GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, GoogleMap.OnMapClickListener,
+    TouchableWrapper.UserMapDrag {
 
   private static final Lawg L = Lawg.newInstance(GroupActivity.class.getSimpleName());
 
@@ -119,7 +121,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Bind(R.id.viewpager) ViewPager mViewPager;
   @Bind(R.id.sliding_tabs) TabLayout mTabLayout;
 
-  boolean expanded = false;
+  boolean isViewPagerExpanded = false;
+  boolean isViewPagerCollapsed = false;
   boolean voteLocationActive = false;
 
   Marker queenstownMarker, sydneyMarker;
@@ -194,7 +197,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
     mGroupNameEditText.addTextChangedListener(new TextWatcher() {
       @Override
-      public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+      public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+      }
 
       @Override
       public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -206,7 +210,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       }
 
       @Override
-      public void afterTextChanged(Editable s) {}
+      public void afterTextChanged(Editable s) {
+      }
     });
 
     mHandler = new Handler(Looper.getMainLooper());
@@ -489,6 +494,11 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   }
 
   @Override
+  public void onMapDrag() {
+    resizeViewPager(false);
+  }
+
+  @Override
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.group_text_view:
@@ -543,13 +553,13 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
           @Override
           public boolean onMenuItemClick(MenuItem item) {
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
               case R.id.invite_members:
                 InviteMembersDialog dialog = InviteMembersDialog.newInstance();
                 dialog.show(getSupportFragmentManager(), "invite_dialog");
                 return true;
               case R.id.share_facebook:
-               // TODO HANDLE SHARING GROUP URL VIA FACEBOOK
+                // TODO HANDLE SHARING GROUP URL VIA FACEBOOK
                 //Invites through Facebook Messenger
 /*        ShareLinkContent content = new ShareLinkContent.Builder()
             .setContentUrl(Uri.parse("https://developers.facebook.com"))
@@ -582,34 +592,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         break;
 
       case R.id.expand_chat_fab:
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int height = size.y;
-
-        ResizeAnimation resizeAnimation;
-
-        // todo: use Etils.getScreenHeight() instead
-
-        if (!expanded) {
-          Util.rotateFabForward(mExpandButton);
-          resizeAnimation = new ResizeAnimation(
-              mBottomSection,
-              (int) (height * 0.75),
-              getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
-          );
-        } else {
-          Util.rotateFabBackward(mExpandButton);
-
-          resizeAnimation = new ResizeAnimation(
-              mBottomSection,
-              getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
-              (int) (height * 0.75)
-          );
-        }
-        expanded = !expanded;
-        resizeAnimation.setDuration(400);
-        mBottomSection.startAnimation(resizeAnimation);
+        resizeViewPager(true);
         break;
 
       case R.id.invite_button_two:
@@ -642,7 +625,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
   }
 
-  private void shareLinkClicked(){
+  private void shareLinkClicked() {
     Intent shareLinkIntent = new Intent(Intent.ACTION_SEND);
     shareLinkIntent.setType("text/plain");
     shareLinkIntent.putExtra(Intent.EXTRA_TEXT, "Testing");
@@ -698,7 +681,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       @Override
       public void run() {
         long elapsed = SystemClock.uptimeMillis() - startTime;
-        float t = Math.max(1 - interpolator.getInterpolation((float) elapsed/duration), 0);
+        float t = Math.max(1 - interpolator.getInterpolation((float) elapsed / duration), 0);
         marker.setAnchor(0.5f, 1.0f + t);
 
         if (t > 0.0) {
@@ -708,6 +691,68 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         }
       }
     });
+  }
+
+  private void resizeViewPager(boolean isFABClick) {
+    Display display = getWindowManager().getDefaultDisplay();
+    Point size = new Point();
+    display.getSize(size);
+    int height = size.y;
+
+    ResizeAnimation resizeAnimation;
+
+    if (isFABClick) {
+      if (isViewPagerCollapsed) {
+        Util.rotateView(mExpandButton, 360.0f);
+        resizeAnimation = new ResizeAnimation(
+            mBottomSection,
+            getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
+            (int) (height * 0.2)
+        );
+        isViewPagerCollapsed = !isViewPagerCollapsed;
+      } else if (!isViewPagerExpanded) {
+        Util.rotateView(mExpandButton, 180.0f);
+        resizeAnimation = new ResizeAnimation(
+            mBottomSection,
+            (int) (height * 0.75),
+            getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
+        );
+        isViewPagerExpanded = !isViewPagerExpanded;
+      } else {
+        Util.rotateView(mExpandButton, -180.0f);
+        resizeAnimation = new ResizeAnimation(
+            mBottomSection,
+            getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height),
+            (int) (height * 0.75)
+        );
+        isViewPagerExpanded = !isViewPagerExpanded;
+      }
+      resizeAnimation.setDuration(400);
+      mBottomSection.startAnimation(resizeAnimation);
+    } else {
+      if (!isViewPagerCollapsed) {
+        // todo: use Etils.getScreenHeight() instead
+        if (isViewPagerExpanded) {
+          Util.rotateView(mExpandButton, -180.0f);
+          resizeAnimation = new ResizeAnimation(
+              mBottomSection,
+              (int) (height * 0.2),
+              (int) (height * 0.75)
+          );
+          isViewPagerExpanded = !isViewPagerExpanded;
+        } else {
+          Util.rotateView(mExpandButton, -360.0f);
+          resizeAnimation = new ResizeAnimation(
+              mBottomSection,
+              (int) (height * 0.2),
+              getResources().getDimensionPixelSize(R.dimen.group_bottom_section_starting_height)
+          );
+        }
+        isViewPagerCollapsed = !isViewPagerCollapsed;
+        resizeAnimation.setDuration(400);
+        mBottomSection.startAnimation(resizeAnimation);
+      }
+    }
   }
 
   public Coordinate getLastKnownCoord() {

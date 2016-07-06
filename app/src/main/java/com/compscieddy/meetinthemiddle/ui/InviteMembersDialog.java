@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by SEELE on 2016/7/4.
+ * Created by Jet Wang on 2016/7/4.
  */
 public class InviteMembersDialog extends DialogFragment implements InvitePeopleAdapter.ClickListener, DragSelectRecyclerViewAdapter.SelectionListener{
 
@@ -38,7 +38,6 @@ public class InviteMembersDialog extends DialogFragment implements InvitePeopleA
     public static InviteMembersDialog newInstance() {
 
         Bundle args = new Bundle();
-
         InviteMembersDialog fragment = new InviteMembersDialog();
         fragment.setArguments(args);
         return fragment;
