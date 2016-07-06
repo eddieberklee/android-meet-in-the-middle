@@ -20,20 +20,20 @@
     <LinearLayout
         android:layout_width="@dimen/item_group_map_size"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginBottom="6dp">
 
-    <com.compscieddy.meetinthemiddle.ui.FontTextView
-        android:id="@+id/group_title_text_view"
-        style="@style/TextAppearance.AppCompat.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
-        android:gravity="bottom"
-        android:layout_marginRight="10dp"
-        app:fontface="montserrat_semibold"
-        android:maxLines="1"
-        android:text="Group Title"
-        android:textSize="18sp"/>
+        <com.compscieddy.meetinthemiddle.ui.FontTextView
+            android:id="@+id/group_title_text_view"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:layout_marginRight="10dp"
+            app:fontface="montserrat_semibold"
+            android:maxLines="1"
+            android:text="Group Title"
+            android:textSize="18sp"/>
 
         <TextView
             android:layout_width="@dimen/notification_badge_diameter"

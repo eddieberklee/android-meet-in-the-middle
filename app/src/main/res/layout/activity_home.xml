@@ -8,64 +8,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <RelativeLayout
+        android:id="@+id/toolbar_viewgroup"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_viewgroup_height"
         android:orientation="vertical"
         android:paddingBottom="3dp">
 
-        <RelativeLayout
-            android:id="@+id/toolbar_viewgroup"
+        <FrameLayout
+            android:id="@+id/username_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <!-- different height allows us to set a "lower center" -->
-            <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                map:mapType="normal"
-                map:uiCompass="false"
-                map:uiZoomControls="false"
-                tools:context=".activity.HomeActivity"
-                tools:layout="@layout/messenger_button_send_blue_small"/>
-
+            android:layout_height="wrap_content">
             <com.compscieddy.meetinthemiddle.ui.FontTextView
                 android:id="@+id/username"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_fill_white_transp"
+                android:background="@color/white"
                 android:paddingTop="7dp"
                 android:paddingBottom="5dp"
                 android:paddingLeft="9dp"
                 android:paddingRight="9dp"
-                android:layout_centerHorizontal="true"
                 android:gravity="center_horizontal"
-                android:text="\@username"
-                android:textColor="@color/greyscale_10"
+                android:text="Eddie\n\@username"
+                android:textColor="@color/greyscale_13"
                 android:textSize="15sp"
                 app:fontface="montserrat_regular"
                 android:lineSpacingMultiplier="0.9"/>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/white_transp_40"
-                android:layout_alignLeft="@+id/username"
-                android:layout_alignRight="@+id/username"
-                android:layout_below="@+id/username"/>
+        </FrameLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/status_recycler_view"
-                android:layout_width="40dp"
-                android:layout_height="100dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="5dp"/>
 
-        </RelativeLayout>
+        <!-- different height allows us to set a "lower center" -->
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/username_container"
+            map:mapType="normal"
+            map:uiCompass="false"
+            map:uiZoomControls="false"
+            map:uiScrollGestures="false"
+            tools:context=".activity.HomeActivity"
+            tools:layout="@layout/messenger_button_send_blue_small"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/white_transp_40"
+            android:layout_alignLeft="@+id/username_container"
+            android:layout_alignRight="@+id/username_container"
+            android:layout_below="@+id/username_container"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/status_recycler_view"
+            android:layout_width="36dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/username_container"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"/>
 
         <TextView
             android:id="@+id/no_internet_popup_view"
@@ -80,7 +82,7 @@
             android:textStyle="bold"
             android:visibility="gone"/>
 
-    </FrameLayout>
+    </RelativeLayout>
 
 
     <android.support.v7.widget.RecyclerView
