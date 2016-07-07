@@ -3,6 +3,7 @@ package com.compscieddy.meetinthemiddle.holder;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.compscieddy.meetinthemiddle.R;
@@ -23,6 +24,7 @@ public final class GroupHolder extends RecyclerView.ViewHolder implements OnMapR
   public @Bind(R.id.group_title) TextView titleView;
   public @Bind(R.id.group_last_message_text_view) TextView lastMessageView;
   public @Bind(R.id.group_map_view) MapView mapView;
+  public @Bind(R.id.message_container) ViewGroup messageContainer;
   public int position;
   public View.OnClickListener onClickListener;
   GoogleMap groupMap;

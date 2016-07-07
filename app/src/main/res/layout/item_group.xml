@@ -37,7 +37,7 @@
             android:text="Group Title - that has extended too long"
             android:ellipsize="end"
             android:textSize="16sp"/>
-        <TextView
+        <com.compscieddy.meetinthemiddle.ui.FontTextView
             android:id="@+id/notification_badge"
             android:layout_width="@dimen/notification_badge_diameter"
             android:layout_height="@dimen/notification_badge_diameter"
