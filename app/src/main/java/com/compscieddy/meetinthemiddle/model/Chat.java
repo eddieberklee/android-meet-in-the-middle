@@ -5,6 +5,7 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,13 +20,13 @@ public class Chat {
   String groupKey;
   String userKey;
   String chatMessage;
-  long currentUTCTime;
+  Date currentUTCTime;
 
   // TODO: don't forget to update toMap() for new fields
 
   public Chat() {}
 
-  public Chat(String key, String groupKey, String userKey, String message, long currentUTCTime) {
+  public Chat(String key, String groupKey, String userKey, String message, Date currentUTCTime) {
     this.key = key;
     this.groupKey = groupKey;
     this.userKey = userKey;
