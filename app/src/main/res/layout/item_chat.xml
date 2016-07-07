@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/message_container"
+<LinearLayout android:id="@+id/message_container"
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+              android:orientation="vertical"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-               >
+                android:layout_marginRight="5dp">
+
+    <TextView
+        android:id="@+id/time_stamp_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/user_name"
+        android:textSize="12sp"
+        tools:text="Time Stamp"/>
+
     <TextView
         android:id="@+id/name_text"
         android:layout_width="wrap_content"
@@ -20,7 +30,6 @@
         android:id="@+id/message_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/name_text"
         android:background="@drawable/chat_message_background"
         android:orientation="vertical"
         android:paddingTop="4dp"
@@ -40,4 +49,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

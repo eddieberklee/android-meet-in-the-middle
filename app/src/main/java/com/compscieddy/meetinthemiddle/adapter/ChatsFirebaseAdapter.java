@@ -5,6 +5,7 @@ import com.compscieddy.meetinthemiddle.holder.ChatHolder;
 import com.compscieddy.meetinthemiddle.model.Chat;
 import com.compscieddy.meetinthemiddle.model.User;
 import com.compscieddy.meetinthemiddle.util.Lawg;
+import com.compscieddy.meetinthemiddle.util.Util;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -34,6 +35,7 @@ public class ChatsFirebaseAdapter extends FirebaseRecyclerAdapter<Chat, ChatHold
       @Override
       public void onDataChange(DataSnapshot dataSnapshot) {
         User user = dataSnapshot.getValue(User.class);
+        chatHolder.setTimestamp(Util.getLocalTimeFromUTC(chat.getCurrentUTCTime()));
         chatHolder.setName(user.name);
         chatHolder.setText(chat.getChatMessage());
 

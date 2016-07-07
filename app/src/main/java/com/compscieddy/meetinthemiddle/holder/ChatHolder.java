@@ -6,10 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.compscieddy.meetinthemiddle.R;
+
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -19,9 +20,10 @@ import butterknife.ButterKnife;
  */
 public class ChatHolder extends RecyclerView.ViewHolder {
 
-  @Bind(R.id.message_container) RelativeLayout messageContainer;
+  @Bind(R.id.message_container) LinearLayout messageContainer;
   @Bind(R.id.message_box) LinearLayout messageBox;
   @Bind(R.id.name_text) TextView userName;
+  @Bind(R.id.time_stamp_text) TextView timestampText;
   View rootView;
   TextView messageText;
 
@@ -49,6 +51,12 @@ public class ChatHolder extends RecyclerView.ViewHolder {
 
     ((GradientDrawable) messageBox.getBackground()).setColor(bg_color);
     messageText.setTextColor(text_color);
+  }
+
+  public void setTimestamp(Date date){
+    int hours = date.getHours();
+    int minutes = date.getMinutes();
+    timestampText.setText(hours + ":" + minutes);
   }
 
   public void setName(String name) {
