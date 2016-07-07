@@ -9,7 +9,12 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
+
 import com.compscieddy.meetinthemiddle.R;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by elee on 6/9/16.
@@ -61,6 +66,21 @@ public class Util {
         .withLayer()
         .setDuration(400)
         .start();
+  }
+
+  public static Date getCurrentGMTTime(){
+    Calendar calendar = Calendar.getInstance();
+
+    long milliSeconds = calendar.getTimeInMillis();
+
+    TimeZone timeZone = calendar.getTimeZone();
+    int offset = timeZone.getRawOffset();
+    if (timeZone.inDaylightTime(new Date())){
+      offset = offset + timeZone.getDSTSavings();
+    }
+
+    milliSeconds = milliSeconds - offset;
+    return new Date(milliSeconds);
   }
 
 }
