@@ -6,8 +6,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">@color/mitm_yellow</color>
 
-    <color name="chat_sendee">#E7E7E7</color>
-    <color name="chat_sender">#087FF6</color>
+    <color name="chat_sendee">#ececec</color>
+    <color name="chat_sender">#368bfa</color>
+    <color name="chat_sendee_text">#373737</color>
+    <color name="chat_sender_text">#FFFFFF</color>
+    <color name="user_name">#b0acac</color>
 
     <color name="mitm_yellow">#F8F159</color>
     <color name="snapchat_blue">#0D9DF5</color>
@@ -106,9 +109,6 @@
     <color name="greyscale_12">#383838</color>
     <color name="greyscale_13">#282828</color>
     <color name="greyscale_14">#181818</color>
-
-    <color name="group_chat_background_color">#AED581</color>
-    <color name="user_chat_background_color">#E0E0E0</color>
 
     <color name="colorBackgroundItemSelected">#d3d2d2</color>
 
