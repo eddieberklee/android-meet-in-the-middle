@@ -5,19 +5,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.compscieddy.meetinthemiddle.R;
+import com.compscieddy.meetinthemiddle.holder.StatusHolder;
 import com.compscieddy.meetinthemiddle.util.Lawg;
 
 /**
  * Created by Darren on 11-Jun-16.
  */
-public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHolder> {
+public class StatusAdapter extends RecyclerView.Adapter<StatusHolder> {
 
   private final static Lawg L = Lawg.newInstance(StatusAdapter.class.getSimpleName());
   private Context mContext;
-  private static ClickListener mClickListener;
+  private View.OnClickListener mOnClickListener;
 
   public static final int ITEM_COUNT = 4;
 
@@ -26,24 +26,20 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHold
   public static final int MOVIES = 2;
   public static final int SLEEPING = 3;
 
-  public interface ClickListener {
-    void OnItemClick(View v);
-  }
-
-  public void setClickListener(ClickListener clickListener) {
-    mClickListener = clickListener;
+  public void setOnClickListener(View.OnClickListener onClickListener) {
+    mOnClickListener = onClickListener;
   }
 
   @Override
-  public StatusAdapter.StatusHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  public StatusHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     mContext = parent.getContext();
     LayoutInflater layoutInflater = LayoutInflater.from(mContext);
     View itemView = layoutInflater.inflate(R.layout.item_status, parent, false);
-    return new StatusHolder(itemView);
+    return new StatusHolder(itemView, mOnClickListener);
   }
 
   @Override
-  public void onBindViewHolder(StatusAdapter.StatusHolder holder, int position) {
+  public void onBindViewHolder(StatusHolder holder, int position) {
     //Placeholder text for now
     int imageResourceId = -1;
 
@@ -70,21 +66,6 @@ public class StatusAdapter extends RecyclerView.Adapter<StatusAdapter.StatusHold
   @Override
   public int getItemCount() {
     return ITEM_COUNT;
-  }
-
-  public static final class StatusHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    ImageView statusImageView;
-
-    public StatusHolder(View itemView) {
-      super(itemView);
-      statusImageView = (ImageView) itemView.findViewById(R.id.status_image_view);
-      itemView.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View v) {
-      mClickListener.OnItemClick(v);
-    }
   }
 
 }

@@ -45,7 +45,7 @@
                 android:paddingLeft="9dp"
                 android:paddingRight="9dp"
                 android:gravity="center_horizontal"
-                android:text="Eddie\n\@username"
+                android:text="Eddie Lee (\@username)"
                 android:textColor="@color/greyscale_13"
                 android:textSize="13sp"
                 app:fontface="montserrat_regular"

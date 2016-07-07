@@ -7,17 +7,13 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.compscieddy.meetinthemiddle.R;
 import com.compscieddy.meetinthemiddle.activity.GroupActivity;
+import com.compscieddy.meetinthemiddle.holder.GroupHolder;
 import com.compscieddy.meetinthemiddle.model.Chat;
 import com.compscieddy.meetinthemiddle.model.Group;
 import com.compscieddy.meetinthemiddle.util.Lawg;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,13 +24,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 /**
  * Created by ambar on 6/7/16.
  */
-public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolder> {
+public class GroupsAdapter extends RecyclerView.Adapter<GroupHolder> {
 
   private static final Lawg L = Lawg.newInstance(GroupsAdapter.class.getSimpleName());
   private static Context mContext;
@@ -73,12 +66,12 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
   }
 
   @Override
-  public GroupsAdapter.GroupHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  public GroupHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     mContext = parent.getContext();
     LayoutInflater layoutInflater = LayoutInflater.from(mContext);
     View itemView = layoutInflater.inflate(R.layout.item_group, parent, false);
 
-    final GroupHolder groupHolder = new GroupHolder(itemView);
+    final GroupHolder groupHolder = new GroupHolder(mContext, itemView);
     groupHolder.onClickListener = new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -96,7 +89,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
   }
 
   @Override
-  public void onBindViewHolder(final GroupsAdapter.GroupHolder holder, final int position) {
+  public void onBindViewHolder(final GroupHolder holder, final int position) {
     holder.position = position;
     final Group group = groups.get(position);
     String groupTitle = group.getGroupTitle();
@@ -135,29 +128,5 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupHolde
   @Override
   public int getItemCount() {
     return groups.size();
-  }
-
-  public static final class GroupHolder extends RecyclerView.ViewHolder implements OnMapReadyCallback {
-    @Bind(R.id.group_title_text_view) TextView titleTextView;
-    @Bind(R.id.group_last_message_text_view) TextView lastMessageTextView;
-    @Bind(R.id.group_map_view) MapView groupMapView;
-    public int position;
-    public View.OnClickListener onClickListener;
-    GoogleMap groupMap;
-
-    public GroupHolder(View itemView) {
-      super(itemView);
-      ButterKnife.bind(this, itemView);
-
-      groupMapView.onCreate(null);
-      groupMapView.getMapAsync(this);
-      groupMapView.setClickable(false);
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-      MapsInitializer.initialize(mContext);
-      groupMap = googleMap;
-    }
   }
 }

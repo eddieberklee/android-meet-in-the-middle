@@ -21,7 +21,8 @@
         android:layout_width="@dimen/item_group_map_size"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="6dp">
+        android:layout_marginBottom="6dp"
+        android:layout_weight="3">
 
         <com.compscieddy.meetinthemiddle.ui.FontTextView
             android:id="@+id/group_title_text_view"
@@ -29,11 +30,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="bottom"
-            android:layout_marginRight="10dp"
             app:fontface="montserrat_semibold"
             android:maxLines="1"
-            android:text="Group Title"
-            android:textSize="18sp"/>
+            android:text="Group Title - that has extended too long"
+            android:ellipsize="end"
+            android:textSize="16sp"
+            android:layout_weight="1"/>
+
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
 
         <TextView
             android:layout_width="@dimen/notification_badge_diameter"

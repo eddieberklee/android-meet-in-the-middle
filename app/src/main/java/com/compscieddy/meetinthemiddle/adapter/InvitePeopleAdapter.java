@@ -1,23 +1,18 @@
 package com.compscieddy.meetinthemiddle.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.afollestad.dragselectrecyclerview.DragSelectRecyclerViewAdapter;
 import com.compscieddy.meetinthemiddle.R;
-import com.compscieddy.meetinthemiddle.ui.CustomEmoticonView;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import com.compscieddy.meetinthemiddle.holder.InvitePeopleHolder;
 
 /**
  * Created by Jet Wang on 2016/7/4.
  */
-public class InvitePeopleAdapter extends DragSelectRecyclerViewAdapter<InvitePeopleAdapter.ViewHolder> {
+public class InvitePeopleAdapter extends DragSelectRecyclerViewAdapter<InvitePeopleHolder> {
 
     public interface ClickListener{
         void onClick(int index);
@@ -33,14 +28,14 @@ public class InvitePeopleAdapter extends DragSelectRecyclerViewAdapter<InvitePeo
 
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public InvitePeopleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
         View v = LayoutInflater.from(mContext).inflate(R.layout.item_invite_members, parent, false);
-        return new ViewHolder(v);
+        return new InvitePeopleHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final InvitePeopleHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         if (isIndexSelected(position)) {
             // Item is selected, change it somehow
@@ -66,15 +61,5 @@ public class InvitePeopleAdapter extends DragSelectRecyclerViewAdapter<InvitePeo
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.avatar) CustomEmoticonView mAvatar;
-        @Bind(R.id.username) TextView mUsername;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
-    }
 }

@@ -389,10 +389,10 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 //    RecyclerViewDivider.with(this).addTo(mGroupRecyclerView).marginSize(Etils.dpToPx(5)).build().attach();
 
     mStatusAdapter = new StatusAdapter();
-    mStatusAdapter.setClickListener(new StatusAdapter.ClickListener() {
+    mStatusAdapter.setOnClickListener(new View.OnClickListener() {
       @Override
-      public void OnItemClick(View v) {
-        //set status
+      public void onClick(View v) {
+        // click status action
       }
     });
 
