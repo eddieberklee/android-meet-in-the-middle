@@ -13,7 +13,6 @@ import android.view.View;
 import com.compscieddy.meetinthemiddle.R;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -68,19 +67,11 @@ public class Util {
         .start();
   }
 
-  public static Date getCurrentGMTTime(){
-    Calendar calendar = Calendar.getInstance();
-
-    long milliSeconds = calendar.getTimeInMillis();
-
-    TimeZone timeZone = calendar.getTimeZone();
-    int offset = timeZone.getRawOffset();
-    if (timeZone.inDaylightTime(new Date())){
-      offset = offset + timeZone.getDSTSavings();
-    }
-
-    milliSeconds = milliSeconds - offset;
-    return new Date(milliSeconds);
+  public static long getCurrentUTCTime(){
+    TimeZone timeZone = TimeZone.getTimeZone("UTC");
+    Calendar calendar = Calendar.getInstance(timeZone);
+    return calendar.getTimeInMillis();
   }
+
 
 }
