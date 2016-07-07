@@ -69,9 +69,13 @@ public class Util {
   }
 
   public static Date getCurrentUTCTime(){
-    // Set time zone to UTC
+    // Save the device's local time zone
+    TimeZone timeZone = TimeZone.getDefault();
+    // Set device's time zone to UTC
     TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     Calendar calendar = Calendar.getInstance();
+    // Reset device's time zone to device local time zone
+    TimeZone.setDefault(timeZone);
     return calendar.getTime();
   }
 }
