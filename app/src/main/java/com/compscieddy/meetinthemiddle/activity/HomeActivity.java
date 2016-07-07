@@ -25,6 +25,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -195,6 +196,8 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
 //    sendSimpleMessage();
   }
 
+
+
   private void setListeners() {
     mNewGroupButton.setOnClickListener(this);
     mLogoutButton.setOnClickListener(this);
@@ -258,6 +261,8 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
       }
     };
     registerReceiver(networkChangeReceiver, intentFilter);
+
+    mNewGroupButton.startAnimation(AnimationUtils.loadAnimation(this, R.anim.jiggle));
   }
 
   private void initLocationPermissionGranted() {
