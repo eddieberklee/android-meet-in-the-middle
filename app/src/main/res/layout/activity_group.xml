@@ -32,8 +32,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="4dp">
+                android:layout_height="wrap_content">
 
                 <com.compscieddy.meetinthemiddle.ui.FontTextView
                     android:id="@+id/group_text_view"
@@ -51,8 +50,10 @@
                     android:id="@+id/group_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="2dp"
                     android:hint="@string/hint_set_group_name"
                     android:layout_marginRight="60dp"
+                    android:paddingRight="40dp"
                     android:layout_alignParentLeft="true"
                     android:inputType="textCapWords"
                     android:imeOptions="actionDone"
