@@ -78,4 +78,8 @@ public class Util {
     TimeZone.setDefault(timeZone);
     return calendar.getTime();
   }
+
+  public static Date getLocalTimeFromUTC(Date utcDate){
+   return new Date(utcDate.getTime() + TimeZone.getDefault().getOffset(utcDate.getTime()));
+  }
 }

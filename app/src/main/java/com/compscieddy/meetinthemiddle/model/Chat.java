@@ -50,6 +50,10 @@ public class Chat {
     return chatMessage;
   }
 
+  public Date getCurrentUTCTime(){
+    return currentUTCTime;
+  }
+
   public void update() {
     Map<String, Object> fields = toMap();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
