@@ -4,7 +4,6 @@ import com.compscieddy.meetinthemiddle.util.Lawg;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.IgnoreExtraProperties;
-import com.google.firebase.database.ServerValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,18 +19,18 @@ public class Chat {
   String groupKey;
   String userKey;
   String chatMessage;
-  Map<String, String> timestamp;
+  long currentUTCTime;
 
   // TODO: don't forget to update toMap() for new fields
 
   public Chat() {}
 
-  public Chat(String key, String groupKey, String userKey, String message) {
+  public Chat(String key, String groupKey, String userKey, String message, long currentUTCTime) {
     this.key = key;
     this.groupKey = groupKey;
     this.userKey = userKey;
     this.chatMessage = message;
-    this.timestamp = ServerValue.TIMESTAMP;
+    this.currentUTCTime = currentUTCTime;
   }
 
   public String getKey() {
@@ -63,7 +62,7 @@ public class Chat {
     result.put("key", groupKey);
     result.put("userKey", userKey);
     result.put("chatMessage", chatMessage);
-    result.put("timestamp", timestamp);
+    result.put("currentUTCTime", currentUTCTime);
     return result;
   }
 

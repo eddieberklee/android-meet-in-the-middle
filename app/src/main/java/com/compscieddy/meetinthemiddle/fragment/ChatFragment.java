@@ -22,6 +22,7 @@ import com.compscieddy.meetinthemiddle.adapter.ChatsFirebaseAdapter;
 import com.compscieddy.meetinthemiddle.holder.ChatHolder;
 import com.compscieddy.meetinthemiddle.model.Chat;
 import com.compscieddy.meetinthemiddle.util.Lawg;
+import com.compscieddy.meetinthemiddle.util.Util;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -93,7 +94,7 @@ public class ChatFragment extends Fragment {
 
         DatabaseReference newChatReference = mChatReference.push();
         String chatKey = newChatReference.getKey();
-        Chat chat = new Chat(chatKey, mGroupKey, userKey, mMessageEdit.getText().toString());
+        Chat chat = new Chat(chatKey, mGroupKey, userKey, mMessageEdit.getText().toString(), Util.getCurrentUTCTime());
         newChatReference.setValue(chat, new DatabaseReference.CompletionListener() {
           @Override
           public void onComplete(DatabaseError databaseError, DatabaseReference reference) {
