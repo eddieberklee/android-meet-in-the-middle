@@ -34,16 +34,16 @@
         <FrameLayout
             android:id="@+id/username_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/white_transp_70"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:paddingLeft="9dp"
+            android:paddingRight="9dp">
             <com.compscieddy.meetinthemiddle.ui.FontTextView
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white_transp_70"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
-                android:paddingLeft="9dp"
-                android:paddingRight="9dp"
                 android:gravity="center_horizontal"
                 android:text="Eddie Lee (\@username)"
                 android:textColor="@color/greyscale_13"
@@ -53,6 +53,7 @@
         </FrameLayout>
 
         <View
+            android:id="@+id/username_container_border_bottom"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/white_transp_40"

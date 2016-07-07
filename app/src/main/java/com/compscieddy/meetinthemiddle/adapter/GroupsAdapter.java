@@ -94,7 +94,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupHolder> {
     final Group group = groups.get(position);
     String groupTitle = group.getGroupTitle();
     if (!TextUtils.isEmpty(groupTitle)) {
-      holder.titleTextView.setText(groupTitle);
+      holder.titleView.setText(groupTitle);
     }
     Query lastMessageQuery = mFirebaseDatabase.getReference("chats").child(group.getKey()).limitToLast(1);
     lastMessageQuery.addChildEventListener(new ChildEventListener() {
@@ -103,9 +103,9 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupHolder> {
         Chat lastChat = dataSnapshot.getValue(Chat.class);
         String lastChatMessage = lastChat.getChatMessage();
         if (TextUtils.isEmpty(lastChatMessage)) {
-          holder.lastMessageTextView.setText("Last message of group " + position);
+          holder.lastMessageView.setText("Last message of group " + position);
         } else {
-          holder.lastMessageTextView.setText(lastChat.getChatMessage());
+          holder.lastMessageView.setText(lastChat.getChatMessage());
         }
       }
 

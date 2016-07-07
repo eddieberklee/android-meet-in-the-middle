@@ -293,7 +293,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
     double longitude = location.getLongitude();
     mLastKnownCoord.set(latitude, longitude);
     LatLng currentLatLng = new LatLng(latitude, longitude);
-    mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Current Location"));
+    mMap.addMarker(new MarkerOptions().position(currentLatLng).titleView("Current Location"));
     mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng));
     mMap.animateCamera(CameraUpdateFactory.zoomIn());
     */
@@ -416,7 +416,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             Group group = dataSnapshot.getValue(Group.class);
-            L.e("poop " + mGroupsAdapter.getItemCount() + "title: " + group.getGroupTitle());
+            L.e("poop " + mGroupsAdapter.getItemCount() + "titleView: " + group.getGroupTitle());
             mGroupsAdapter.addGroup(group);
           }
           @Override
@@ -429,7 +429,7 @@ public class HomeActivity extends BaseActivity implements OnMapReadyCallback, Lo
           @Override
           public void onDataChange(DataSnapshot dataSnapshot) {
             Group updatedGroup = dataSnapshot.getValue(Group.class);
-            L.e("poop " + mGroupsAdapter.getItemCount() + "title: " + updatedGroup.getGroupTitle());
+            L.e("poop " + mGroupsAdapter.getItemCount() + "titleView: " + updatedGroup.getGroupTitle());
             mGroupsAdapter.updateGroup(updatedGroup);
             L.d("onDataChange() " + " updatedGroup.getKey(): " + updatedGroup.getKey() + " " + updatedGroup.getGroupTitle());
           }
