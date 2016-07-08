@@ -3,6 +3,7 @@ package com.compscieddy.meetinthemiddle.holder;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.compscieddy.meetinthemiddle.R;
@@ -20,9 +21,10 @@ import butterknife.ButterKnife;
 
 public final class GroupHolder extends RecyclerView.ViewHolder implements OnMapReadyCallback {
 
-  public @Bind(R.id.group_title_text_view) TextView titleTextView;
-  public @Bind(R.id.group_last_message_text_view) TextView lastMessageTextView;
-  public @Bind(R.id.group_map_view) MapView groupMapView;
+  public @Bind(R.id.group_title) TextView titleView;
+  public @Bind(R.id.group_last_message_text_view) TextView lastMessageView;
+  public @Bind(R.id.group_map_view) MapView mapView;
+  public @Bind(R.id.message_container) ViewGroup messageContainer;
   public int position;
   public View.OnClickListener onClickListener;
   GoogleMap groupMap;
@@ -33,9 +35,9 @@ public final class GroupHolder extends RecyclerView.ViewHolder implements OnMapR
     mContext = context;
     ButterKnife.bind(this, itemView);
 
-    groupMapView.onCreate(null);
-    groupMapView.getMapAsync(this);
-    groupMapView.setClickable(false);
+    mapView.onCreate(null);
+    mapView.getMapAsync(this);
+    mapView.setClickable(false);
   }
 
   @Override
