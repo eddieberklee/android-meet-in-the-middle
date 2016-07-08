@@ -243,6 +243,21 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     setListeners();
     initFirebase();
 
+    //Change the default height of the bottom_section
+
+    Display display = getWindowManager().getDefaultDisplay();
+    Point size = new Point();
+    display.getSize(size);
+    int height = size.y;
+
+    TypedValue expandedValue = new TypedValue();
+    getResources().getValue(R.dimen.chat_expanded_height, expandedValue, true);
+    float expandedHeight = expandedValue.getFloat();
+
+    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (height * expandedHeight));
+    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+    mBottomSection.setLayoutParams(params);
+
   }
 
   @Override
@@ -730,7 +745,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     int height = size.y;
 
     ResizeAnimation resizeAnimation;
-    
+
     TypedValue expandedValue = new TypedValue();
     getResources().getValue(R.dimen.chat_expanded_height, expandedValue, true);
     float expandedHeight = expandedValue.getFloat();
