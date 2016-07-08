@@ -731,18 +731,27 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     ResizeAnimation resizeAnimation;
 
     if (isFABClick) {
-      resizeAnimation = new ResizeAnimation(
-          mBottomSection,
-          (int) (height * 0.75),
-          (int) (height * 0.3));
+      if (isViewPagerCollapsed) {
+        resizeAnimation = new ResizeAnimation(
+            mBottomSection,
+            (int) (height * 0.75),
+            (int) (height * 0.3));
+        isViewPagerCollapsed = !isViewPagerCollapsed;
+        resizeAnimation.setDuration(400);
+        mBottomSection.startAnimation(resizeAnimation);
+      }
     } else {
-      resizeAnimation = new ResizeAnimation(
-          mBottomSection,
-          (int) (height * 0.3),
-          (int) (height * 0.75));
+      if (!isViewPagerCollapsed) {
+        resizeAnimation = new ResizeAnimation(
+            mBottomSection,
+            (int) (height * 0.3),
+            (int) (height * 0.75));
+        isViewPagerCollapsed = !isViewPagerCollapsed;
+        resizeAnimation.setDuration(400);
+        mBottomSection.startAnimation(resizeAnimation);
+      }
     }
-    resizeAnimation.setDuration(400);
-    mBottomSection.startAnimation(resizeAnimation);
+
 
 /*    if (isFABClick) {
       if (isViewPagerCollapsed) {
