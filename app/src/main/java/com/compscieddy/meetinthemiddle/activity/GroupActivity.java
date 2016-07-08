@@ -30,6 +30,7 @@ import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
@@ -729,13 +730,21 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     int height = size.y;
 
     ResizeAnimation resizeAnimation;
+    
+    TypedValue expandedValue = new TypedValue();
+    getResources().getValue(R.dimen.chat_expanded_height, expandedValue, true);
+    float expandedHeight = expandedValue.getFloat();
+
+    TypedValue minimizedValue = new TypedValue();
+    getResources().getValue(R.dimen.chat_minimized_height, minimizedValue, true);
+    float minimizedHeight = minimizedValue.getFloat();
 
     if (isFABClick) {
       if (isViewPagerCollapsed) {
         resizeAnimation = new ResizeAnimation(
             mBottomSection,
-            (int) (height * 0.75),
-            (int) (height * 0.3));
+            (int) (height * expandedHeight),
+            (int) (height * minimizedHeight));
         isViewPagerCollapsed = !isViewPagerCollapsed;
         resizeAnimation.setDuration(400);
         mBottomSection.startAnimation(resizeAnimation);
@@ -744,8 +753,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       if (!isViewPagerCollapsed) {
         resizeAnimation = new ResizeAnimation(
             mBottomSection,
-            (int) (height * 0.3),
-            (int) (height * 0.75));
+            (int) (height * minimizedHeight),
+            (int) (height * expandedHeight));
         isViewPagerCollapsed = !isViewPagerCollapsed;
         resizeAnimation.setDuration(400);
         mBottomSection.startAnimation(resizeAnimation);
