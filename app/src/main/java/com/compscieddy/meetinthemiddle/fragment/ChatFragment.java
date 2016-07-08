@@ -156,6 +156,14 @@ public class ChatFragment extends Fragment {
       }
     });
 
+    mMessageEdit.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        GroupActivity activity = (GroupActivity) getActivity();
+        activity.resizeViewPager(true);
+      }
+    });
+
     return view;
 
   }
