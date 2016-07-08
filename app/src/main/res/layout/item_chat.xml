@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/message_container"
+<LinearLayout android:id="@+id/message_container"
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="5dp"
-                android:paddingTop="5dp">
+              android:orientation="vertical"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
 
-    <FrameLayout
-        android:id="@+id/left_arrow"
-        android:layout_width="@dimen/arrow_size"
-        android:layout_height="@dimen/arrow_size"
-        android:layout_marginLeft="@dimen/half_arrow_size"
-        android:background="@drawable/chat_message_arrow"
-        android:rotation="180"/>
+    <TextView
+        android:id="@+id/time_stamp_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/user_name"
+        android:textSize="12sp"
+        tools:text="Time Stamp"/>
+
+    <TextView
+        android:id="@+id/name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/user_name"
+        android:textSize="12sp"
+        tools:text="Some User"/>
 
     <LinearLayout
         android:id="@+id/message_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="26dp"
-        android:layout_marginRight="26dp"
         android:background="@drawable/chat_message_background"
         android:orientation="vertical"
         android:paddingTop="4dp"
@@ -30,30 +39,14 @@
 
         <TextView
             android:id="@+id/message_text"
-            style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
+            android:padding="4dp"
+            android:textSize="16sp"
             tools:text="Hey this is a message, look!"/>
 
-        <TextView
-            android:id="@+id/name_text"
-            style="@style/TextAppearance.AppCompat.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Some User"/>
+
 
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/right_arrow"
-        android:layout_width="@dimen/arrow_size"
-        android:layout_height="@dimen/arrow_size"
-        android:layout_alignEnd="@+id/message_box"
-        android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/message_box"
-        android:layout_marginRight="@dimen/neg_half_arrow_size"
-        android:background="@drawable/chat_message_arrow"
-        android:rotation="180"/>
-
-</RelativeLayout>
+</LinearLayout>

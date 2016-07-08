@@ -9,7 +9,12 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
+
 import com.compscieddy.meetinthemiddle.R;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by elee on 6/9/16.
@@ -63,4 +68,15 @@ public class Util {
         .start();
   }
 
+  public static Date getCurrentUTCTime(){
+    // Set device's time zone to UTC
+    TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    Calendar calendar = Calendar.getInstance();
+    return calendar.getTime();
+  }
+
+  public static Date getLocalTimeFromUTC(Date utcDate){
+    // Get device's time zone's offset from UTC and add to UTC time
+   return new Date(utcDate.getTime() + TimeZone.getDefault().getOffset(utcDate.getTime()));
+  }
 }
