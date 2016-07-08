@@ -8,7 +8,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <RelativeLayout
         android:id="@+id/toolbar_viewgroup"
         android:layout_width="match_parent"
@@ -16,51 +15,74 @@
         android:orientation="vertical"
         android:paddingBottom="3dp">
 
+
+
         <!-- different height allows us to set a "lower center" -->
         <fragment
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             map:mapType="normal"
             map:uiCompass="false"
             map:uiZoomControls="false"
-            tools:context=".HomeActivity"
+            map:uiScrollGestures="false"
+            tools:context=".activity.HomeActivity"
             tools:layout="@layout/messenger_button_send_blue_small"/>
 
-        <com.compscieddy.meetinthemiddle.FontTextView
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:id="@+id/username_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_fill_white_transp"
-            android:paddingTop="7dp"
-            android:paddingBottom="5dp"
+            android:background="@color/white_transp_70"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:paddingLeft="9dp"
-            android:paddingRight="9dp"
-            android:layout_centerHorizontal="true"
-            android:gravity="center_horizontal"
-            android:text="\@username"
-            android:textColor="@color/greyscale_10"
-            android:textSize="15sp"
-            app:fontface="montserrat_regular"
-            android:lineSpacingMultiplier="0.9"/>
+            android:paddingRight="9dp">
+            <com.compscieddy.meetinthemiddle.ui.FontTextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Eddie Lee (\@username)"
+                android:textColor="@color/greyscale_13"
+                android:textSize="13sp"
+                app:fontface="montserrat_regular"
+                android:lineSpacingMultiplier="0.9"/>
+        </FrameLayout>
+
         <View
+            android:id="@+id/username_container_border_bottom"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/white_transp_40"
-            android:layout_alignLeft="@+id/username"
-            android:layout_alignRight="@+id/username"
-            android:layout_below="@+id/username"/>
+            android:layout_alignLeft="@+id/username_container"
+            android:layout_alignRight="@+id/username_container"
+            android:layout_below="@+id/username_container"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/status_recycler_view"
             android:layout_width="40dp"
             android:layout_height="100dp"
+            android:layout_below="@+id/username_container"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:id="@+id/no_internet_popup_view"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_gravity="bottom"
+            android:animateLayoutChanges="true"
+            android:background="@color/flatui_red_2"
+            android:gravity="center"
+            android:text="NO INTERNET CONNECTION"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 
@@ -74,7 +96,7 @@
         android:paddingRight="20dp"
         android:layout_marginTop="@dimen/toolbar_viewgroup_height"/>
 
-    <com.compscieddy.meetinthemiddle.FontTextView
+    <com.compscieddy.meetinthemiddle.ui.FontTextView
         android:id="@+id/new_group_button"
         style="@style/ThickOvalButtonOutlineAccent"
         android:layout_width="85dp"
@@ -112,7 +134,7 @@
             android:textStyle="bold"/>
     </LinearLayout>
 
-    <com.compscieddy.meetinthemiddle.FontTextView
+    <com.compscieddy.meetinthemiddle.ui.FontTextView
         android:id="@+id/logout_button"
         style="@style/OvalButtonOutlineAccent"
         app:fontface="montserrat_light"
@@ -130,7 +152,7 @@
         android:layout_marginBottom="20dp"
         app:layout_behavior="com.compscieddy.meetinthemiddle.ui.ScrollAwareNewGroupButtonBehavior"/>
 
-    <com.compscieddy.meetinthemiddle.FontTextView
+    <com.compscieddy.meetinthemiddle.ui.FontTextView
         android:id="@+id/temp_button"
         style="@style/OvalButtonOutlineAccent"
         app:fontface="montserrat_light"

@@ -17,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/bottom_section"
+            class="com.compscieddy.meetinthemiddle.DraggableMapFragment"
             tools:context=".GroupActivity"/>
 
         <LinearLayout
@@ -31,10 +32,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="4dp">
+                android:layout_height="wrap_content">
 
-                <com.compscieddy.meetinthemiddle.FontTextView
+                <com.compscieddy.meetinthemiddle.ui.FontTextView
                     android:id="@+id/group_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -46,12 +46,14 @@
                     android:textSize="16sp"
                     android:visibility="visible"/>
 
-                <com.compscieddy.meetinthemiddle.FontEditText
+                <com.compscieddy.meetinthemiddle.ui.FontEditText
                     android:id="@+id/group_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:paddingTop="2dp"
                     android:hint="@string/hint_set_group_name"
                     android:layout_marginRight="60dp"
+                    android:paddingRight="40dp"
                     android:layout_alignParentLeft="true"
                     android:inputType="textCapWords"
                     android:imeOptions="actionDone"
@@ -61,7 +63,7 @@
                     android:textSize="16sp"
                     android:visibility="invisible"/>
 
-                <com.compscieddy.meetinthemiddle.FontTextView
+                <com.compscieddy.meetinthemiddle.ui.FontTextView
                     android:id="@+id/group_set_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -130,7 +132,7 @@
             android:padding="6dp"
             android:text="@string/invite"/>
 
-        <com.compscieddy.meetinthemiddle.FontTextView
+        <com.compscieddy.meetinthemiddle.ui.FontTextView
             android:id="@+id/invite_button_two"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"

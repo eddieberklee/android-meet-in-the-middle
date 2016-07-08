@@ -18,7 +18,7 @@ import com.compscieddy.meetinthemiddle.util.Lawg;
  */
 public class CropCircleFrameLayout extends FrameLayout {
 
-  private final static Lawg lawg = Lawg.newInstance(CropCircleFrameLayout.class.getSimpleName());
+  private final static Lawg L = Lawg.newInstance(CropCircleFrameLayout.class.getSimpleName());
 
   private Paint paint;
   private Paint maskPaint;

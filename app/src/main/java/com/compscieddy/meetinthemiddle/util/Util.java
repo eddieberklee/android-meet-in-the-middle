@@ -16,7 +16,7 @@ import com.compscieddy.meetinthemiddle.R;
  */
 public class Util {
 
-  private static final Lawg lawg = Lawg.newInstance(Util.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(Util.class.getSimpleName());
 
   public static Bitmap getCroppedBitmap(Context context, Bitmap bitmap) {
     Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
@@ -39,17 +39,9 @@ public class Util {
     return output;
   }
 
-  public static void rotateFabForward(View view) {
+  public static void rotateView(View view, float angle){
     ViewCompat.animate(view)
-        .rotation(-180.0f)
-        .withLayer()
-        .setDuration(400)
-        .start();
-  }
-
-  public static void rotateFabBackward(View view) {
-    ViewCompat.animate(view)
-        .rotation(0.0f)
+        .rotationBy(angle)
         .withLayer()
         .setDuration(400)
         .start();

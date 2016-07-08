@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".MitmApplication"
@@ -41,15 +42,15 @@
             android:authorities="com.facebook.app.FacebookContentProvider252967458413543"
             android:exported="true" />
 
-        <activity android:name=".AuthenticationActivity" >
+        <activity android:name=".activity.AuthenticationActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity" >
+        <activity android:name=".activity.HomeActivity" >
         </activity>
-        <activity android:name=".GroupActivity" >
+        <activity android:name=".activity.GroupActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -68,7 +69,7 @@
         <service android:name=".ActivityRecognitionService" />
 
         <activity
-            android:name=".ProfilePicture"
+            android:name=".activity.ProfilePictureActivity"
             android:label="@string/title_activity_profile_picture" >
         </activity>
     </application>

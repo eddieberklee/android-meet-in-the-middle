@@ -11,7 +11,7 @@ import java.util.HashMap;
  */
 public class FontCache {
 
-  private static final Lawg lawg = Lawg.newInstance(FontCache.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(FontCache.class.getSimpleName());
 
   public static final int MONTSERRAT_HAIRLINE   = 0;
   public static final int MONTSERRAT_ULTRALIGHT = 1;

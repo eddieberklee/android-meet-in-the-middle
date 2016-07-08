@@ -20,11 +20,12 @@ import java.util.Set;
 @IgnoreExtraProperties
 public class Group {
 
-  private static final Lawg lawg = Lawg.newInstance(Group.class.getSimpleName());
+  private static final Lawg L = Lawg.newInstance(Group.class.getSimpleName());
 
   public String key;
   public String groupTitle;
   public Set<String> groupUserIds; // this could just be phone numbers, that would be so convenient - guaranteed user uniqueness
+  // TODO: don't forget to update toMap() for new fields
 
   public Group() {}
 
@@ -65,7 +66,7 @@ public class Group {
   public void update() {
     Map<String, Object> fields = toMap();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    lawg.e(" getKey(): " + getKey() + " groupTitle: " + groupTitle);
+    L.e(" getKey(): " + getKey() + " groupTitle: " + groupTitle);
     database.getReference("groups").child(getKey()).updateChildren(fields);
   }
 
