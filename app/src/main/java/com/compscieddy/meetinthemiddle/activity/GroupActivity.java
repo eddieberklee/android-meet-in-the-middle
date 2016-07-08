@@ -496,6 +496,35 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Override
   public void onMapDrag() {
     resizeViewPager(false);
+
+    //Can use this if we want to keep state
+/*    Display display = getWindowManager().getDefaultDisplay();
+    Point size = new Point();
+    display.getSize(size);
+    int height = size.y;
+
+    ResizeAnimation resizeAnimation;
+
+    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+    SharedPreferences.Editor spe = sp.edit();
+
+    boolean isChatExpanded = sp.getBoolean("isChatExpanded", false);
+
+    L.e("Chat expanded = " + isChatExpanded);
+
+    if (isChatExpanded) {
+      resizeAnimation = new ResizeAnimation(
+          mBottomSection,
+          (int) (height * 0.3),
+          (int) (height * 0.75));
+
+      resizeAnimation.setDuration(400);
+      mBottomSection.startAnimation(resizeAnimation);
+
+      spe.putBoolean("isChatExpanded", false);
+      spe.commit();
+    }*/
+
   }
 
   @Override
@@ -693,7 +722,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     });
   }
 
-  private void resizeViewPager(boolean isFABClick) {
+  public void resizeViewPager(boolean isFABClick) {
     Display display = getWindowManager().getDefaultDisplay();
     Point size = new Point();
     display.getSize(size);
@@ -702,6 +731,20 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     ResizeAnimation resizeAnimation;
 
     if (isFABClick) {
+      resizeAnimation = new ResizeAnimation(
+          mBottomSection,
+          (int) (height * 0.75),
+          (int) (height * 0.3));
+    } else {
+      resizeAnimation = new ResizeAnimation(
+          mBottomSection,
+          (int) (height * 0.3),
+          (int) (height * 0.75));
+    }
+    resizeAnimation.setDuration(400);
+    mBottomSection.startAnimation(resizeAnimation);
+
+/*    if (isFABClick) {
       if (isViewPagerCollapsed) {
         Util.rotateView(mExpandButton, 360.0f);
         resizeAnimation = new ResizeAnimation(
@@ -752,7 +795,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         resizeAnimation.setDuration(400);
         mBottomSection.startAnimation(resizeAnimation);
       }
-    }
+    }*/
   }
 
   public Coordinate getLastKnownCoord() {
