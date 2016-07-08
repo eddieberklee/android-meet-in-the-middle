@@ -289,7 +289,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     double longitude = location.getLongitude();
     mLastKnownCoord.set(latitude, longitude);
     LatLng currentLatLng = new LatLng(latitude, longitude);
-    mMap.addMarker(new MarkerOptions().position(currentLatLng).title("Current Location"));
+    mMap.addMarker(new MarkerOptions().position(currentLatLng).titleView("Current Location"));
     mMap.moveCamera(CameraUpdateFactory.newLatLng(currentLatLng));
     mMap.animateCamera(CameraUpdateFactory.zoomIn());
     */
@@ -445,7 +445,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         Bitmap croppedIcon = Util.getCroppedBitmap(GroupActivity.this, icon);
 
         // TODO: Don't add current marker, just update Firebase to make it do it for you
-        // mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).title("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
+        // mCurrentMarker = mMap.addMarker(new MarkerOptions().position(latLng).titleView("Current Location").icon(BitmapDescriptorFactory.fromBitmap(croppedIcon)));
 
 /*        //This adds the outer lines only
         mMap.addPolyline(new PolylineOptions()
