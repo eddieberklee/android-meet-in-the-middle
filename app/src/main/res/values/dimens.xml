@@ -21,7 +21,5 @@
     <dimen name="neg_padding_left_item_group">-11dp</dimen>
     <dimen name="toolbar_viewgroup_height">180dp</dimen>
     <dimen name="notification_badge_diameter">20dp</dimen>
-    <item name="chat_expanded_height" format="float" type="dimen">0.75</item>
-    <item name="chat_minimized_height" format="float" type="dimen">0.3</item>
 
 </resources>

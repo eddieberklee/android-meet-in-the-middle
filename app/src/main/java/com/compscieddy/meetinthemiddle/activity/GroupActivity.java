@@ -30,7 +30,6 @@ import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
@@ -98,6 +97,11 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private boolean mIsLocationPermissionEnabled = false;
 
   private final int ANIMATE_CAMERA_REPEAT = 2000;
+
+  private final double CHAT_EXPANDED_HEIGHT = 0.75;
+  private final double CHAT_MINIMIZED_HEIGHT = 0.3;
+
+  private final int ANIMATION_DURATION = 400;
 
   public static final String ARG_GROUP_KEY = "group_id_key";
   private String mGroupKey;
@@ -250,11 +254,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     display.getSize(size);
     int height = size.y;
 
-    TypedValue expandedValue = new TypedValue();
-    getResources().getValue(R.dimen.chat_expanded_height, expandedValue, true);
-    float expandedHeight = expandedValue.getFloat();
-
-    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (height * expandedHeight));
+    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (height * CHAT_EXPANDED_HEIGHT));
     params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
     mBottomSection.setLayoutParams(params);
 
@@ -745,33 +745,24 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     int height = size.y;
 
     ResizeAnimation resizeAnimation;
-
-    TypedValue expandedValue = new TypedValue();
-    getResources().getValue(R.dimen.chat_expanded_height, expandedValue, true);
-    float expandedHeight = expandedValue.getFloat();
-
-    TypedValue minimizedValue = new TypedValue();
-    getResources().getValue(R.dimen.chat_minimized_height, minimizedValue, true);
-    float minimizedHeight = minimizedValue.getFloat();
-
     if (isFABClick) {
       if (isViewPagerCollapsed) {
         resizeAnimation = new ResizeAnimation(
             mBottomSection,
-            (int) (height * expandedHeight),
-            (int) (height * minimizedHeight));
+            (int) (height * CHAT_EXPANDED_HEIGHT),
+            (int) (height * CHAT_MINIMIZED_HEIGHT));
         isViewPagerCollapsed = !isViewPagerCollapsed;
-        resizeAnimation.setDuration(400);
+        resizeAnimation.setDuration(ANIMATION_DURATION);
         mBottomSection.startAnimation(resizeAnimation);
       }
     } else {
       if (!isViewPagerCollapsed) {
         resizeAnimation = new ResizeAnimation(
             mBottomSection,
-            (int) (height * minimizedHeight),
-            (int) (height * expandedHeight));
+            (int) (height * CHAT_MINIMIZED_HEIGHT),
+            (int) (height * CHAT_EXPANDED_HEIGHT));
         isViewPagerCollapsed = !isViewPagerCollapsed;
-        resizeAnimation.setDuration(400);
+        resizeAnimation.setDuration(ANIMATION_DURATION);
         mBottomSection.startAnimation(resizeAnimation);
       }
     }
