@@ -23,6 +23,10 @@ android {
         exclude 'META-INF/notice.txt' // will not include NOTICE file
         pickFirst 'META-INF/services/javax.annotation.processing.Processor'
     }
+
+    dexOptions {
+        dexInProcess = true // running in separate process can be faster, but it's still experimental
+    }
 }
 
 
