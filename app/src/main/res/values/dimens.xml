@@ -7,10 +7,10 @@
     <dimen name="map_radius">75dp</dimen>
     <dimen name="chat_avatar_size">30dp</dimen>
     <dimen name="chat_margin_sender_v_sendee">48dp</dimen>
-    <dimen name="chat_bubble_radius">4dp</dimen>
+    <dimen name="chat_bubble_radius">15dp</dimen>
     <dimen name="group_bottom_section_starting_height">320dp</dimen>
     <dimen name="item_group_icon_size">12dp</dimen>
-    <!-- Default screen margins, per the Android Design guidelines. -->
+        <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="arrow_size">30dp</dimen>

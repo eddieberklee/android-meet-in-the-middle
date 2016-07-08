@@ -72,11 +72,11 @@ public class Util {
     // Set device's time zone to UTC
     TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     Calendar calendar = Calendar.getInstance();
-    // Reset device's time zone to device local time zone
     return calendar.getTime();
   }
 
   public static Date getLocalTimeFromUTC(Date utcDate){
+    // Get device's time zone's offset from UTC and add to UTC time
    return new Date(utcDate.getTime() + TimeZone.getDefault().getOffset(utcDate.getTime()));
   }
 }

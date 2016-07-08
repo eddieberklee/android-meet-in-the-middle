@@ -35,7 +35,7 @@ public class ChatsFirebaseAdapter extends FirebaseRecyclerAdapter<Chat, ChatHold
       @Override
       public void onDataChange(DataSnapshot dataSnapshot) {
         User user = dataSnapshot.getValue(User.class);
-        chatHolder.setTimestamp(Util.getLocalTimeFromUTC(chat.getCurrentUTCTime()));
+        chatHolder.setTimestampText(Util.getLocalTimeFromUTC(chat.getCurrentUTCTime()));
         chatHolder.setName(user.name);
         chatHolder.setText(chat.getChatMessage());
 

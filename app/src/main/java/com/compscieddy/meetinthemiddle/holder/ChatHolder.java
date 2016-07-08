@@ -1,5 +1,6 @@
 package com.compscieddy.meetinthemiddle.holder;
 
+import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -22,15 +23,17 @@ public class ChatHolder extends RecyclerView.ViewHolder {
 
   @Bind(R.id.message_container) LinearLayout messageContainer;
   @Bind(R.id.message_box) LinearLayout messageBox;
-  @Bind(R.id.name_text) TextView userName;
+  @Bind(R.id.name_text) TextView userNameText;
   @Bind(R.id.time_stamp_text) TextView timestampText;
   View rootView;
   TextView messageText;
+  Context context;
 
 
   public ChatHolder(View itemView) {
     super(itemView);
     rootView = itemView;
+    context = rootView.getContext();
     ButterKnife.bind(ChatHolder.this, rootView);
     messageText = (TextView) rootView.findViewById(R.id.message_text);
   }
@@ -39,13 +42,13 @@ public class ChatHolder extends RecyclerView.ViewHolder {
     int bg_color;
     int text_color;
     if (isSender) {
-      bg_color = ContextCompat.getColor(rootView.getContext(), R.color.chat_sender);
-      text_color = ContextCompat.getColor(rootView.getContext(), R.color.chat_sender_text);
+      bg_color = ContextCompat.getColor(context, R.color.chat_sender);
+      text_color = ContextCompat.getColor(context, R.color.chat_sender_text);
       messageContainer.setGravity(Gravity.RIGHT);
-      userName.setVisibility(View.GONE);
+      userNameText.setVisibility(View.GONE);
     } else {
-      bg_color = ContextCompat.getColor(rootView.getContext(), R.color.chat_sendee);
-      text_color = ContextCompat.getColor(rootView.getContext(), R.color.chat_sendee_text);
+      bg_color = ContextCompat.getColor(context, R.color.chat_sendee);
+      text_color = ContextCompat.getColor(context, R.color.chat_sendee_text);
       messageContainer.setGravity(Gravity.LEFT);
     }
 
@@ -53,14 +56,14 @@ public class ChatHolder extends RecyclerView.ViewHolder {
     messageText.setTextColor(text_color);
   }
 
-  public void setTimestamp(Date date){
+  public void setTimestampText(Date date){
     int hours = date.getHours();
     int minutes = date.getMinutes();
     timestampText.setText(hours + ":" + minutes);
   }
 
   public void setName(String name) {
-    userName.setText(name);
+    userNameText.setText(name);
   }
 
   public void setText(String text) {

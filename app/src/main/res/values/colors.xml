@@ -6,11 +6,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">@color/mitm_yellow</color>
 
-    <color name="chat_sendee">#ececec</color>
-    <color name="chat_sender">#368bfa</color>
+    <color name="chat_sendee">#ECECEC</color>
+    <color name="chat_sender">#368BFA</color>
     <color name="chat_sendee_text">#373737</color>
     <color name="chat_sender_text">#FFFFFF</color>
-    <color name="user_name">#b0acac</color>
+    <color name="user_name">#B0ACAC</color>
 
     <color name="mitm_yellow">#F8F159</color>
     <color name="snapchat_blue">#0D9DF5</color>
