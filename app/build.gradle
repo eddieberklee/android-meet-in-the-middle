@@ -26,6 +26,7 @@ android {
 
     dexOptions {
         dexInProcess = true // running in separate process can be faster, but it's still experimental
+        // https://www.dropbox.com/s/rx57qzra9kc0k6s/Screenshot%202016-07-07%2020.17.12.png?dl=0
     }
 }
 
