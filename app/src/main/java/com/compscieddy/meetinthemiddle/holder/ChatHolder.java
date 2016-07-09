@@ -35,25 +35,25 @@ public class ChatHolder extends RecyclerView.ViewHolder {
     rootView = itemView;
     context = rootView.getContext();
     ButterKnife.bind(ChatHolder.this, rootView);
-    messageText = (TextView) rootView.findViewById(R.id.message_text);
+    messageText = ButterKnife.findById(rootView, R.id.message_text);
   }
 
   public void setIsSender(boolean isSender) {
-    int bg_color;
-    int text_color;
+    int chatSenderColor = ContextCompat.getColor(context, R.color.chat_sender);
+    int chatSendeeColor = ContextCompat.getColor(context, R.color.chat_sendee);
+    int chatSenderTextColor = ContextCompat.getColor(context, R.color.chat_sender_text);
+    int chatSendeeTextColor = ContextCompat.getColor(context, R.color.chat_sendee_text);
+
     if (isSender) {
-      bg_color = ContextCompat.getColor(context, R.color.chat_sender);
-      text_color = ContextCompat.getColor(context, R.color.chat_sender_text);
+      ((GradientDrawable) messageBox.getBackground()).setColor(chatSenderColor);
+      messageText.setTextColor(chatSenderTextColor);
       messageContainer.setGravity(Gravity.RIGHT);
       userNameText.setVisibility(View.GONE);
     } else {
-      bg_color = ContextCompat.getColor(context, R.color.chat_sendee);
-      text_color = ContextCompat.getColor(context, R.color.chat_sendee_text);
+      ((GradientDrawable) messageBox.getBackground()).setColor(chatSendeeColor);
+      messageText.setTextColor(chatSendeeTextColor);
       messageContainer.setGravity(Gravity.LEFT);
     }
-
-    ((GradientDrawable) messageBox.getBackground()).setColor(bg_color);
-    messageText.setTextColor(text_color);
   }
 
   public void setTimestampText(Date date){
