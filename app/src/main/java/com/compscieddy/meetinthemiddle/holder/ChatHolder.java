@@ -39,8 +39,6 @@ public class ChatHolder extends RecyclerView.ViewHolder {
   }
 
   public void setIsSender(boolean isSender) {
-    int bg_color;
-    int text_color;
     int chatSenderColor = ContextCompat.getColor(context, R.color.chat_sender);
     int chatSendeeColor = ContextCompat.getColor(context, R.color.chat_sendee);
     int chatSenderTextColor = ContextCompat.getColor(context, R.color.chat_sender_text);
