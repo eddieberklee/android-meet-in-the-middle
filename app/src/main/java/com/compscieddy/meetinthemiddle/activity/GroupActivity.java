@@ -98,8 +98,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
   private final int ANIMATE_CAMERA_REPEAT = 2000;
 
-  private final double CHAT_EXPANDED_HEIGHT = 0.75;
-  private final double CHAT_MINIMIZED_HEIGHT = 0.3;
+  private final float CHAT_EXPANDED_HEIGHT = 0.75f;
+  private final float CHAT_MINIMIZED_HEIGHT = 0.3f;
 
   private final int ANIMATION_DURATION = 400;
 
@@ -114,6 +114,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private final String UUID_KEY = "UUID_KEY"; // Temporary way to identify different users or different installations
   private Location mLastLocation;
   private String mUUID;
+
 
   @Bind(R.id.group_edit_text) EditText mGroupNameEditText;
   @Bind(R.id.group_text_view) TextView mGroupNameTextView;
@@ -745,13 +746,14 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     int height = size.y;
 
     ResizeAnimation resizeAnimation;
+    resizeAnimation = null;
+
     if (isFABClick) {
       if (isViewPagerCollapsed) {
         resizeAnimation = new ResizeAnimation(
             mBottomSection,
             (int) (height * CHAT_EXPANDED_HEIGHT),
             (int) (height * CHAT_MINIMIZED_HEIGHT));
-        isViewPagerCollapsed = !isViewPagerCollapsed;
         resizeAnimation.setDuration(ANIMATION_DURATION);
         mBottomSection.startAnimation(resizeAnimation);
       }
@@ -761,12 +763,14 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
             mBottomSection,
             (int) (height * CHAT_MINIMIZED_HEIGHT),
             (int) (height * CHAT_EXPANDED_HEIGHT));
-        isViewPagerCollapsed = !isViewPagerCollapsed;
-        resizeAnimation.setDuration(ANIMATION_DURATION);
-        mBottomSection.startAnimation(resizeAnimation);
+
       }
     }
-
+    if (resizeAnimation != null) {
+      resizeAnimation.setDuration(ANIMATION_DURATION);
+      mBottomSection.startAnimation(resizeAnimation);
+      isViewPagerCollapsed = !isViewPagerCollapsed;
+    }
 
 /*    if (isFABClick) {
       if (isViewPagerCollapsed) {
