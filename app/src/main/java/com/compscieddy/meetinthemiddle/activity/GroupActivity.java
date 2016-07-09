@@ -114,8 +114,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private final String UUID_KEY = "UUID_KEY"; // Temporary way to identify different users or different installations
   private Location mLastLocation;
   private String mUUID;
-
-
+  
   @Bind(R.id.group_edit_text) EditText mGroupNameEditText;
   @Bind(R.id.group_text_view) TextView mGroupNameTextView;
   @Bind(R.id.group_set_button) TextView mSetButton;
@@ -763,7 +762,6 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
             mBottomSection,
             (int) (height * CHAT_MINIMIZED_HEIGHT),
             (int) (height * CHAT_EXPANDED_HEIGHT));
-
       }
     }
     if (resizeAnimation != null) {
