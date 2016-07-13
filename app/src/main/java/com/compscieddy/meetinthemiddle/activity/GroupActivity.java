@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -30,7 +29,6 @@ import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
@@ -98,8 +96,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
 
   private final int ANIMATE_CAMERA_REPEAT = 2000;
 
-  private final float CHAT_EXPANDED_HEIGHT = 0.75f;
-  private final float CHAT_MINIMIZED_HEIGHT = 0.3f;
+  private final float CHAT_EXPANDED_FACTOR = 2.25f;
+  private final float CHAT_MINIMIZED_FACTOR = 0.9f;
 
   private final int ANIMATION_DURATION = 400;
 
@@ -114,7 +112,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private final String UUID_KEY = "UUID_KEY"; // Temporary way to identify different users or different installations
   private Location mLastLocation;
   private String mUUID;
-  
+
   @Bind(R.id.group_edit_text) EditText mGroupNameEditText;
   @Bind(R.id.group_text_view) TextView mGroupNameTextView;
   @Bind(R.id.group_set_button) TextView mSetButton;
@@ -248,13 +246,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     initFirebase();
 
     //Change the default height of the bottom_section
-
-    Display display = getWindowManager().getDefaultDisplay();
-    Point size = new Point();
-    display.getSize(size);
-    int height = size.y;
-
-    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (height * CHAT_EXPANDED_HEIGHT));
+    float height = Etils.getScreenHeight(this);
+    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (height * CHAT_EXPANDED_FACTOR));
     params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
     mBottomSection.setLayoutParams(params);
 
@@ -512,35 +505,6 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   @Override
   public void onMapDrag() {
     resizeViewPager(false);
-
-    //Can use this if we want to keep state
-/*    Display display = getWindowManager().getDefaultDisplay();
-    Point size = new Point();
-    display.getSize(size);
-    int height = size.y;
-
-    ResizeAnimation resizeAnimation;
-
-    SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-    SharedPreferences.Editor spe = sp.edit();
-
-    boolean isChatExpanded = sp.getBoolean("isChatExpanded", false);
-
-    L.e("Chat expanded = " + isChatExpanded);
-
-    if (isChatExpanded) {
-      resizeAnimation = new ResizeAnimation(
-          mBottomSection,
-          (int) (height * 0.3),
-          (int) (height * 0.75));
-
-      resizeAnimation.setDuration(400);
-      mBottomSection.startAnimation(resizeAnimation);
-
-      spe.putBoolean("isChatExpanded", false);
-      spe.commit();
-    }*/
-
   }
 
   @Override
@@ -739,10 +703,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   }
 
   public void resizeViewPager(boolean isFABClick) {
-    Display display = getWindowManager().getDefaultDisplay();
-    Point size = new Point();
-    display.getSize(size);
-    int height = size.y;
+    float height = Etils.getScreenHeight(this);
 
     ResizeAnimation resizeAnimation;
     resizeAnimation = null;
@@ -751,8 +712,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       if (isViewPagerCollapsed) {
         resizeAnimation = new ResizeAnimation(
             mBottomSection,
-            (int) (height * CHAT_EXPANDED_HEIGHT),
-            (int) (height * CHAT_MINIMIZED_HEIGHT));
+            (int) (height * CHAT_EXPANDED_FACTOR),
+            (int) (height * CHAT_MINIMIZED_FACTOR));
         resizeAnimation.setDuration(ANIMATION_DURATION);
         mBottomSection.startAnimation(resizeAnimation);
       }
@@ -760,8 +721,8 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
       if (!isViewPagerCollapsed) {
         resizeAnimation = new ResizeAnimation(
             mBottomSection,
-            (int) (height * CHAT_MINIMIZED_HEIGHT),
-            (int) (height * CHAT_EXPANDED_HEIGHT));
+            (int) (height * CHAT_MINIMIZED_FACTOR),
+            (int) (height * CHAT_EXPANDED_FACTOR));
       }
     }
     if (resizeAnimation != null) {

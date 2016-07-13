@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.meetinthemiddle.R;
@@ -114,41 +113,11 @@ public class ChatFragment extends Fragment {
     mChatRecyclerView.setHasFixedSize(false);
     mChatRecyclerView.setLayoutManager(mLayoutManager);
 
-    final RelativeLayout mBottomSection = (RelativeLayout) getActivity().findViewById(R.id.bottom_section);
-
     mChatRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
       @Override
       public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
         //TODO here is where we expand the group activity bottom_view
-
-
-        //Can use this if we want to keep state
-        /*SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        SharedPreferences.Editor spe = sp.edit();
-
-        boolean isChatExpanded = sp.getBoolean("isChatExpanded", true);
-
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int height = size.y;
-        ResizeAnimation resizeAnimation;
-        L.e("Chat expanded = " + isChatExpanded);
-
-        if (!isChatExpanded) {
-          resizeAnimation = new ResizeAnimation(
-              mBottomSection,
-              (int) (height * 0.75),
-              (int) (height * 0.3));
-
-          resizeAnimation.setDuration(400);
-          mBottomSection.startAnimation(resizeAnimation);
-
-          L.e("Chat view scrolled");
-          spe.putBoolean("isChatExpanded", true);
-          spe.commit();
-        }*/
 
         GroupActivity activity = (GroupActivity) getActivity();
         activity.resizeViewPager(true);
