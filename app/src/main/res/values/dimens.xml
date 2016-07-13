@@ -21,5 +21,6 @@
     <dimen name="neg_padding_left_item_group">-11dp</dimen>
     <dimen name="toolbar_viewgroup_height">180dp</dimen>
     <dimen name="notification_badge_diameter">20dp</dimen>
+    <dimen name="md_keylines">16dp</dimen>
 
 </resources>

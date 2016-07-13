@@ -32,9 +32,14 @@
     <string name="internet_not_available">We require an internet connection to sync and save your data for you.</string>
     <string name="check_internet_settings">Please check your internet settings:</string>
     <string name="create_first_group">Create your first group!</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_invite_members_dialog">Invite Your Squad</string>
     <string name="anyone">anyone</string>
     <string name="friends">friends</string>
     <string name="add_btn_text">add</string>
+    <string name="title_activity_splash">SplashActivity</string>
+
 
 </resources>

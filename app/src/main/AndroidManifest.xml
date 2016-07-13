@@ -42,15 +42,18 @@
             android:authorities="com.facebook.app.FacebookContentProvider252967458413543"
             android:exported="true" />
 
-        <activity android:name=".activity.AuthenticationActivity" >
+        <activity
+            android:name=".activity.SplashActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.HomeActivity" >
-        </activity>
-        <activity android:name=".activity.GroupActivity" >
+        <activity android:name=".activity.AuthenticationActivity" />
+        <activity android:name=".activity.HomeActivity" />
+        <activity android:name=".activity.GroupActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -70,8 +73,9 @@
 
         <activity
             android:name=".activity.ProfilePictureActivity"
-            android:label="@string/title_activity_profile_picture" >
-        </activity>
+            android:label="@string/title_activity_profile_picture" />
+
+        <activity android:name=".activity.OnboardingActivity"></activity>
     </application>
 
 </manifest>

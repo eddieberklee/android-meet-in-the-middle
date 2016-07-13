@@ -1,0 +1,18 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.compscieddy.meetinthemiddle.fragment.OnboardingFragment2"
+    android:background="#FFEB3B">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="107dp"
+        android:text="A fun app to meet your chums and do loads of other cool shit"
+        android:layout_gravity="center"
+        android:textColor="#212121"
+        android:textAlignment="center"
+        android:textSize="30dp" />
+
+</FrameLayout>
