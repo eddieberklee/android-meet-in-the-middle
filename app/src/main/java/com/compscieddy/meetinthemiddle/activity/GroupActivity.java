@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -30,7 +29,6 @@ import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
@@ -97,6 +95,11 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
   private boolean mIsLocationPermissionEnabled = false;
 
   private final int ANIMATE_CAMERA_REPEAT = 2000;
+
+  private final float CHAT_EXPANDED_FACTOR = 2.25f;
+  private final float CHAT_MINIMIZED_FACTOR = 0.9f;
+
+  private final int ANIMATION_DURATION = 400;
 
   public static final String ARG_GROUP_KEY = "group_id_key";
   private String mGroupKey;
@@ -241,6 +244,12 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     setupTabLayout();
     setListeners();
     initFirebase();
+
+    //Change the default height of the bottom_section
+    float height = Etils.getScreenHeight(this);
+    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (height * CHAT_EXPANDED_FACTOR));
+    params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+    mBottomSection.setLayoutParams(params);
 
   }
 
@@ -693,15 +702,36 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
     });
   }
 
-  private void resizeViewPager(boolean isFABClick) {
-    Display display = getWindowManager().getDefaultDisplay();
-    Point size = new Point();
-    display.getSize(size);
-    int height = size.y;
+  public void resizeViewPager(boolean isFABClick) {
+    float height = Etils.getScreenHeight(this);
 
     ResizeAnimation resizeAnimation;
+    resizeAnimation = null;
 
     if (isFABClick) {
+      if (isViewPagerCollapsed) {
+        resizeAnimation = new ResizeAnimation(
+            mBottomSection,
+            (int) (height * CHAT_EXPANDED_FACTOR),
+            (int) (height * CHAT_MINIMIZED_FACTOR));
+        resizeAnimation.setDuration(ANIMATION_DURATION);
+        mBottomSection.startAnimation(resizeAnimation);
+      }
+    } else {
+      if (!isViewPagerCollapsed) {
+        resizeAnimation = new ResizeAnimation(
+            mBottomSection,
+            (int) (height * CHAT_MINIMIZED_FACTOR),
+            (int) (height * CHAT_EXPANDED_FACTOR));
+      }
+    }
+    if (resizeAnimation != null) {
+      resizeAnimation.setDuration(ANIMATION_DURATION);
+      mBottomSection.startAnimation(resizeAnimation);
+      isViewPagerCollapsed = !isViewPagerCollapsed;
+    }
+
+/*    if (isFABClick) {
       if (isViewPagerCollapsed) {
         Util.rotateView(mExpandButton, 360.0f);
         resizeAnimation = new ResizeAnimation(
@@ -752,7 +782,7 @@ public class GroupActivity extends FragmentActivity implements OnMapReadyCallbac
         resizeAnimation.setDuration(400);
         mBottomSection.startAnimation(resizeAnimation);
       }
-    }
+    }*/
   }
 
   public Coordinate getLastKnownCoord() {

@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import com.compscieddy.eddie_utils.Etils;
 import com.compscieddy.meetinthemiddle.R;
 import com.compscieddy.meetinthemiddle.activity.AuthenticationActivity;
+import com.compscieddy.meetinthemiddle.activity.GroupActivity;
 import com.compscieddy.meetinthemiddle.adapter.ChatsFirebaseAdapter;
 import com.compscieddy.meetinthemiddle.holder.ChatHolder;
 import com.compscieddy.meetinthemiddle.model.Chat;
@@ -114,7 +115,28 @@ public class ChatFragment extends Fragment {
     mChatRecyclerView.setHasFixedSize(false);
     mChatRecyclerView.setLayoutManager(mLayoutManager);
 
+    mChatRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+      @Override
+      public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        super.onScrollStateChanged(recyclerView, newState);
+        //TODO here is where we expand the group activity bottom_view
+
+        GroupActivity activity = (GroupActivity) getActivity();
+        activity.resizeViewPager(true);
+
+      }
+    });
+
+    mMessageEdit.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        GroupActivity activity = (GroupActivity) getActivity();
+        activity.resizeViewPager(true);
+      }
+    });
+
     return view;
+
   }
 
   @Override
